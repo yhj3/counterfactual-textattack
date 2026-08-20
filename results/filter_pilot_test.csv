@@ -1,0 +1,429 @@
+original_text,perturbed_text,original_score,perturbed_score,original_output,perturbed_output,ground_truth_output,num_queries,result_type,flip_rate,similarity,perplexity
+The [[sailors]] rode the breeze clear of the rocks.,The [[seagoing]] rode the breeze clear of the rocks.,0.0174847841262817,0.9489656686782836,1.0,0.0,1.0,35.0,Successful,1.0,0.8567922,210.67587280273438
+The weights made the rope [[stretch]] over the pulley.,The weights made the rope [[expands]] over the pulley.,0.0226965546607971,0.958454966545105,1.0,0.0,1.0,47.0,Successful,1.0,0.95079434,326.14080810546875
+[[The]] mechanical doll wriggled itself loose.,[[Both]] mechanical doll wriggled itself loose.,0.031507670879364,0.9617149829864502,1.0,0.0,1.0,7.0,Successful,1.0,0.94780195,1333.9495849609375
+"If you had eaten more, you would [[want]] less.","If you had eaten more, you would [[gonna]] less.",0.0255162119865417,0.9303187131881714,1.0,0.0,1.0,56.0,Successful,1.0,0.9290688,176.29641723632812
+"Mary listens to the Grateful Dead, she [[gets]] depressed.","Mary listens to the Grateful Dead, she [[acquire]] depressed.",0.1210896968841552,0.9655219912528992,1.0,0.0,1.0,57.0,Successful,1.0,0.9818473,463.2450256347656
+"The angrier Mary got, the more she [[looked]] at pictures.","The angrier Mary got, the more she [[examine]] at pictures.",0.0307512879371643,0.958588719367981,1.0,0.0,1.0,56.0,Successful,1.0,0.9604335,248.9618377685547
+"The [[higher]] the stakes, the lower his expectations are.","The [[senior]] the stakes, the lower his expectations are.",0.0322737693786621,0.5984026789665222,1.0,0.0,1.0,34.0,Successful,1.0,0.8902086,169.69369506835938
+"[[The]] more Fred is obnoxious, the less attention you should pay to him.","[[Both]] more Fred is obnoxious, the less attention you should pay to him.",0.0570687055587768,0.940817654132843,1.0,0.0,1.0,9.0,Successful,1.0,0.9399449,122.9581298828125
+John was lots more obnoxious than [[Fred]].,John was lots more obnoxious than [[Fried]].,0.0715226531028747,0.6207629442214966,1.0,0.0,1.0,11.0,Successful,1.0,0.7410295,890.7648315429688
+"The more people you give [[beer]] to, the more people get sick.","The more people you give [[beverage]] to, the more people get sick.",0.017704963684082,0.6417573690414429,1.0,0.0,1.0,36.0,Successful,1.0,0.8568768,36.77955627441406
+"The more [[pictures]] of him that appear in the news, the more embarrassed John becomes.","The more [[photo]] of him that appear in the news, the more embarrassed John becomes.",0.0226398110389709,0.5672475099563599,1.0,0.0,1.0,38.0,Successful,1.0,0.98216957,56.840728759765625
+"Every senator [[seems]] to become more corrupt, as he talks to more lobbyists.","Every senator [[gaze]] to become more corrupt, as he talks to more lobbyists.",0.0279797315597534,0.962160050868988,1.0,0.0,1.0,25.0,Successful,1.0,0.9444313,299.65460205078125
+Marianne [[did]] not leave.,Marianne [[gotten]] not leave.,0.0242338180541992,0.9778242707252502,1.0,0.0,1.0,34.0,Successful,1.0,0.9492025,2103.75634765625
+He could not] [[have]] been working.,He could not] [[receives]] been working.,0.1651001572608947,0.9762367010116576,1.0,0.0,1.0,37.0,Successful,1.0,0.78004694,2054.968994140625
+He can not [[have]] been working.,He can not [[receives]] been working.,0.0373153090476989,0.9779471158981324,1.0,0.0,1.0,37.0,Successful,1.0,0.7344198,2257.8115234375
+You will [[believe]] Bob.,You will [[believes]] Bob.,0.0164682865142822,0.9721972942352296,1.0,0.0,1.0,55.0,Successful,1.0,0.9457031,4950.7890625
+John [[has]] not kissed Mary.,John [[was]] not kissed Mary.,0.0184255242347717,0.975171685218811,1.0,0.0,1.0,28.0,Successful,1.0,0.9672718,1970.3436279296875
+I [[said]] that never in my life had I seen a place like Bangor.,I [[explaining]] that never in my life had I seen a place like Bangor.,0.0223662257194519,0.9278806447982788,1.0,0.0,1.0,59.0,Successful,1.0,0.966564,44.794822692871094
+There tended to be a [[lot]] of discussion.,There tended to be a [[afar]] of discussion.,0.0238648056983947,0.9052382707595824,1.0,0.0,1.0,21.0,Successful,1.0,0.80686355,483.8925476074219
+John [[tried]] to be a good boy.,John [[treaty]] to be a good boy.,0.015942633152008,0.9673949480056764,1.0,0.0,1.0,42.0,Successful,1.0,0.7526089,311.5365295410156
+[[John]] is [[eager]].,[[Yann]] is [[wish]].,0.0115472674369812,0.9679802060127258,1.0,0.0,1.0,50.0,Successful,1.0,0.19721735,5776.12646484375
+We [[want]] John to win.,We [[does]] John to win.,0.0153843760490417,0.9737464785575868,1.0,0.0,1.0,53.0,Successful,1.0,0.8884132,1924.430908203125
+The box contained the ball from the [[tree]].,The box contained the ball from the [[shu]].,0.4198253154754638,0.9573185443878174,0.0,1.0,0.0,18.0,Successful,1.0,0.7468663,253.6975555419922
+[[Water]] bubbled up out of the kettle.,[[Aquatic]] bubbled up out of the kettle.,0.0127463936805725,0.7305107116699219,1.0,0.0,1.0,14.0,Successful,1.0,0.88391376,95.89513397216797
+[[The]] tub leaked water.,[[Both]] tub leaked water.,0.0117167830467224,0.9282218217849731,1.0,0.0,1.0,6.0,Successful,1.0,0.881019,7490.35498046875
+John [[lay]] the ball in the box.,John [[unscientific]] the ball in the box.,0.0097991824150085,0.9711242914199828,1.0,0.0,1.0,9.0,Successful,1.0,0.8457006,327.14404296875
+John [[owns]] the book.,John [[incumbent]] the book.,0.0130191445350646,0.9765690565109252,1.0,0.0,1.0,45.0,Successful,1.0,0.69776535,4575.806640625
+We persuaded [[Mary]] to leave and Sue to stay.,We persuaded [[Married]] to leave and Sue to stay.,0.1292033195495605,0.9605331420898438,1.0,0.0,1.0,28.0,Successful,1.0,0.73860586,1130.949951171875
+"Most people probably consider, even though the courts didn't actually find, Klaus guilty of [[murder]].","Most people probably consider, even though the courts didn't actually find, Klaus guilty of [[murderer]].",0.1026357412338256,0.5303634405136108,1.0,0.0,1.0,49.0,Successful,1.0,0.99258494,188.58786010742188
+"Clearly, [[John]] probably will immediately [[learn]] French perfectly.","Clearly, [[Joanne]] probably will immediately [[got]] French perfectly.",0.0270997285842895,0.925551176071167,1.0,0.0,1.0,72.0,Successful,1.0,0.5951626,1568.935791015625
+The [[men]] will all leave.,The [[manly]] will all leave.,0.0176887512207031,0.7982215881347656,1.0,0.0,1.0,40.0,Successful,1.0,0.75259393,905.7972412109375
+John [[went]] home.,John [[carried]] home.,0.0085746049880981,0.9698962569236756,1.0,0.0,1.0,34.0,Successful,1.0,0.8933834,4034.5478515625
+They [[represented]] [[seriously]] to the dean [[Mary]] as a [[genuine]] linguist.,They [[pose]] [[strongly]] to the dean [[Matrimony]] as a [[upstanding]] linguist.,0.0383852124214172,0.591895580291748,0.0,1.0,0.0,143.0,Successful,1.0,0.72025084,514.6160888671875
+Us [[love]] they.,Us [[like]] they.,0.0787747502326965,0.279973030090332,0.0,0.0,0.0,12.0,Failed,0.0,0.8115879,2513.289306640625
+It is nice to [[go]] abroad.,It is nice to [[gonna]] abroad.,0.0168172121047973,0.9498212933540344,1.0,0.0,1.0,23.0,Successful,1.0,0.9348604,848.3815307617188
+I [[remembered]] having kissed Mary.,I [[reminding]] having kissed Mary.,0.0120388865470886,0.9741733074188232,1.0,0.0,1.0,50.0,Successful,1.0,0.84070534,10022.6484375
+"I can't [[believe]] Fred won't, either.","I can't [[thinks]] Fred won't, either.",0.0342181921005249,0.95953106880188,1.0,0.0,1.0,41.0,Successful,1.0,0.9563744,246.52125549316406
+"John [[wants]] to read Fred's story, and I also want to.","John [[envy]] to read Fred's story, and I also want to.",0.0164560675621032,0.96579509973526,1.0,0.0,1.0,55.0,Successful,1.0,0.8818203,164.97218322753906
+"Mary will [[read]] Fred's story, and Joe will read Holly's.","Mary will [[reading]] Fred's story, and Joe will read Holly's.",0.0201730728149414,0.6032482385635376,1.0,0.0,1.0,28.0,Successful,1.0,0.99605775,110.45103454589844
+"Mary [[claimed]] that eating cabbage, Holly shouldn't.","Mary [[ask]] that eating cabbage, Holly shouldn't.",0.0590569376945495,0.960277020931244,1.0,0.0,1.0,56.0,Successful,1.0,0.94763184,2304.751708984375
+[[Mary]] came to be introduced by the bartender and I also came to [[be]].,[[Newlyweds]] came to be introduced by the bartender and I also came to [[come]].,0.0728253722190857,0.7317579388618469,0.0,1.0,0.0,62.0,Successful,1.0,0.74253494,101.26087188720703
+"If I can, [[I]] will work on it.","If I can, [[me]] will work on it.",0.0146893262863159,0.9702944159507751,1.0,0.0,1.0,7.0,Successful,1.0,0.96152854,87.00418090820312
+"Joe's [[neuroses]] bother his [[patrons]], and Sally does too.","Joe's [[paranoid]] bother his [[eaters]], and Sally does too.",0.0248051285743713,0.762758731842041,1.0,0.0,1.0,57.0,Successful,1.0,0.78501964,335.4815673828125
+"This is the [[book]] which Bob [[reviewed]], and this is the one which Fred won't do it.","This is the [[paper]] which Bob [[scrutinize]], and this is the one which Fred won't do it.",0.4179312586784363,0.578791618347168,0.0,1.0,0.0,77.0,Successful,1.0,0.77877074,44.9891242980957
+"I know which book Mag read, and which book Bob [[said]] that you hadn't.","I know which book Mag read, and which book Bob [[explain]] that you hadn't.",0.1315460205078125,0.9392281174659728,1.0,0.0,1.0,58.0,Successful,1.0,0.9799119,376.0950927734375
+"I know which book Mag read, and which [[book]] [[Bob]] read my report that you hadn't.","I know which book Mag read, and which [[brochures]] [[Poppa]] read my report that you hadn't.",0.2492663860321045,0.5021089911460876,0.0,1.0,0.0,59.0,Successful,1.0,0.75570005,358.17169189453125
+I'm sure I would [[like]] him to eat fruit more than I would cookies.,I'm sure I would [[amore]] him to eat fruit more than I would cookies.,0.041145920753479,0.9399071335792542,1.0,0.0,1.0,36.0,Successful,1.0,0.9096005,118.49874114990234
+Fred talked about everything before [[Rusty]] did talk about something.,Fred talked about everything before [[Corroded]] did talk about something.,0.1402879953384399,0.7532036304473877,1.0,0.0,1.0,15.0,Successful,1.0,0.794108,364.2533264160156
+John often [[meets]] Mary.,John often [[cater]] Mary.,0.0114722251892089,0.976069152355194,1.0,0.0,1.0,31.0,Successful,1.0,0.8378173,74327.34375
+The problem [[perceives]] easily.,The problem [[accumulates]] easily.,0.0295774936676025,0.7327290177345276,0.0,1.0,0.0,42.0,Successful,1.0,0.6316831,347.1312255859375
+A hundred men [[surrounded]] the [[fort]].,A hundred men [[enclosing]] the [[greatly]].,0.0178802609443664,0.962226927280426,1.0,0.0,1.0,45.0,Successful,1.0,0.6550045,1463.015869140625
+Mary has always [[preferred]] lemons to limes.,Mary has always [[lieber]] lemons to limes.,0.0163279175758361,0.9694896936416626,1.0,0.0,1.0,41.0,Successful,1.0,0.8864351,835.8556518554688
+He [[let]] the cats which were whining out.,He [[give]] the cats which were whining out.,0.0432606935501098,0.9680503606796264,1.0,0.0,1.0,54.0,Successful,1.0,0.9318355,994.8250732421875
+What [[did]] Bill buy?,What [[been]] Bill buy?,0.0115792751312255,0.9737271666526794,1.0,0.0,1.0,35.0,Successful,1.0,0.9416358,7280.673828125
+Mary [[saw]] the boy walking toward the railroad station.,Mary [[complied]] the boy walking toward the railroad station.,0.0160597562789917,0.9690465927124025,1.0,0.0,1.0,47.0,Successful,1.0,0.941088,370.2796325683594
+[[A]] [[proof]] that the claim [[had]] been. [[made]] was [[giver]] that John had lied.,[[another]] [[demonstrates]] that the claim [[ha]] been. [[done]] was [[donate]] that John had lied.,0.0324383974075317,0.5531297922134399,0.0,1.0,0.0,193.0,Successful,1.0,0.7834544,1728.61572265625
+He [[attributed]] to a short circuit which was caused by an overloaded transducer the fire which destroyed most of my factory.,He [[given]] to a short circuit which was caused by an overloaded transducer the fire which destroyed most of my factory.,0.0685207247734069,0.9087143540382384,1.0,0.0,1.0,50.0,Successful,1.0,0.9403242,65.8232192993164
+I know a man who [[Tom]] drives as [[drives]].,I know a man who [[Thom]] drives as [[leadership]].,0.2541159987449646,0.9604985117912292,0.0,1.0,0.0,31.0,Successful,1.0,0.5243483,699.634521484375
+Muriel [[said]] nothing else than that she had been insulted.,Muriel [[indicate]] nothing else than that she had been insulted.,0.0724424123764038,0.9649770259857178,1.0,0.0,1.0,54.0,Successful,1.0,0.9445143,102.49286651611328
+[[Himself]] is understood by Rutherford.,[[Sam]] is understood by Rutherford.,0.043415367603302,0.9539909362792968,0.0,1.0,0.0,13.0,Successful,1.0,0.7026632,3402.965087890625
+I [[feel]] that Arch will show up.,I [[sensing]] that Arch will show up.,0.0116606950759887,0.9666234254837036,1.0,0.0,1.0,56.0,Successful,1.0,0.95433867,683.8177490234375
+"Tom picked these grapes, and I washed some turnips, and Suzie [[will]] prepare these grapes.","Tom picked these grapes, and I washed some turnips, and Suzie [[gonna]] prepare these grapes.",0.0163538455963134,0.9067204594612122,1.0,0.0,1.0,41.0,Successful,1.0,0.98277074,198.48362731933594
+[[Where]] did you go and who ate what?,[[Also]] did you go and who ate what?,0.038560152053833,0.9582086801528932,1.0,0.0,1.0,32.0,Successful,1.0,0.9118535,165.3899383544922
+Which boy's [[did]] we [[elect]] guardian's [[employer]] [[president]]?,Which boy's [[want]] we [[choices]] guardian's [[entrepreneurs]] [[presidents]]?,0.0271937847137451,0.2658001780509949,0.0,0.0,0.0,115.0,Failed,0.0,0.7920554,13182.62890625
+[[How]] sane is Peter?,[[Consequently]] sane is Peter?,0.0168491005897521,0.9730302691459656,1.0,0.0,1.0,7.0,Successful,1.0,0.8905547,4436.75048828125
+I [[live]] at the place where Route 150 crosses the River and my dad lives at the place where Route 150 crosses the Hudson River too.,I [[residing]] at the place where Route 150 crosses the River and my dad lives at the place where Route 150 crosses the Hudson River too.,0.0323521494865417,0.874435305595398,1.0,0.0,1.0,49.0,Successful,1.0,0.98421764,45.09867477416992
+Who is she trying to [[make]] up to now?,Who is she trying to [[brings]] up to now?,0.0432714819908142,0.8885229825973511,1.0,0.0,1.0,53.0,Successful,1.0,0.9002602,164.7913360595703
+[[Wind]] was [[gotten]] of a plot to negotiate an honorable end to the war in Vietnam.,[[Tailwind]] was [[took]] of a plot to negotiate an honorable end to the war in Vietnam.,0.0682563781738281,0.5410231351852417,0.0,1.0,0.0,36.0,Successful,1.0,0.84790045,91.81116485595703
+Mike [[talked]] about politics yesterday to my friends.,Mike [[raised]] about politics yesterday to my friends.,0.0134935975074768,0.959745228290558,1.0,0.0,1.0,54.0,Successful,1.0,0.934579,934.1560668945312
+It was expected by the [[reporters]] that the principal would [[fire]] some teacher.,It was expected by the [[journalism]] that the principal would [[llamas]] some teacher.,0.0180340409278869,0.9447941780090332,1.0,0.0,1.0,77.0,Successful,1.0,0.7297946,568.3016357421875
+Which girl did Mike quip never wore this [[hat]]?,Which girl did Mike quip never wore this [[sombrero]]?,0.2255228757858276,0.6579183340072632,0.0,1.0,0.0,39.0,Successful,1.0,0.8576167,320.0438232421875
+We donated wire for the [[convicts]] to build cages with.,We donated wire for the [[condemning]] to build cages with.,0.0576574802398681,0.915041446685791,1.0,0.0,1.0,55.0,Successful,1.0,0.8498764,973.4453735351562
+Do you believe the [[claim]] that somebody was looking for something?,Do you believe the [[requesting]] that somebody was looking for something?,0.0227587223052978,0.960756540298462,1.0,0.0,1.0,55.0,Successful,1.0,0.8496148,145.05517578125
+I won't ask you to [[believe]] that he tried to force me to give her any money.,I won't ask you to [[believing]] that he tried to force me to give her any money.,0.041252851486206,0.9117847681045532,1.0,0.0,1.0,55.0,Successful,1.0,0.99155134,34.47921371459961
+[[That]] Sam sometimes didn't sleep must have pleased somebody.,[[This]] Sam sometimes didn't sleep must have pleased somebody.,0.018375813961029,0.9133272767066956,1.0,0.0,1.0,9.0,Successful,1.0,0.9715102,722.3780517578125
+"That the fuzz wanted him worried John, but that the fuzz [[wanted]] her didn't worry Mary.","That the fuzz wanted him worried John, but that the fuzz [[aspired]] her didn't worry Mary.",0.0289289355278015,0.667934238910675,1.0,0.0,1.0,59.0,Successful,1.0,0.98994756,303.0696105957031
+I'll work on it if [[Sam]] will be working on it.,I'll work on it if [[Herself]] will be working on it.,0.1438127756118774,0.94340980052948,1.0,0.0,1.0,18.0,Successful,1.0,0.60366327,41.67912673950195
+I'll [[work]] on it if I can.,I'll [[operative]] on it if I can.,0.0173824429512023,0.9045795798301696,1.0,0.0,1.0,54.0,Successful,1.0,0.6129987,100.69122314453125
+"Fluffy is sick, which not [[everybody]] knows.","Fluffy is sick, which not [[cares]] knows.",0.0346466302871704,0.9646093845367432,1.0,0.0,1.0,24.0,Successful,1.0,0.92366487,1056.9638671875
+[[Maxwell]] is quite a [[doctor]].,[[Saunders]] is quite a [[medications]].,0.0139239430427551,0.9697712063789368,1.0,0.0,1.0,69.0,Successful,1.0,0.3397191,1212.58203125
+"Sally is tall, and may [[be]] blond, and Sheila is short, and definitely is, blond.","Sally is tall, and may [[have]] blond, and Sheila is short, and definitely is, blond.",0.3616842627525329,0.5586392879486084,1.0,0.0,1.0,40.0,Successful,1.0,0.996382,76.56623840332031
+I [[have]] to try to finish grading some papers.,I [[received]] to try to finish grading some papers.,0.0178741216659545,0.9687968492507936,1.0,0.0,1.0,41.0,Successful,1.0,0.7830658,223.1563720703125
+The socks are [[ready]] for for you to put on to [[be]] [[planned]].,The socks are [[prep]] for for you to put on to [[get]] [[envisaged]].,0.0462937951087951,0.1834151744842529,0.0,0.0,0.0,128.0,Failed,0.0,0.8664974,192.50706481933594
+It is easy to [[play]] sonatas on this violin.,It is easy to [[toying]] sonatas on this violin.,0.0170143246650695,0.931967794895172,1.0,0.0,1.0,31.0,Successful,1.0,0.9125911,167.7217559814453
+This violin is [[difficult]] to [[play]] sonatas on.,This violin is [[complicate]] to [[toying]] sonatas on.,0.0223907232284545,0.9606043100357056,1.0,0.0,1.0,58.0,Successful,1.0,0.85512114,878.5075073242188
+My [[mother]] is [[easy]] to please my [[father]] and.,My [[motherhood]] is [[mere]] to please my [[paternal]] and.,0.0399961471557617,0.370769739151001,0.0,0.0,0.0,81.0,Failed,0.0,0.6707947,642.7923583984375
+"Poor Bill, it had started to rain and he [[had]] no umbrella.","Poor Bill, it had started to rain and he [[were]] no umbrella.",0.0404521822929382,0.908093810081482,1.0,0.0,1.0,44.0,Successful,1.0,0.9946645,129.26513671875
+"Every [[student]], and he [[wears]] socks, is a [[swinger]].","Every [[disciple]], and he [[mun]] socks, is a [[exhibitionist]].",0.2360073328018188,0.6035589575767517,0.0,1.0,0.0,81.0,Successful,1.0,0.39149353,554.7890014648438
+That girl was [[given]] my binoculars by him.,That girl was [[tabled]] my binoculars by him.,0.0321356654167175,0.9752102494239808,1.0,0.0,1.0,50.0,Successful,1.0,0.9142249,243.6581268310547
+Bill didn't [[allege]] that Roger had eaten anything.,Bill didn't [[claiming]] that Roger had eaten anything.,0.0283321142196655,0.9668566584587096,1.0,0.0,1.0,35.0,Successful,1.0,0.96887153,327.9773254394531
+Nobody who [[hates]] to eat anything should work in a delicatessen.,Nobody who [[hateful]] to eat anything should work in a delicatessen.,0.0173711776733398,0.9485642313957214,1.0,0.0,1.0,43.0,Successful,1.0,0.97646064,102.59158325195312
+Everybody around here who ever [[buys]] anything on credit talks in his sleep.,Everybody around here who ever [[pimping]] anything on credit talks in his sleep.,0.0166066288948059,0.8005473017692566,1.0,0.0,1.0,41.0,Successful,1.0,0.8670614,234.11309814453125
+[[That]] you will marry any student is not certain.,[[This]] you will marry any student is not certain.,0.0300042033195495,0.9583167433738708,1.0,0.0,1.0,7.0,Successful,1.0,0.93560374,531.470458984375
+Felicia [[kicked]] the ball off the bench.,Felicia [[befallen]] the ball off the bench.,0.011970579624176,0.8745510578155518,1.0,0.0,1.0,55.0,Successful,1.0,0.7966064,135.80111694335938
+I [[sent]] the package halfway around the world.,I [[conveying]] the package halfway around the world.,0.0412506461143493,0.9693294763565063,1.0,0.0,1.0,56.0,Successful,1.0,0.76293737,142.1238555908203
+Sam [[gave]] the ball out of the basket.,Sam [[brought]] the ball out of the basket.,0.0552753210067749,0.98997962474823,0.0,1.0,0.0,54.0,Successful,1.0,0.97518325,56.2367057800293
+Sam [[offered]] the ball out of the basket.,Sam [[brings]] the ball out of the basket.,0.0360708236694335,0.985287070274353,0.0,1.0,0.0,55.0,Successful,1.0,0.91425043,58.901451110839844
+Park Square [[has]] a festive air.,Park Square [[hectare]] a festive air.,0.0221445560455322,0.9648801684379578,1.0,0.0,1.0,29.0,Successful,1.0,0.8420589,1450.955078125
+The worker will [[have]] a job.,The worker will [[could]] a job.,0.0097965002059936,0.9738704562187196,1.0,0.0,1.0,39.0,Successful,1.0,0.91877663,1211.5474853515625
+"We [[launched]] the rocket to the moon, but it blew up before it got there.","We [[launching]] the rocket to the moon, but it blew up before it got there.",0.0244653224945068,0.6969630718231201,1.0,0.0,1.0,56.0,Successful,1.0,0.96710587,28.629669189453125
+"Sarah promised Catherine her old car, but then [[gave]] it to her son instead.","Sarah promised Catherine her old car, but then [[arose]] it to her son instead.",0.0206583142280578,0.8935245275497437,1.0,0.0,1.0,58.0,Successful,1.0,0.9797746,322.1665954589844
+I lent the [[book]] partway to Tony.,I lent the [[manuals]] partway to Tony.,0.2887822985649109,0.9260737299919128,0.0,1.0,0.0,42.0,Successful,1.0,0.71154094,742.4448852539062
+The farmer [[loaded]] the cart with apples.,The farmer [[embarkation]] the cart with apples.,0.0119527578353881,0.9689810872077942,1.0,0.0,1.0,44.0,Successful,1.0,0.89827204,1895.3642578125
+The farmer dumped the [[cart]] with apples.,The farmer dumped the [[carloads]] with apples.,0.0840721130371093,0.8726764917373657,0.0,1.0,0.0,42.0,Successful,1.0,0.83207846,826.65087890625
+Martha [[carved]] the baby a toy out of wood.,Martha [[ornate]] the baby a toy out of wood.,0.0859456062316894,0.9710239171981812,1.0,0.0,1.0,36.0,Successful,1.0,0.9362359,435.0726013183594
+The [[bread]] cuts easily.,The [[breads]] cuts easily.,0.0176829099655151,0.9241374731063844,1.0,0.0,1.0,52.0,Successful,1.0,0.9723774,1109.5234375
+Janet broke Bill on the [[finger]].,Janet broke Bill on the [[toes]].,0.0469249486923217,0.7434298992156982,0.0,1.0,0.0,19.0,Successful,1.0,0.8996307,585.3798828125
+Janet [[broke]] the cup.,Janet [[fracture]] the cup.,0.0102747678756713,0.9756674766540528,1.0,0.0,1.0,54.0,Successful,1.0,0.8751981,3389.795166015625
+The [[visitor]] rang the bell.,The [[receiving]] rang the bell.,0.0105465650558471,0.950829029083252,1.0,0.0,1.0,33.0,Successful,1.0,0.72582436,232.32489013671875
+We [[pulled]] free.,We [[withdrawals]] free.,0.0124317407608032,0.9738369584083556,1.0,0.0,1.0,30.0,Successful,1.0,0.6769448,12062.46484375
+That movie always [[shocks]] people.,That movie always [[commotion]] people.,0.012313961982727,0.9704294204711914,1.0,0.0,1.0,47.0,Successful,1.0,0.7377209,1202.7796630859375
+That movie always [[shocks]].,That movie always [[amazement]].,0.0153725743293762,0.9736111164093018,1.0,0.0,1.0,54.0,Successful,1.0,0.66344047,1535.3614501953125
+[[Sharon]] [[came]] the [[room]].,[[Charon]] [[walked]] the [[chambre]].,0.0400084257125854,0.9847059845924376,0.0,1.0,0.0,83.0,Successful,1.0,0.22190516,502.8107604980469
+Bill [[sent]] a package to [[Tom]].,Bill [[expedition]] a package to [[Tone]].,0.0082253217697143,0.9760841727256776,1.0,0.0,1.0,59.0,Successful,1.0,0.45680296,9773.4951171875
+That acorn will [[grow]] into an oak tree.,That acorn will [[raising]] into an oak tree.,0.0126677155494689,0.9633135795593262,1.0,0.0,1.0,57.0,Successful,1.0,0.9643414,147.7525177001953
+He [[turned]] into a frog.,He [[handled]] into a frog.,0.0126196146011352,0.9724547863006592,1.0,0.0,1.0,50.0,Successful,1.0,0.8580482,1095.7408447265625
+I [[mixed]] the sugar into the butter.,I [[mingling]] the sugar into the butter.,0.0114926099777221,0.9654502868652344,1.0,0.0,1.0,42.0,Successful,1.0,0.8768393,166.08595275878906
+Brian [[threw]] the fence with the stick.,Brian [[jettisoned]] the fence with the stick.,0.096685767173767,0.9897040128707886,0.0,1.0,0.0,47.0,Successful,1.0,0.9043273,114.06155395507812
+Mira [[condemned]] [[Terry]] for the accident.,Mira [[decreed]] [[Tery]] for the accident.,0.0153981447219848,0.9716367721557616,1.0,0.0,1.0,58.0,Successful,1.0,0.6856992,678.5806274414062
+We investigated the area for [[bombs]].,We investigated the area for [[bomb]].,0.3435102105140686,0.97225683927536,1.0,0.0,1.0,53.0,Successful,1.0,0.9672415,693.6575317382812
+I [[sensed]] his eagerness.,I [[figured]] his eagerness.,0.0123049020767211,0.965046525001526,1.0,0.0,1.0,15.0,Successful,1.0,0.86349595,690.8626708984375
+They praised the dedication in the [[volunteers]].,They praised the dedication in the [[boneheads]].,0.1871927380561828,0.6627316474914551,0.0,1.0,0.0,12.0,Successful,1.0,0.6697122,357.99017333984375
+The [[earth]] was believed to be round.,The [[earthly]] was believed to be round.,0.0190836787223815,0.7447865009307861,1.0,0.0,1.0,35.0,Successful,1.0,0.8311171,290.1014709472656
+Sarah smiled a charming [[smile]].,Sarah smiled a charming [[sighed]].,0.0501369833946228,0.9736599326133728,1.0,0.0,1.0,53.0,Successful,1.0,0.9003781,3300.683349609375
+Sandra beamed a cheerful [[welcome]].,Sandra beamed a cheerful [[gratifying]].,0.0214071869850158,0.9721859693527222,1.0,0.0,1.0,49.0,Successful,1.0,0.8992841,1366.6068115234375
+You've really [[lived]] it up.,You've really [[inhabit]] it up.,0.0266315340995788,0.9483492374420166,1.0,0.0,1.0,50.0,Successful,1.0,0.72935605,1295.998291015625
+Jessica [[loaded]] boxes under the wagon.,Jessica [[onus]] boxes under the wagon.,0.0154953002929687,0.9606229066848756,1.0,0.0,1.0,49.0,Successful,1.0,0.88070655,1808.1881103515625
+Jessica loaded [[boxes]] on the wagon.,Jessica loaded [[box]] on the wagon.,0.032732605934143,0.967711865901947,1.0,0.0,1.0,26.0,Successful,1.0,0.969612,572.9913330078125
+Jessica crammed boxes at the [[truck]].,Jessica crammed boxes at the [[escalade]].,0.0456204414367675,0.7917054891586304,0.0,1.0,0.0,51.0,Successful,1.0,0.77202284,2472.5810546875
+Lora [[buttered]] at the [[toast]].,Lora [[leeks]] at the [[brioche]].,0.0233229398727417,0.9781363010406494,0.0,1.0,0.0,83.0,Successful,1.0,0.46958533,401.2218322753906
+Carla [[shoveled]] the walk.,Carla [[shaved]] the walk.,0.0100963115692138,0.9075351357460022,1.0,0.0,1.0,43.0,Successful,1.0,0.8202521,853.4334106445312
+Nora sent the [[book]].,Nora sent the [[accountancy]].,0.0112317204475402,0.7145577669143677,1.0,0.0,1.0,44.0,Successful,1.0,0.7275589,1975.162841796875
+Nora [[sent]] Peter the book.,Nora [[deployed]] Peter the book.,0.0123071074485778,0.9767402410507202,1.0,0.0,1.0,54.0,Successful,1.0,0.89364237,2279.328369140625
+[[Carla]] slid the book.,[[Carli]] slid the book.,0.3441157937049866,0.6689622402191162,1.0,0.0,1.0,13.0,Successful,1.0,0.676314,1036.0794677734375
+[[Carla]] slid at the [[book]].,[[Karol]] slid at the [[guidebooks]].,0.0480297207832336,0.7185726761817932,0.0,1.0,0.0,53.0,Successful,1.0,0.44694775,859.4317016601562
+Amanda [[carried]] the package to Pamela.,Amanda [[aroused]] the package to Pamela.,0.0175930261611938,0.9782559871673584,1.0,0.0,1.0,55.0,Successful,1.0,0.87085843,1687.9886474609375
+[[Packages]] drive easily to New York.,[[Bales]] drive easily to New York.,0.3581371903419494,0.8980528116226196,0.0,1.0,0.0,42.0,Successful,1.0,0.656598,520.0377807617188
+We offered a [[job]] to her.,We offered a [[collaborating]] to her.,0.0571294426918029,0.975735604763031,1.0,0.0,1.0,47.0,Successful,1.0,0.7371777,1094.4876708984375
+Brown [[presented]] a plaque to Jones.,Brown [[subjected]] a plaque to Jones.,0.0133757591247558,0.9645702242851256,1.0,0.0,1.0,55.0,Successful,1.0,0.95039845,1417.0194091796875
+Carmen [[bought]] Mary a dress.,Carmen [[attained]] Mary a dress.,0.0112525820732116,0.9748741984367372,1.0,0.0,1.0,46.0,Successful,1.0,0.88977635,1816.6055908203125
+Carmen [[obtained]] the spare part at the hardware store.,Carmen [[granted]] the spare part at the hardware store.,0.019190490245819,0.9718318581581116,1.0,0.0,1.0,57.0,Successful,1.0,0.9532422,139.13514709472656
+Michelle [[kept]] the desk with the papers.,Michelle [[protected]] the desk with the papers.,0.0476301312446594,0.8766902089118958,0.0,1.0,0.0,55.0,Successful,1.0,0.8972716,188.66978454589844
+Frances [[hid]] the presents in the drawer.,Frances [[clandestine]] the presents in the drawer.,0.0111984014511108,0.9719871878623962,1.0,0.0,1.0,53.0,Successful,1.0,0.87831295,876.8339233398438
+The needle [[poked]] the cloth.,The needle [[beaten]] the cloth.,0.013590931892395,0.961703896522522,1.0,0.0,1.0,55.0,Successful,1.0,0.91556096,2896.265869140625
+Carrie [[touched]] that cat.,Carrie [[impact]] that cat.,0.0106115937232971,0.9740913510322572,1.0,0.0,1.0,38.0,Successful,1.0,0.8485291,3753.947021484375
+Linda [[taped]] the picture to the wall.,Linda [[registering]] the picture to the wall.,0.011005699634552,0.9765893816947936,1.0,0.0,1.0,31.0,Successful,1.0,0.85845363,319.5671081542969
+Linda [[taped]] the picture onto the wall.,Linda [[accounted]] the picture onto the wall.,0.0114054679870605,0.9760318398475648,1.0,0.0,1.0,31.0,Successful,1.0,0.92468727,517.401123046875
+The [[child]] and her mother clung together.,The [[adolescence]] and her mother clung together.,0.0199677944183349,0.9553096294403076,1.0,0.0,1.0,52.0,Successful,1.0,0.7607093,230.9606475830078
+This flyer and that [[flyer]] differ.,This flyer and that [[aviators]] differ.,0.0311260223388671,0.9249984622001648,1.0,0.0,1.0,44.0,Successful,1.0,0.8026694,850.9993286132812
+The [[gardener]] grew that acorn into an oak tree.,The [[gardiner]] grew that acorn into an oak tree.,0.0246949195861816,0.8021763563156128,1.0,0.0,1.0,12.0,Successful,1.0,0.7910963,59.51698303222656
+I shaped a [[loaf]].,I shaped a [[skillet]].,0.0640656948089599,0.9726492166519164,0.0,1.0,0.0,50.0,Successful,1.0,0.60663104,985.9966430664062
+The children [[amused]].,The children [[giggled]].,0.0363142490386962,0.9875614643096924,0.0,1.0,0.0,52.0,Successful,1.0,0.8368411,118.2466049194336
+Susan whispered the [[news]].,Susan whispered the [[media]].,0.0131660103797912,0.9667009115219116,1.0,0.0,1.0,21.0,Successful,1.0,0.90673715,1997.0936279296875
+Susan [[whispered]] at Rachel.,Susan [[hesitated]] at Rachel.,0.2394856810569763,0.9784086346626282,1.0,0.0,1.0,52.0,Successful,1.0,0.7651862,2572.011962890625
+Ellen [[said]] that melons were selling well.,Ellen [[tell]] that melons were selling well.,0.0166807770729064,0.9656045436859132,1.0,0.0,1.0,55.0,Successful,1.0,0.9752572,414.5553283691406
+[[Ellen]] said about the present conditions.,[[Hackett]] said about the present conditions.,0.1411672234535217,0.6759852170944214,0.0,1.0,0.0,11.0,Successful,1.0,0.5491719,109.55236053466797
+Ellen [[warned]] Helen against skating on thin ice.,Ellen [[alerting]] Helen against skating on thin ice.,0.0140265226364135,0.9573495984077454,1.0,0.0,1.0,40.0,Successful,1.0,0.8875702,247.48257446289062
+Cynthia [[nibbled]] on the carrot .,Cynthia [[devoured]] on the carrot .,0.0100134015083312,0.9767019748687744,1.0,0.0,1.0,51.0,Successful,1.0,0.850343,632.1801147460938
+Paul laughed at [[Mary]].,Paul laughed at [[Remarried]].,0.015382170677185,0.9599610567092896,1.0,0.0,1.0,25.0,Successful,1.0,0.72234774,948.5108642578125
+[[Linda]] [[winked]] her lip.,[[Lynda]] [[patted]] her lip.,0.0655952095985412,0.9829619526863098,0.0,1.0,0.0,65.0,Successful,1.0,0.6133642,104.77237701416016
+My heart is [[pounding]] me.,My heart is [[humping]] me.,0.0670991539955139,0.9804277420043944,0.0,1.0,0.0,50.0,Successful,1.0,0.7412535,156.54302978515625
+Sharon fainted from [[hunger]].,Sharon fainted from [[starved]].,0.0101715326309204,0.9586635828018188,1.0,0.0,1.0,20.0,Successful,1.0,0.94001937,823.2047119140625
+The [[witch]] [[poisoned]] the children.,The [[prophet]] [[toxin]] the children.,0.0164109468460083,0.9685488939285278,1.0,0.0,1.0,42.0,Successful,1.0,0.5457071,8704.5234375
+A grandfather [[clock]] ticked in the hallway.,A grandfather [[watches]] ticked in the hallway.,0.0111674070358276,0.9639278054237366,1.0,0.0,1.0,19.0,Successful,1.0,0.82474065,442.7803649902344
+I [[squeaked]] the [[door]].,I [[stomped]] the [[gates]].,0.0930894613265991,0.9863669276237488,0.0,1.0,0.0,79.0,Successful,1.0,0.51133883,209.57113647460938
+[[Over]] the fire there bubbled a fragrant stew.,[[Afterlife]] the fire there bubbled a fragrant stew.,0.0211604237556457,0.7492566108703613,1.0,0.0,1.0,15.0,Successful,1.0,0.8635432,599.5433349609375
+Soaring temperatures are [[predicted]] for this weekend.,Soaring temperatures are [[projection]] for this weekend.,0.0205452442169189,0.8040180206298828,1.0,0.0,1.0,47.0,Successful,1.0,0.93593657,191.0032196044922
+The fort fluttered with [[many]] flags.,The fort fluttered with [[assorted]] flags.,0.2109575271606445,0.977013349533081,0.0,1.0,0.0,29.0,Successful,1.0,0.9524468,598.145263671875
+The [[voices]] echoed in the [[hall]].,The [[vowel]] echoed in the [[lobbying]].,0.0131946802139282,0.883001446723938,1.0,0.0,1.0,54.0,Successful,1.0,0.34134653,2442.4755859375
+The [[stream]] twists through the valley.,The [[floods]] twists through the valley.,0.0168439149856567,0.5556509494781494,1.0,0.0,1.0,35.0,Successful,1.0,0.7917447,1031.77099609375
+A wonderful opportunity [[presented]] itself to him yesterday.,A wonderful opportunity [[presentation]] itself to him yesterday.,0.0242868661880493,0.9649493098258972,1.0,0.0,1.0,55.0,Successful,1.0,0.8574612,1137.70458984375
+[[Out]] of the box jumped a little white [[rabbit]].,[[Besides]] of the box jumped a little white [[coelho]].,0.0185704827308654,0.9641305208206176,1.0,0.0,1.0,22.0,Successful,1.0,0.6034276,427.25830078125
+Penny [[skated]] around the rink.,Penny [[skater]] around the rink.,0.0139895677566528,0.9269407987594604,1.0,0.0,1.0,13.0,Successful,1.0,0.914037,187.77488708496094
+Jackie accompanied [[Rose]].,Jackie accompanied [[Leaped]].,0.0125962495803833,0.9722580909729004,1.0,0.0,1.0,54.0,Successful,1.0,0.69610864,3279.6669921875
+[[many]] information was provided.,[[crowd]] information was provided.,0.0316681861877441,0.9750788807868958,0.0,1.0,0.0,36.0,Successful,1.0,0.5832882,285.1854248046875
+The cake that Jones [[got]] was more delicious than the one that Smith got.,The cake that Jones [[come]] was more delicious than the one that Smith got.,0.0327761173248291,0.9464015364646912,1.0,0.0,1.0,58.0,Successful,1.0,0.99520564,156.51943969726562
+I [[saw]] that gas can explode.,I [[faced]] that gas can explode.,0.0815662741661071,0.9724140763282776,1.0,0.0,1.0,45.0,Successful,1.0,0.82518256,1658.9512939453125
+He [[washed]] her.,He [[washout]] her.,0.0163386464118957,0.97124445438385,1.0,0.0,1.0,53.0,Successful,1.0,0.82916075,1991.79248046875
+They [[have]] no in.,They [[received]] no in.,0.068651258945465,0.405818223953247,0.0,0.0,0.0,36.0,Failed,0.0,0.71983516,1034.352294921875
+Some my [[jobs]] are in jeopardy.,Some my [[works]] are in jeopardy.,0.1727416515350341,0.823302149772644,0.0,1.0,0.0,52.0,Successful,1.0,0.7943144,256.3390808105469
+It was the policeman [[met]] that [[several]] young students in the park last night.,It was the policeman [[encumbered]] that [[dissimilar]] young students in the park last night.,0.0263453722000122,0.8053182363510132,0.0,1.0,0.0,78.0,Successful,1.0,0.8473165,388.27313232421875
+[[did]] the policeman meet in the park?,[[suis]] the policeman meet in the park?,0.0263099074363708,0.9680215120315552,1.0,0.0,1.0,33.0,Successful,1.0,0.88119733,407.81927490234375
+John [[put]] old books in the box.,John [[mise]] old books in the box.,0.0100820660591125,0.9732477068901062,1.0,0.0,1.0,34.0,Successful,1.0,0.77450734,500.3480224609375
+The [[monkeys]] [[proud]] of their leader.,The [[honkies]] [[rejoice]] of their leader.,0.1575369834899902,0.9850236177444458,0.0,1.0,0.0,33.0,Successful,1.0,0.39478648,1188.4541015625
+[[John]] [[sounded]] [[very]].,[[Giovanni]] [[telephoned]] [[awfully]].,0.0437805652618408,0.9902250170707704,0.0,1.0,0.0,87.0,Successful,1.0,0.43742833,399.1670227050781
+I don't [[know]] if I should agree.,I don't [[acknowledging]] if I should agree.,0.0238965153694152,0.9587567448616028,1.0,0.0,1.0,37.0,Successful,1.0,0.57598704,230.09237670898438
+John [[called]] the president a fool.,John [[demand]] the president a fool.,0.0193057060241699,0.9748131632804872,1.0,0.0,1.0,55.0,Successful,1.0,0.8646268,1606.5985107421875
+I [[forgot]] how good beer tastes.,I [[exited]] how good beer tastes.,0.0183184742927551,0.9703254103660583,1.0,0.0,1.0,48.0,Successful,1.0,0.71664387,1444.9124755859375
+[[This]] teacher is a genius.,[[These]] teacher is a genius.,0.0139165520668029,0.968917965888977,1.0,0.0,1.0,6.0,Successful,1.0,0.9136586,189.54637145996094
+A [[good]] [[friend]] is [[remained]] to me by him.,A [[satisfactory]] [[companion]] is [[uninterrupted]] to me by him.,0.0397197008132934,0.4788782000541687,0.0,0.0,0.0,130.0,Failed,0.0,0.50741464,1479.1275634765625
+John [[ate]] his noodle quietly.,John [[comma]] his noodle quietly.,0.0109756588935852,0.9708970189094543,1.0,0.0,1.0,54.0,Successful,1.0,0.7100229,2590.87939453125
+A smith [[hammered]] the metal.,A smith [[boozer]] the metal.,0.012732446193695,0.9727051258087158,1.0,0.0,1.0,32.0,Successful,1.0,0.6610149,774.1320190429688
+Sandy [[removed]] her ballet shoes.,Sandy [[elimination]] her ballet shoes.,0.0119783878326416,0.9392455220222472,1.0,0.0,1.0,55.0,Successful,1.0,0.8747686,2805.46044921875
+This week [[will]] be a difficult one for us.,This week [[willingness]] be a difficult one for us.,0.0196461081504821,0.9564000964164734,1.0,0.0,1.0,31.0,Successful,1.0,0.67966294,418.4938049316406
+Benny [[worked]] in a shoe factory when he was a student.,Benny [[cooperation]] in a shoe factory when he was a student.,0.016933798789978,0.9355451464653016,1.0,0.0,1.0,55.0,Successful,1.0,0.9343891,139.5079803466797
+Everyone [[hoped]] that she would sing.,Everyone [[wait]] that she would sing.,0.0165473818778991,0.97148334980011,1.0,0.0,1.0,54.0,Successful,1.0,0.80992377,595.2010498046875
+This proved a decisive [[factor]].,This proved a decisive [[components]].,0.0143526792526245,0.925414502620697,1.0,0.0,1.0,23.0,Successful,1.0,0.789321,1343.42626953125
+The [[crocodile]] [[devoured]] the [[doughnut]].,The [[gator]] [[eaten]] the [[ringing]].,0.0191630721092224,0.9732489585876464,1.0,0.0,1.0,94.0,Successful,1.0,0.3602291,1801.71923828125
+John is [[afraid]] of Bill.,John is [[panic]] of Bill.,0.0121052861213684,0.9785071015357972,1.0,0.0,1.0,14.0,Successful,1.0,0.8428645,3023.22412109375
+[[John]] [[put]] under the bathtub.,[[Giovanni]] [[lodged]] under the bathtub.,0.0385083556175231,0.98907470703125,0.0,1.0,0.0,52.0,Successful,1.0,0.7027088,337.40606689453125
+John [[placed]] [[Kim]] behind the garage.,John [[gave]] [[Chin]] behind the garage.,0.012443721294403,0.972364902496338,1.0,0.0,1.0,63.0,Successful,1.0,0.66777605,1150.694580078125
+John [[put]] the book in the box.,John [[mise]] the book in the box.,0.0093058943748474,0.977249562740326,1.0,0.0,1.0,34.0,Successful,1.0,0.77027035,256.58782958984375
+John [[taught]] English Syntax to new students.,John [[schooling]] English Syntax to new students.,0.0081080198287963,0.961250364780426,1.0,0.0,1.0,45.0,Successful,1.0,0.90181446,1219.7503662109375
+John [[regards]] Bill as a good friend.,John [[matter]] Bill as a good friend.,0.0194292664527893,0.9723527431488036,1.0,0.0,1.0,25.0,Successful,1.0,0.8685461,1166.1453857421875
+[[Kim]] put in the [[box]].,[[Klm]] put in the [[cardboard]].,0.0276457667350769,0.9659352898597716,0.0,1.0,0.0,27.0,Successful,1.0,0.4688208,373.6763000488281
+The chickens seem [[fond]] of the farmer.,The chickens seem [[likes]] of the farmer.,0.0144935846328735,0.9595856070518494,1.0,0.0,1.0,19.0,Successful,1.0,0.9570065,1494.6810302734375
+The [[rules]] require that the executives be polite.,The [[status]] require that the executives be polite.,0.0131515860557556,0.9181601405143738,1.0,0.0,1.0,44.0,Successful,1.0,0.83513844,648.0677490234375
+That Fred was [[unpopular]] nominated Bill.,That Fred was [[undesirable]] nominated Bill.,0.2577706575393677,0.8699461817741394,0.0,1.0,0.0,17.0,Successful,1.0,0.85313326,21389.3984375
+They were [[taking]] a hard look at possible FTA.,They were [[tomar]] a hard look at possible FTA.,0.0215517282485961,0.9741542339324952,1.0,0.0,1.0,56.0,Successful,1.0,0.83207655,1175.69580078125
+John [[paid]] me against the book.,John [[wages]] me against the book.,0.0230742692947387,0.6644629836082458,0.0,1.0,0.0,51.0,Successful,1.0,0.93179953,1921.1109619140625
+The committee will [[study]] the feasibility of setting up a national computer network.,The committee will [[analyzing]] the feasibility of setting up a national computer network.,0.0140942335128784,0.9383746981620787,1.0,0.0,1.0,60.0,Successful,1.0,0.9877216,55.71882247924805
+We [[made]] them be rude.,We [[realized]] them be rude.,0.1130597591400146,0.9748036861419678,1.0,0.0,1.0,55.0,Successful,1.0,0.8728465,2825.926025390625
+"After reading the pamphlet, Judy [[threw]] it into the garbage can.","After reading the pamphlet, Judy [[pelting]] it into the garbage can.",0.0260674357414245,0.9404686689376832,1.0,0.0,1.0,47.0,Successful,1.0,0.92667794,98.719482421875
+I [[read]] some of the book.,I [[reading]] some of the book.,0.0689592957496643,0.972536563873291,1.0,0.0,1.0,23.0,Successful,1.0,0.8941566,109.28173065185547
+Most of the [[fruit]] is rotten.,Most of the [[outcome]] is rotten.,0.0178965926170349,0.5022228956222534,1.0,0.0,1.0,11.0,Successful,1.0,0.59854007,137.28663635253906
+The [[boy]] in the doorway waved to his father.,The [[petit]] in the doorway waved to his father.,0.0124780535697937,0.9408947229385376,1.0,0.0,1.0,55.0,Successful,1.0,0.8249836,144.3404998779297
+"That dog is so ferocious, it even [[tried]] to bite itself.","That dog is so ferocious, it even [[deemed]] to bite itself.",0.0512886643409729,0.8824853897094727,1.0,0.0,1.0,43.0,Successful,1.0,0.9614021,133.41461181640625
+He [[washed]] yourself.,He [[anointed]] yourself.,0.3096584677696228,0.8851838707923889,0.0,1.0,0.0,56.0,Successful,1.0,0.4941964,534.4348754882812
+John is easy to please [[Kim]].,John is easy to please [[Kam]].,0.0947473645210266,0.7776387333869934,0.0,1.0,0.0,12.0,Successful,1.0,0.7032729,534.92724609375
+There seemed to be [[intelligent]].,There seemed to be [[cleverness]].,0.03572279214859,0.9800904393196106,0.0,1.0,0.0,37.0,Successful,1.0,0.71927166,48.81709671020508
+John [[tried]] to please Stephen.,John [[deemed]] to please Stephen.,0.0135241150856018,0.9725905060768129,1.0,0.0,1.0,40.0,Successful,1.0,0.8931366,2303.22802734375
+John [[tries]] to leave the country.,John [[prosecute]] to leave the country.,0.0177633762359619,0.9708876013755798,1.0,0.0,1.0,53.0,Successful,1.0,0.7339745,457.9320983886719
+Under the bed [[seems]] to be a fun place to hide.,Under the bed [[gaze]] to be a fun place to hide.,0.0347720384597778,0.9753572940826416,1.0,0.0,1.0,25.0,Successful,1.0,0.90994906,165.1668243408203
+I [[hope]] to would [[study]] in France.,I [[wanted]] to would [[exams]] in France.,0.0451470017433166,0.9579373598098756,0.0,1.0,0.0,103.0,Successful,1.0,0.80028355,544.2010498046875
+John can [[kick]] the ball.,John can [[kicking]] the ball.,0.0104780793190002,0.9646819829940796,1.0,0.0,1.0,29.0,Successful,1.0,0.96343946,439.55401611328125
+We expect there to [[will]] rain.,We expect there to [[alacrity]] rain.,0.0588027238845825,0.6753509044647217,0.0,1.0,0.0,36.0,Successful,1.0,0.8210877,680.2205200195312
+[[John]] was found in the [[office]].,[[Joon]] was found in the [[secretarial]].,0.0114026665687561,0.9134302139282228,1.0,0.0,1.0,37.0,Successful,1.0,0.33136165,389.2320556640625
+It [[did]] not rain.,It [[gotten]] not rain.,0.020237386226654,0.9740526080131532,1.0,0.0,1.0,34.0,Successful,1.0,0.9105671,14255.505859375
+John [[wants]] not to leave the town.,John [[envy]] not to leave the town.,0.0149509310722351,0.9685008525848388,1.0,0.0,1.0,52.0,Successful,1.0,0.8032689,664.3447265625
+"Mary [[likes]] to tour art galleries, but Bill hates to.","Mary [[lover]] to tour art galleries, but Bill hates to.",0.0173656344413757,0.9571613669395448,1.0,0.0,1.0,34.0,Successful,1.0,0.9572222,827.4320678710938
+They needn't [[take]] this exam.,They needn't [[bears]] this exam.,0.0268667340278625,0.9595471620559692,1.0,0.0,1.0,33.0,Successful,1.0,0.82381994,500.6573181152344
+Ann may spend her vacation in [[Italy]].,Ann may spend her vacation in [[Italians]].,0.0249532461166381,0.6516479253768921,1.0,0.0,1.0,20.0,Successful,1.0,0.948645,725.5346069335938
+"They [[love]] to play golf, but I do not.","They [[darlings]] to play golf, but I do not.",0.0162252187728881,0.948362112045288,1.0,0.0,1.0,41.0,Successful,1.0,0.9338062,81.9349594116211
+"George has spent a lot of [[money]], hasn't he?","George has spent a lot of [[treasurer]], hasn't he?",0.0228661894798278,0.9142704010009766,1.0,0.0,1.0,36.0,Successful,1.0,0.8769574,90.17393493652344
+"As a statesman, scarcely could he do anything [[worth]] mentioning.","As a statesman, scarcely could he do anything [[worthwhile]] mentioning.",0.0704555511474609,0.9439519643783568,1.0,0.0,1.0,8.0,Successful,1.0,0.99362063,265.18536376953125
+We never [[found]] any of the unicorns.,We never [[uncovering]] any of the unicorns.,0.0169064998626709,0.9692698121070862,1.0,0.0,1.0,54.0,Successful,1.0,0.89577377,132.75045776367188
+One of Korea's most famous poets [[wrote]] these lines.,One of Korea's most famous poets [[writer]] these lines.,0.0207467079162597,0.9161192774772644,1.0,0.0,1.0,36.0,Successful,1.0,0.9807191,106.37090301513672
+Somebody apparently [[struck]] the unidentified victim during the early morning hours.,Somebody apparently [[raiding]] the unidentified victim during the early morning hours.,0.0223547220230102,0.7493982315063477,1.0,0.0,1.0,59.0,Successful,1.0,0.7693517,160.3505859375
+The [[car]] was driven.,The [[automatically]] was driven.,0.0139654874801635,0.9574488997459412,1.0,0.0,1.0,53.0,Successful,1.0,0.6212093,11350.576171875
+Ricky can be [[relied]] on.,Ricky can be [[mattered]] on.,0.0104738473892211,0.9759061336517334,1.0,0.0,1.0,28.0,Successful,1.0,0.8345914,905.4599609375
+A pound was weighed by the [[book]].,A pound was weighed by the [[ledgers]].,0.0762873291969299,0.9671611189842224,0.0,1.0,0.0,45.0,Successful,1.0,0.76944447,168.8779296875
+Who do you [[think]] Tom saw?,Who do you [[considering]] Tom saw?,0.0249040722846984,0.9758645296096802,1.0,0.0,1.0,55.0,Successful,1.0,0.90935504,1028.278076171875
+he had spent [[five]] thousand [[dollars]].,he had spent [[three]] thousand [[buck]].,0.0128389596939086,0.9655847549438475,1.0,0.0,1.0,26.0,Successful,1.0,0.6950859,439.6709899902344
+[[Fed]] [[knows]] which politician her to vote for.,[[Nurture]] [[recognises]] which politician her to vote for.,0.0925614237785339,0.5847833156585693,0.0,1.0,0.0,35.0,Successful,1.0,0.5735386,332.30499267578125
+How did you guess that he [[fixed]] the computer?,How did you guess that he [[perpetual]] the computer?,0.020423412322998,0.971519649028778,1.0,0.0,1.0,46.0,Successful,1.0,0.76764596,559.50830078125
+[[The]] committee knows whose efforts to achieve peace the world should honor.,[[Both]] committee knows whose efforts to achieve peace the world should honor.,0.0409024357795715,0.8961809277534485,1.0,0.0,1.0,11.0,Successful,1.0,0.9374982,355.3341979980469
+the baker from whom I [[bought]] these bagels left.,the baker from whom I [[getting]] these bagels left.,0.0103400349617004,0.93660706281662,1.0,0.0,1.0,47.0,Successful,1.0,0.96409476,478.657470703125
+I found the [[place]] where we can relax.,I found the [[putting]] where we can relax.,0.0138710141181945,0.955475926399231,1.0,0.0,1.0,27.0,Successful,1.0,0.87750775,381.2999572753906
+There is a bench to [[sit]] on.,There is a bench to [[seated]] on.,0.0113921165466308,0.9409122467041016,1.0,0.0,1.0,17.0,Successful,1.0,0.975858,139.01817321777344
+I [[met]] the man who grows peaches.,I [[complied]] the man who grows peaches.,0.0125181674957275,0.9636537432670592,1.0,0.0,1.0,56.0,Successful,1.0,0.7718042,481.35186767578125
+Which topic did you [[choose]] without getting his approval?,Which topic did you [[valda]] without getting his approval?,0.022667646408081,0.9571830630302428,1.0,0.0,1.0,56.0,Successful,1.0,0.70692176,392.5196838378906
+That is the reason why he [[resigned]].,That is the reason why he [[exiting]].,0.0289252400398254,0.9347171783447266,1.0,0.0,1.0,45.0,Successful,1.0,0.67818654,123.79209899902344
+It [[bothers]] me that John coughs.,It [[disrupting]] me that John coughs.,0.0129393339157104,0.9378613233566284,1.0,0.0,1.0,40.0,Successful,1.0,0.85914576,1721.4224853515625
+To please John is [[easy]].,To please John is [[facilitate]].,0.0181687474250793,0.9584017395973206,1.0,0.0,1.0,18.0,Successful,1.0,0.7749487,7081.77685546875
+Kim is [[eager]] to please Tom.,Kim is [[wish]] to please Tom.,0.0159480571746826,0.975041687488556,1.0,0.0,1.0,31.0,Successful,1.0,0.94081664,1368.974853515625
+That we [[invaded]] Iraq really [[bites]].,That we [[invasions]] Iraq really [[assassinated]].,0.0219228267669677,0.9771104454994202,1.0,0.0,1.0,78.0,Successful,1.0,0.7078329,2783.40771484375
+[[It]] [[annoys]] me that Fido barks.,[[His]] [[distorts]] me that Fido barks.,0.0167233943939209,0.902880609035492,1.0,0.0,1.0,51.0,Successful,1.0,0.8272948,724.3755493164062
+It was the peasant girl who [[got]] it.,It was the peasant girl who [[arrive]] it.,0.0210285186767578,0.9707505106925964,1.0,0.0,1.0,55.0,Successful,1.0,0.8774666,364.2210388183594
+That [[kind]] of person is hard to find anyone to look after.,That [[genders]] of person is hard to find anyone to look after.,0.246614396572113,0.9608042240142822,1.0,0.0,1.0,56.0,Successful,1.0,0.70169973,183.26405334472656
+A sick [[owl]] doesn't hunt mice.,A sick [[owls]] doesn't hunt mice.,0.0240325331687927,0.919100821018219,1.0,0.0,1.0,28.0,Successful,1.0,0.98047614,302.5641174316406
+Each candidate who has interest in [[semantics]] [[will]] be admitted to the department.,Each candidate who has interest in [[grammar]] [[gonna]] be admitted to the department.,0.0226706862449646,0.8715713620185852,1.0,0.0,1.0,40.0,Successful,1.0,0.7750575,245.69485473632812
+Each author whose contribution is written in any language other than English will [[provide]] a summary in [[English]].,Each author whose contribution is written in any language other than English will [[giving]] a summary in [[Spanish]].,0.0265703201293945,0.7499222755432129,1.0,0.0,1.0,65.0,Successful,1.0,0.8956229,65.15663146972656
+I'm [[sure]] we even got these tickets!,I'm [[convincing]] we even got these tickets!,0.0684478878974914,0.9155071377754213,1.0,0.0,1.0,42.0,Successful,1.0,0.84195995,634.6929321289062
+I'm even [[sure]] we got these tickets!,I'm even [[warranty]] we got these tickets!,0.0507715344429016,0.9487137794494628,1.0,0.0,1.0,43.0,Successful,1.0,0.73374665,1106.7703857421875
+It's not [[because]] I have any sympathy for urban guerillas that I helped him.,It's not [[than]] I have any sympathy for urban guerillas that I helped him.,0.0276647806167602,0.8989003896713257,1.0,0.0,1.0,14.0,Successful,1.0,0.9766067,77.72444915771484
+It isn't [[because]] Sue said anything bad about me that I'm angry.,It isn't [[than]] Sue said anything bad about me that I'm angry.,0.0418741703033447,0.903154730796814,1.0,0.0,1.0,12.0,Successful,1.0,0.9654977,104.70445251464844
+"Though he may hate those that [[criticize]] Carter, it doesn't matter.","Though he may hate those that [[condemning]] Carter, it doesn't matter.",0.0195205211639404,0.6383090615272522,1.0,0.0,1.0,50.0,Successful,1.0,0.91509295,107.02886962890625
+I have [[much]] of the manuscript left to type.,I have [[incredibly]] of the manuscript left to type.,0.015588641166687,0.9619415998458862,1.0,0.0,1.0,47.0,Successful,1.0,0.9439126,375.9787292480469
+He's a more reliable [[man]].,He's a more reliable [[humans]].,0.0818133950233459,0.9699913859367372,1.0,0.0,1.0,53.0,Successful,1.0,0.8575014,276.337646484375
+They may [[grow]] as high as bamboo.,They may [[raising]] as high as bamboo.,0.0235393047332763,0.9568907022476196,1.0,0.0,1.0,55.0,Successful,1.0,0.84958243,920.51953125
+Some of them [[made]] as many errors as 20.,Some of them [[been]] as many errors as 20.,0.0721486210823059,0.9657575488090516,1.0,0.0,1.0,56.0,Successful,1.0,0.96402276,188.32151794433594
+[[Sally]] kissed himself.,[[Solly]] kissed himself.,0.2683950662612915,0.977601945400238,0.0,1.0,0.0,4.0,Successful,1.0,0.5853414,2309.417236328125
+Drew believes [[I]] think Rosie loves magazine ads.,Drew believes [[me]] think Rosie loves magazine ads.,0.0223311185836792,0.939128875732422,1.0,0.0,1.0,10.0,Successful,1.0,0.9948784,1349.8411865234375
+"Dave, [[Dan]], Erin, Jaime, and [[Alina]] [[left]].","Dave, [[Danu]], Erin, Jaime, and [[Tatjana]] [[letting]].",0.01563161611557,0.9013774394989014,1.0,0.0,1.0,86.0,Successful,1.0,0.76288384,202.1511688232422
+"Hopefully, we'll [[make]] it through the winter without snow.","Hopefully, we'll [[giving]] it through the winter without snow.",0.0195450186729431,0.8823652863502502,1.0,0.0,1.0,54.0,Successful,1.0,0.90084827,150.35763549804688
+Blue [[leather]] shows herself that Betsy is pretty.,Blue [[floozy]] shows herself that Betsy is pretty.,0.0706610679626464,0.8402146100997925,0.0,1.0,0.0,47.0,Successful,1.0,0.8278452,401.9454650878906
+Gwen [[hit]] the [[baseball]].,Gwen [[stricken]] the [[hockey]].,0.0131935477256774,0.9764527678489684,1.0,0.0,1.0,72.0,Successful,1.0,0.66269183,7745.50048828125
+I [[hit]] that you knew the answer.,I [[touched]] that you knew the answer.,0.0282802581787109,0.8519241809844971,0.0,1.0,0.0,56.0,Successful,1.0,0.79591143,140.7384490966797
+I've [[lost]] my wallet or I've lost my mind.,I've [[wastage]] my wallet or I've lost my mind.,0.0354365110397338,0.9155470728874208,1.0,0.0,1.0,51.0,Successful,1.0,0.88101363,130.6361541748047
+It was a brand new car that he [[bought]].,It was a brand new car that he [[learn]].,0.0144925117492675,0.9592410922050476,1.0,0.0,1.0,47.0,Successful,1.0,0.89247197,85.95628356933594
+He [[likes]] [[cookies]] and he hates crumb cake.,He [[cared]] [[bun]] and he hates crumb cake.,0.014613389968872,0.9585437178611756,1.0,0.0,1.0,82.0,Successful,1.0,0.8066664,951.2406616210938
+They chased the [[man]] with the car.,They chased the [[gus]] with the car.,0.012932002544403,0.9607213735580444,1.0,0.0,1.0,54.0,Successful,1.0,0.68033624,214.56101989746094
+I didn't [[have]] a red cent.,I didn't [[has]] a red cent.,0.063143253326416,0.9656696319580078,1.0,0.0,1.0,38.0,Successful,1.0,0.98343825,210.6217498779297
+the one with a red cover [[takes]] a very long time to read.,the one with a red cover [[choice]] a very long time to read.,0.0253592729568481,0.9529966711997986,1.0,0.0,1.0,47.0,Successful,1.0,0.9007232,191.45101928710938
+John has a [[fear]] of dogs.,John has a [[spooked]] of dogs.,0.0133115649223327,0.9727714657783508,1.0,0.0,1.0,55.0,Successful,1.0,0.8787229,288.6231994628906
+The building's the [[roof]] is [[leaking]].,The building's the [[chaps]] is [[spilling]].,0.0492632389068603,0.0520223379135131,0.0,0.0,0.0,48.0,Failed,0.0,0.47822332,731.876708984375
+the panther's the [[coat]] is [[dark]] black.,the panther's the [[toga]] is [[opaque]] black.,0.038280189037323,0.1726617217063903,0.0,0.0,0.0,100.0,Failed,0.0,0.6620581,543.2897338867188
+Colin [[asked]] if they could get a mortgage.,Colin [[require]] if they could get a mortgage.,0.0147978663444519,0.9688935279846193,1.0,0.0,1.0,55.0,Successful,1.0,0.922691,363.9573059082031
+The man I saw get into the cab [[robbed]] the bank.,The man I saw get into the cab [[larceny]] the bank.,0.0142210721969604,0.9619314074516296,1.0,0.0,1.0,57.0,Successful,1.0,0.82547253,146.36424255371094
+I [[know]] you eat asparagus.,I [[soaps]] you eat asparagus.,0.0143154859542846,0.965066373348236,1.0,0.0,1.0,55.0,Successful,1.0,0.79827046,423.30413818359375
+John's drum will always [[bother]] me.,John's drum will always [[intellect]] me.,0.0216487050056457,0.964648962020874,1.0,0.0,1.0,38.0,Successful,1.0,0.7378205,914.244140625
+An evil thought [[struck]] Dave.,An evil thought [[knocking]] Dave.,0.0247161984443664,0.9732914566993712,1.0,0.0,1.0,56.0,Successful,1.0,0.906812,8096.83447265625
+In the classroom John [[put]] the book on the table.,In the classroom John [[doing]] the book on the table.,0.0165799856185913,0.9606977701187134,1.0,0.0,1.0,36.0,Successful,1.0,0.95044684,239.47689819335938
+Phillip [[gave]] the medal to the soldier.,Phillip [[been]] the medal to the soldier.,0.010998249053955,0.9758977890014648,1.0,0.0,1.0,54.0,Successful,1.0,0.9519074,631.021240234375
+Heidi [[thinks]] that [[Andy]] to [[eat]] salmon flavored [[candy]] bars.,Heidi [[believed]] that [[Indy]] to [[food]] salmon flavored [[nougat]] bars.,0.0442282557487487,0.6462934613227844,0.0,1.0,0.0,159.0,Successful,1.0,0.6695468,1293.88720703125
+Heidi [[thinks]] that Andy should eat salmon flavored candy bars.,Heidi [[cru]] that Andy should eat salmon flavored candy bars.,0.0188630819320678,0.9536387324333192,1.0,0.0,1.0,59.0,Successful,1.0,0.88022614,2271.637451171875
+He [[danced]].,He [[choreography]].,0.011380910873413,0.9737967252731324,1.0,0.0,1.0,21.0,Successful,1.0,0.6484169,2689.127685546875
+Sylvia was [[slapping]] Jeff upside the head in martial arts class.,Sylvia was [[smacks]] Jeff upside the head in martial arts class.,0.0133215188980102,0.9464414715766908,1.0,0.0,1.0,47.0,Successful,1.0,0.9442548,165.39450073242188
+"[[If]] he were a rich man, he'd buy a diamond ring.","[[Upon]] he were a rich man, he'd buy a diamond ring.",0.0222548246383667,0.942501187324524,1.0,0.0,1.0,27.0,Successful,1.0,0.959971,53.332191467285156
+[[John]] is [[likely]] to leave.,[[June]] is [[endangerment]] to leave.,0.0140652656555175,0.9784422516822816,1.0,0.0,1.0,40.0,Successful,1.0,0.3722706,747.5347290039062
+The [[manager]] laughed.,The [[managing]] laughed.,0.0138364434242248,0.9460324048995972,1.0,0.0,1.0,42.0,Successful,1.0,0.84961534,16141.8857421875
+[[Was]] sunk.,[[Be]] sunk.,0.3944109678268432,0.7702421545982361,0.0,1.0,0.0,51.0,Successful,1.0,0.7394953,5332.9423828125
+Who did you think [[kissed]] the gorilla?,Who did you think [[hump]] the gorilla?,0.0230723619461059,0.9597989916801452,1.0,0.0,1.0,43.0,Successful,1.0,0.8214129,363.00384521484375
+Have you [[seen]] my model airplane collection?,Have you [[suvs]] my model airplane collection?,0.0159785151481628,0.952594518661499,1.0,0.0,1.0,53.0,Successful,1.0,0.7947037,964.3784790039062
+It [[seems]] that Lucy was mugged.,It [[gaze]] that Lucy was mugged.,0.0254530310630798,0.9763248562812804,1.0,0.0,1.0,22.0,Successful,1.0,0.92491674,1639.521484375
+I [[ate]] a salad that was filled with lima beans.,I [[feeding]] a salad that was filled with lima beans.,0.0127224326133728,0.9631332159042358,1.0,0.0,1.0,57.0,Successful,1.0,0.9579574,97.77293395996094
+There were four men arriving at the station when I [[pulled]] up.,There were four men arriving at the station when I [[extracted]] up.,0.017956256866455,0.9450562596321106,1.0,0.0,1.0,34.0,Successful,1.0,0.9257659,125.25150299072266
+[[Jean]] is [[reluctant]] to dance.,[[Jun]] is [[bashful]] to dance.,0.0135564804077148,0.9649882912635804,1.0,0.0,1.0,43.0,Successful,1.0,0.46033624,484.8565673828125
+I [[want]] her to dance.,I [[jealous]] her to dance.,0.0092915296554565,0.977019727230072,1.0,0.0,1.0,54.0,Successful,1.0,0.744764,2266.094970703125
+[[Jean]] [[persuaded]] [[Robert]].,[[Jeans]] [[persuasion]] [[Roberta]].,0.0119050741195678,0.9655998349189758,1.0,0.0,1.0,61.0,Successful,1.0,0.394359,2951.8046875
+Jean [[wants]] Bill to do the Macarena.,Jean [[yearn]] Bill to do the Macarena.,0.013198971748352,0.9731565117836,1.0,0.0,1.0,51.0,Successful,1.0,0.8558306,130.14112854003906
+The children admire their [[mother]].,The children admire their [[maternal]].,0.0126809477806091,0.7188645601272583,1.0,0.0,1.0,31.0,Successful,1.0,0.90931284,1992.1068115234375
+Who has [[Peter]] [[talked]] with?,Who has [[Piet]] [[said]] with?,0.0133417248725891,0.95480477809906,1.0,0.0,1.0,67.0,Successful,1.0,0.32946277,3280.15478515625
+Heidi [[likes]] her violin.,Heidi [[fond]] her violin.,0.0132044553756713,0.9653574228286744,1.0,0.0,1.0,30.0,Successful,1.0,0.88475037,3624.37255859375
+[[Which]] pictures of himself does John like?,[[Consist]] pictures of himself does John like?,0.0153622031211853,0.964211642742157,1.0,0.0,1.0,12.0,Successful,1.0,0.9494134,2870.52783203125
+Any [[owl]] hunts mice.,Any [[peachy]] hunts mice.,0.0418212413787841,0.9651116132736206,1.0,0.0,1.0,21.0,Successful,1.0,0.71353203,17803.314453125
+A pilot could [[be]] flying this plane.,A pilot could [[coming]] flying this plane.,0.0205975770950317,0.9670296907424928,1.0,0.0,1.0,36.0,Successful,1.0,0.9604269,996.3750610351562
+"Everybody who attended last week's huge rally, whoever they were, [[signed]] the [[petition]].","Everybody who attended last week's huge rally, whoever they were, [[firma]] the [[wondering]].",0.0160629749298095,0.7334645986557007,1.0,0.0,1.0,76.0,Successful,1.0,0.7263172,195.40577697753906
+Anybody who attended last week's huge rally [[signed]] the petition.,Anybody who attended last week's huge rally [[firma]] the petition.,0.0166458487510681,0.7059937119483948,1.0,0.0,1.0,27.0,Successful,1.0,0.94048166,195.33721923828125
+"Any tiger [[has]] orange fur, marked with black stripes.","Any tiger [[hectare]] orange fur, marked with black stripes.",0.0439795851707458,0.946930468082428,1.0,0.0,1.0,32.0,Successful,1.0,0.8725312,521.5787353515625
+"Any albino tiger [[has]] orange fur, marked with black stripes.","Any albino tiger [[hectare]] orange fur, marked with black stripes.",0.022580862045288,0.941716194152832,1.0,0.0,1.0,33.0,Successful,1.0,0.91014695,249.27330017089844
+You must pick any flower you [[see]].,You must pick any flower you [[staring]].,0.021860659122467,0.9636189937591552,1.0,0.0,1.0,52.0,Successful,1.0,0.8819982,1573.1474609375
+Any pilot on duty today could [[be]] flying this plane.,Any pilot on duty today could [[was]] flying this plane.,0.0411818623542785,0.9546189904212952,1.0,0.0,1.0,38.0,Successful,1.0,0.95361674,159.2949981689453
+The Dodgers [[beat]] the Red Sox and were beaten by the Giants.,The Dodgers [[taos]] the Red Sox and were beaten by the Giants.,0.0258383750915527,0.8975778818130493,1.0,0.0,1.0,58.0,Successful,1.0,0.9268829,140.90020751953125
+[[In]] which car was the man seen?,[[Among]] which car was the man seen?,0.0528098344802856,0.939269483089447,1.0,0.0,1.0,22.0,Successful,1.0,0.97317266,240.2916717529297
+Tom [[said]] he would and Bill actually did eat a raw eggplant.,Tom [[tell]] he would and Bill actually did eat a raw eggplant.,0.0356644988059997,0.954943835735321,1.0,0.0,1.0,58.0,Successful,1.0,0.9903387,394.5920104980469
+The wealthy young man [[bought]] that piano for his secret fiancée.,The wealthy young man [[syndrome]] that piano for his secret fiancée.,0.0151640772819519,0.8722379207611084,1.0,0.0,1.0,50.0,Successful,1.0,0.7912786,617.8720703125
+The dog [[stole]] the turkey.,The dog [[burgle]] the turkey.,0.0138300657272338,0.9594815969467164,1.0,0.0,1.0,51.0,Successful,1.0,0.8131832,2325.555419921875
+a tall [[building]].,a tall [[constructed]].,0.0246863961219787,0.9765918850898744,1.0,0.0,1.0,46.0,Successful,1.0,0.8255149,5216.6728515625
+[[This]] building is tall.,[[These]] building is tall.,0.0625668764114379,0.974333882331848,1.0,0.0,1.0,6.0,Successful,1.0,0.94043255,601.4293823242188
+I like the book which you [[gave]] me.,I like the book which you [[been]] me.,0.0278853178024292,0.9654794931411744,1.0,0.0,1.0,54.0,Successful,1.0,0.851874,337.1900634765625
+Captain Wentworth [[wrote]] a letter to Anne Elliott.,Captain Wentworth [[prose]] a letter to Anne Elliott.,0.0103151798248291,0.9475123286247252,1.0,0.0,1.0,39.0,Successful,1.0,0.9278035,682.8294677734375
+They [[realised]] that never had Sir Thomas been so offended.,They [[accompli]] that never had Sir Thomas been so offended.,0.284024178981781,0.9506936073303224,1.0,0.0,1.0,58.0,Successful,1.0,0.9078656,618.9147338867188
+Fanny [[regretted]] having to talk to Aunt Norris.,Fanny [[hapless]] having to talk to Aunt Norris.,0.0236911177635192,0.969003200531006,1.0,0.0,1.0,41.0,Successful,1.0,0.8334286,622.1865234375
+"Knowing the country well, he [[took]] a short cut.","Knowing the country well, he [[taking]] a short cut.",0.0497034192085266,0.9709993004798888,1.0,0.0,1.0,57.0,Successful,1.0,0.97412425,60.76483917236328
+He [[left]] the train with somebody else's wallet in his pocket.,He [[letting]] the train with somebody else's wallet in his pocket.,0.0552120208740234,0.9677233695983888,1.0,0.0,1.0,29.0,Successful,1.0,0.93347615,90.34346771240234
+Magnus went to [[Ireland]].,Magnus went to [[Northward]].,0.0143426060676574,0.9726784229278564,1.0,0.0,1.0,25.0,Successful,1.0,0.7930408,96.44823455810547
+Who [[did]] John send the book?,Who [[been]] John send the book?,0.2452925443649292,0.9765890836715698,1.0,0.0,1.0,36.0,Successful,1.0,0.9742855,1248.5352783203125
+The idea [[dismayed]] the Prime Minister that the Dome was dull.,The idea [[shaken]] the Prime Minister that the Dome was dull.,0.0201815366744995,0.9559133052825928,1.0,0.0,1.0,57.0,Successful,1.0,0.92629206,522.127685546875
+[[Harriet]] [[admired]] Mr [[Knightley]].,[[Henrietta]] [[cared]] Mr [[Angelina]].,0.0170173048973083,0.9590166807174684,1.0,0.0,1.0,93.0,Successful,1.0,0.36819544,986.4071655273438
+The [[book]] is boring.,The [[manually]] is boring.,0.0130389928817749,0.9642344117164612,1.0,0.0,1.0,46.0,Successful,1.0,0.58898836,2675.2216796875
+Ethel [[wishes]] to ask you some awkward questions.,Ethel [[does]] to ask you some awkward questions.,0.0218216776847839,0.9634824991226196,1.0,0.0,1.0,37.0,Successful,1.0,0.9621147,204.99806213378906
+Emma [[made]] Harriet some food.,Emma [[established]] Harriet some food.,0.0097537040710449,0.9785418510437012,1.0,0.0,1.0,55.0,Successful,1.0,0.923914,2078.167236328125
+[[The]] [[window]] was broken with a hammer.,[[Both]] [[pandora]] was broken with a hammer.,0.0092517733573913,0.9658093452453612,1.0,0.0,1.0,20.0,Successful,1.0,0.5575527,256.57952880859375
+The fugitive lay motionless in [[order]] to avoid discovery.,The fugitive lay motionless in [[instructing]] to avoid discovery.,0.0261855721473693,0.9521756172180176,1.0,0.0,1.0,27.0,Successful,1.0,0.9658658,494.63671875
+The guard marched the [[prisoners]] round the yard.,The guard marched the [[detaining]] round the yard.,0.0157018899917602,0.7607549428939819,1.0,0.0,1.0,53.0,Successful,1.0,0.8272483,354.65899658203125
+Frank Churchill [[crossed]] the street.,Frank Churchill [[passage]] the street.,0.0163040161132812,0.955480456352234,1.0,0.0,1.0,29.0,Successful,1.0,0.8401844,2121.401123046875
+Emma and [[Harriet]] were [[attacked]] yesterday.,Emma and [[Hattie]] were [[raid]] yesterday.,0.0150430798530578,0.951534390449524,1.0,0.0,1.0,105.0,Successful,1.0,0.6046313,634.31982421875
+Fiona [[might]] be here by 5 o'clock.,Fiona [[opportunities]] be here by 5 o'clock.,0.0170665383338928,0.9477711915969848,1.0,0.0,1.0,30.0,Successful,1.0,0.90011835,273.9267272949219
+I am both expecting to get the job and of the [[opinion]] that it is a desirable one.,I am both expecting to get the job and of the [[avis]] that it is a desirable one.,0.060185968875885,0.6265910267829895,1.0,0.0,1.0,14.0,Successful,1.0,0.7616774,94.68925476074219
+Pat was [[awarded]] the Golden Fleece Award and very upset about it.,Pat was [[mapped]] the Golden Fleece Award and very upset about it.,0.2490156292915344,0.9612014293670654,1.0,0.0,1.0,49.0,Successful,1.0,0.9315933,173.19117736816406
+Kim alienated cats and [[beating]] his dog.,Kim alienated cats and [[beat]] his dog.,0.1437499523162841,0.9762729406356812,0.0,1.0,0.0,56.0,Successful,1.0,0.98328966,1197.2891845703125
+They [[knew]] that pictures of each other would be on sale.,They [[inkling]] that pictures of each other would be on sale.,0.0191129446029663,0.9461214542388916,1.0,0.0,1.0,54.0,Successful,1.0,0.8064029,176.54063415527344
+I [[want]] to try and buy some whiskey.,I [[jealous]] to try and buy some whiskey.,0.0177452564239501,0.9698164463043212,1.0,0.0,1.0,57.0,Successful,1.0,0.8264417,325.4595947265625
+She goes and [[buying]] some whiskey.,She goes and [[purchases]] some whiskey.,0.0324190855026245,0.9803847074508668,0.0,1.0,0.0,35.0,Successful,1.0,0.9765371,170.7084197998047
+[[Kim]] and Terry is happy.,[[Kam]] and Terry is happy.,0.2839107513427734,0.6472189426422119,0.0,1.0,0.0,12.0,Successful,1.0,0.7412908,633.2642211914062
+Kim [[gave]] a dollar to Bobbie and a dime to Jean.,Kim [[been]] a dollar to Bobbie and a dime to Jean.,0.0554808378219604,0.9630553126335144,1.0,0.0,1.0,56.0,Successful,1.0,0.95661616,216.94015502929688
+This girl in the red coat will [[put]] a picture of Bill in the mailbox and on your desk before tomorrow.,This girl in the red coat will [[putting]] a picture of Bill in the mailbox and on your desk before tomorrow.,0.0384953618049621,0.9129570722579956,1.0,0.0,1.0,41.0,Successful,1.0,0.9950581,104.27830505371094
+"[[Picture]] of Bill, this girl in the red coat will put a picture of Bill on your desk before tomorrow.","[[Pictures]] of Bill, this girl in the red coat will put a picture of Bill on your desk before tomorrow.",0.2837002873420715,0.644835352897644,0.0,1.0,0.0,57.0,Successful,1.0,0.9936992,50.9046630859375
+Ann [[bought]] a first edition of Richard III for $1000.,Ann [[syndrome]] a first edition of Richard III for $1000.,0.0193663239479064,0.9196091890335084,1.0,0.0,1.0,48.0,Successful,1.0,0.77125645,740.8344116210938
+John became deadly afraid of [[flying]].,John became deadly afraid of [[hover]].,0.0188263654708862,0.9090882539749146,1.0,0.0,1.0,54.0,Successful,1.0,0.88075304,1737.82666015625
+What John [[promised]] is to be gentle.,What John [[bride]] is to be gentle.,0.017836570739746,0.946784257888794,1.0,0.0,1.0,50.0,Successful,1.0,0.72130704,1281.6650390625
+Henri [[wants]] to buy which books about cooking?,Henri [[envy]] to buy which books about cooking?,0.0140389204025268,0.9710769653320312,1.0,0.0,1.0,55.0,Successful,1.0,0.9405488,1214.860595703125
+I will fix the [[computer]] for [[Carol]].,I will fix the [[computerized]] for [[Carole]].,0.0136324763298034,0.9427061080932616,1.0,0.0,1.0,42.0,Successful,1.0,0.7457541,577.9589233398438
+Smith [[loaned]] a valuable collection of manuscripts to the library.,Smith [[lending]] a valuable collection of manuscripts to the library.,0.0122070908546447,0.8387068510055542,1.0,0.0,1.0,16.0,Successful,1.0,0.9176926,94.57905578613281
+The [[paper]] is cut by Mary.,The [[documented]] is cut by Mary.,0.0195453763008117,0.9761311411857604,1.0,0.0,1.0,33.0,Successful,1.0,0.79064214,3452.48876953125
+[[It]] was from six to nine or it took place from six to nine.,[[He]] was from six to nine or it took place from six to nine.,0.1733261942863464,0.5143335461616516,1.0,0.0,1.0,10.0,Successful,1.0,0.87851596,72.96024322509766
+"Suddenly, there [[arrived]] two inspectors from the INS.","Suddenly, there [[reaching]] two inspectors from the INS.",0.0357975959777832,0.9637368321418762,1.0,0.0,1.0,37.0,Successful,1.0,0.94733655,496.2388916015625
+"The [[soup]] [[cooks]], thickens.","The [[soups]] [[dining]], thickens.",0.0282021164894104,0.9674468040466307,1.0,0.0,1.0,75.0,Successful,1.0,0.897588,2102.992919921875
+I [[gave]] money to the charity.,I [[been]] money to the charity.,0.0081456899642944,0.970495104789734,1.0,0.0,1.0,54.0,Successful,1.0,0.91822445,602.3383178710938
+[[John]] [[asked]].,[[Yann]] [[inviting]].,0.0194650292396545,0.9763274788856506,1.0,0.0,1.0,72.0,Successful,1.0,0.14774483,35744.4375
+John [[whispered]] [[Mary]] [[left]].,John [[patted]] [[Newlyweds]] [[leaving]].,0.0323950052261352,0.5315951108932495,0.0,1.0,0.0,95.0,Successful,1.0,0.51545054,795.2830200195312
+Sophie will [[theater]].,Sophie will [[film]].,0.026645004749298,0.9863529205322266,0.0,1.0,0.0,36.0,Successful,1.0,0.85804856,597.3543090820312
+John [[finished]] the [[cake]] and drank the lemonade.,John [[conclude]] the [[shoemaker]] and drank the lemonade.,0.0143575072288513,0.9743459224700928,1.0,0.0,1.0,105.0,Successful,1.0,0.6940224,356.0693054199219
+[[Herself]] likes Mary's mother.,[[Sam]] likes Mary's mother.,0.0268283486366271,0.9852243065834044,0.0,1.0,0.0,16.0,Successful,1.0,0.7684775,495.1563415527344
+Each of the boys [[fought]] with some of the other boys.,Each of the boys [[sought]] with some of the other boys.,0.0144506096839904,0.9677861332893372,1.0,0.0,1.0,56.0,Successful,1.0,0.71744967,59.666709899902344
+John's mother [[likes]] himself.,John's mother [[enjoyed]] himself.,0.2935676574707031,0.7725127339363098,0.0,1.0,0.0,30.0,Successful,1.0,0.9021237,456.0306701660156
+Mary believes that [[Bill]] saw himself.,Mary believes that [[Banknotes]] saw himself.,0.1686359643936157,0.9657735228538512,1.0,0.0,1.0,23.0,Successful,1.0,0.786768,3470.74462890625
+[[John]] [[heard]] that they criticized themselves.,[[Johannes]] [[understood]] that they criticized themselves.,0.0536379814147949,0.9699970483779908,0.0,1.0,0.0,53.0,Successful,1.0,0.5414077,194.3793487548828
+Mary [[thinks]] that she is smart.,Mary [[ideological]] that she is smart.,0.026004672050476,0.9741299748420716,1.0,0.0,1.0,54.0,Successful,1.0,0.8156245,1038.1085205078125
+Henry found that [[Bill]] is sad.,Henry found that [[Receipts]] is sad.,0.0472180247306823,0.8978034853935242,1.0,0.0,1.0,23.0,Successful,1.0,0.7722312,416.1728820800781
+John [[considers]] himself proud of Mary.,John [[discuss]] himself proud of Mary.,0.013879656791687,0.9610300660133362,1.0,0.0,1.0,42.0,Successful,1.0,0.93656677,3144.06640625
+There is a [[nurse]] available.,There is a [[hospitals]] available.,0.0111821889877319,0.9527854919433594,1.0,0.0,1.0,24.0,Successful,1.0,0.604296,264.6101379394531
+Everyone [[hopes]] everyone to sleep.,Everyone [[wants]] everyone to sleep.,0.0545821189880371,0.9880270957946776,0.0,1.0,0.0,73.0,Successful,1.0,0.8490541,60.396785736083984
+Everyone [[hopes]] that he will sleep.,Everyone [[awaited]] that he will sleep.,0.0132631659507751,0.9745279550552368,1.0,0.0,1.0,55.0,Successful,1.0,0.8374059,419.34857177734375
+John convinced Bill that [[Mary]] should sleep.,John convinced Bill that [[Wedding]] should sleep.,0.0198049545288085,0.8018497824668884,1.0,0.0,1.0,28.0,Successful,1.0,0.81049895,2794.47119140625
+I saw Bill while you [[did]] [[so]] [[Mary]].,I saw Bill while you [[had]] [[then]] [[Remarried]].,0.0311871767044067,0.5573973059654236,0.0,1.0,0.0,69.0,Successful,1.0,0.7150526,715.9301147460938
+What Mary did [[Bill]] was give a book.,What Mary did [[Invoice]] was give a book.,0.0388635396957397,0.7218610644340515,0.0,1.0,0.0,25.0,Successful,1.0,0.82842004,899.0946044921875
+The [[bears]] sniffed,The [[transporting]] sniffed,0.0197211503982543,0.9704517722129822,1.0,0.0,1.0,26.0,Successful,1.0,0.50798863,97396.40625
+to steal talismans from [[witches]] is dangerous,to steal talismans from [[magician]] is dangerous,0.0195749402046203,0.7637730836868286,1.0,0.0,1.0,27.0,Successful,1.0,0.8488474,608.76611328125
+[[Anson]] demonized,[[Chrysanthemum]] demonized,0.4185201525688171,0.4635929465293884,0.0,0.0,0.0,11.0,Failed,0.0,0.1789489,173.56411743164062
+You [[kicked]] yourselves,You [[hitting]] yourselves,0.2702405452728271,0.9608860611915588,1.0,0.0,1.0,53.0,Successful,1.0,0.64015895,71048.34375
+The [[book]] that I said that I'd never read.,The [[manually]] that I said that I'd never read.,0.096592366695404,0.9262277483940125,1.0,0.0,1.0,47.0,Successful,1.0,0.5896064,133.03384399414062
+Anson demonized up the [[Khyber]],Anson demonized up the [[Mogadishu]],0.0926963686943054,0.8210569620132446,0.0,1.0,0.0,13.0,Successful,1.0,0.7003742,767.6858520507812
+It is not true that [[I]] might be going to the party.,It is not true that [[me]] might be going to the party.,0.0156181454658508,0.6951411962509155,1.0,0.0,1.0,9.0,Successful,1.0,0.9829606,39.174720764160156
+Jason [[persuaded]] the doctor to treat Medea,Jason [[happier]] the doctor to treat Medea,0.0141246914863586,0.977432131767273,1.0,0.0,1.0,38.0,Successful,1.0,0.9019049,4340.185546875
+[[Who]] did you get an accurate [[description]] of?,[[Whoever]] did you get an accurate [[denote]] of?,0.0117712020874023,0.9138454794883728,1.0,0.0,1.0,47.0,Successful,1.0,0.6828636,567.2906494140625
+The [[Peter]] we all like was at the [[party]],The [[Pieter]] we all like was at the [[part]],0.0496562719345092,0.9454060792922974,1.0,0.0,1.0,40.0,Successful,1.0,0.504723,477.9143981933594
+The government's [[imposition]] of a fine.,The government's [[taxed]] of a fine.,0.0879024267196655,0.9746919870376588,1.0,0.0,1.0,33.0,Successful,1.0,0.841109,527.5928344726562
+Did Athena [[help]] us?,Did Athena [[contributing]] us?,0.0210784077644348,0.9630165696144104,1.0,0.0,1.0,55.0,Successful,1.0,0.8852539,42025.44140625
+You [[wanted]] to meet the man I saw.,You [[envy]] to meet the man I saw.,0.0143211483955383,0.9486539959907532,1.0,0.0,1.0,57.0,Successful,1.0,0.7347268,179.80340576171875
+[[Anson]] demonized [[David]] every day,[[Ju]] demonized [[Davids]] every day,0.0176604390144348,0.8845430016517639,1.0,0.0,1.0,17.0,Successful,1.0,0.72498846,1805.4500732421875
+There is a [[programme]] about Euripides on a Radio 4 tonight?,There is a [[emissions]] about Euripides on a Radio 4 tonight?,0.0625913143157959,0.8910390138626099,1.0,0.0,1.0,32.0,Successful,1.0,0.7333727,783.1112670898438
+Medea denied [[poisoning]] the phoenix.,Medea denied [[toxins]] the phoenix.,0.019616961479187,0.9740830659866332,1.0,0.0,1.0,15.0,Successful,1.0,0.91088915,2156.715087890625
+[[The]] [[elixir]] was hidden in a [[hole]] in the ground,[[Both]] [[panacea]] was hidden in a [[ports]] in the ground,0.0142300128936767,0.8859224319458008,1.0,0.0,1.0,33.0,Successful,1.0,0.44751936,443.44891357421875
+"Extremely frantically, Anson [[danced]] at Trade","Extremely frantically, Anson [[ballroom]] at Trade",0.1895868778228759,0.9685702919960022,1.0,0.0,1.0,24.0,Successful,1.0,0.7992662,1176.1107177734375
+What [[did]] you [[ask]] who Medea gave?,What [[could]] you [[call]] who Medea gave?,0.3110984563827514,0.8906834125518799,0.0,1.0,0.0,89.0,Successful,1.0,0.87198067,546.3375244140625
+It's Anson that [[I]] like,It's Anson that [[me]] like,0.0248823165893554,0.9634237289428712,1.0,0.0,1.0,6.0,Successful,1.0,0.9553163,1381.3035888671875
+Medea tried the [[nurse]] to [[poison]] her [[children]].,Medea tried the [[anesthetist]] to [[troublemaker]] her [[schoolchildren]].,0.0731719136238098,0.9488387703895568,0.0,1.0,0.0,90.0,Successful,1.0,0.79540646,321.0033264160156
+I felt that [[I]] know you.,I felt that [[me]] know you.,0.3348275423049927,0.9685251712799072,1.0,0.0,1.0,6.0,Successful,1.0,0.95472425,356.15777587890625
+I [[ate]] that she was [[happy]],I [[aet]] that she was [[delighted]],0.0223954916000366,0.4270463585853576,0.0,0.0,0.0,75.0,Failed,0.0,0.6668634,830.3743286132812
+Anson [[believed]] himself to be handsome.,Anson [[cru]] himself to be handsome.,0.0129244923591613,0.9751952290534972,1.0,0.0,1.0,45.0,Successful,1.0,0.7620818,2893.187744140625
+We [[arrived]] about six o'clock,We [[inbound]] about six o'clock,0.0173878669738769,0.9413748383522034,1.0,0.0,1.0,42.0,Successful,1.0,0.7414558,177.6963348388672
+[Succeeded / Failed / Skipped / Total] 403 / 10 / 87 / 500: 100%|████████████████████████████████████████████████████████████████████| 500/500 [02:42<00:00,  3.08it/s],,,,,,,,1.0,0.19376917,276.3289794921875
+[Succeeded / Failed / Skipped / Total] 403 / 10 / 87 / 500: 100%|████████████████████████████████████████████████████████████████████| 500/500 [02:42<00:00,  3.08it/s],,,,,,,,1.0,0.19376917,276.3289794921875
++-------------------------------+--------+,,,,,,,,,1.0,0.21075062,inf
+| Attack Results                |        |,,,,,,,,,1.0,0.10358961,inf
++-------------------------------+--------+,,,,,,,,,1.0,0.21075062,inf
+| Number of successful attacks: | 403    |,,,,,,,,,1.0,0.068336725,inf
+| Number of failed attacks:     | 10     |,,,,,,,,,1.0,0.06586063,inf
+| Number of skipped attacks:    | 87     |,,,,,,,,,1.0,0.0651115,inf
+| Original accuracy:            | 82.6%  |,,,,,,,,,1.0,0.119159736,inf
+| Accuracy under attack:        | 2.0%   |,,,,,,,,,1.0,0.11082892,inf
+| Attack success rate:          | 97.58% |,,,,,,,,,1.0,0.08258208,inf
+| Average perturbed word %:     | 19.1%  |,,,,,,,,,1.0,0.081760824,inf
+| Average num. words per input: | 7.64   |,,,,,,,,,1.0,0.15768336,inf
+| Avg num queries:              | 44.43  |,,,,,,,,,1.0,0.120467,inf
++-------------------------------+--------+,,,,,,,,,1.0,0.21075062,inf
