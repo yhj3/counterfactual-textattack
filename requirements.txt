@@ -1,0 +1,9 @@
+torch>=2.0
+transformers>=4.35
+textattack>=0.3.10
+sentence-transformers>=2.2
+datasets>=2.14
+pandas>=2.0
+nltk>=3.8
+accelerate>=0.24
+bitsandbytes>=0.41
