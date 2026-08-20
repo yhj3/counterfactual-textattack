@@ -1,0 +1,116 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{booktabs}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{setspace}
+\setstretch{0.94}
+\setlist[itemize]{leftmargin=1.1em, topsep=1pt, itemsep=1pt, parsep=0pt}
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{center}
+{\large\textbf{Counterfactual attacks on text classifiers --- what changed}}\\[1pt]
+{\small Yihang Jiao \quad$\cdot$\quad yihangj3@illinois.edu \quad$\cdot$\quad
+Full paper and code: \url{https://github.com/yhj3/counterfactual-textattack}}
+\end{center}
+\vspace{-4pt}
+\rule{\textwidth}{0.4pt}
+
+\subsection*{Three problems I found in the 2024 version}
+
+\begin{enumerate}[leftmargin=1.4em, itemsep=2pt]
+\item \textbf{The classifier was never run on the rewrites.} LLaMA output went into a
+\texttt{llama\_text} column; the reported success rate came from TextAttack's
+\texttt{result\_type}, which describes the word-substitution attack that ran \emph{before}
+rewriting. The rewrites never entered the numbers.
+\item \textbf{Table 1 compared sample sizes.} Each ``filtered'' figure was that attack over
+\textbf{20} examples; each ``baseline'' figure was the same attack over \textbf{277--500}.
+All five rows reproduce exactly from those two runs.
+\item \textbf{The three-stage filter was never implemented.} The thresholds
+$s \geq 0.75$ and $\text{ppl} \leq 150$ appear nowhere in the code. The one $0.6$ that does
+appear is \texttt{min\_cos\_sim}, a word-embedding constraint passed to the \emph{attack}.
+\end{enumerate}
+
+\subsection*{What the corrected evaluation shows}
+
+Rewrites exist only for attacks that already succeeded, so the question is how many \emph{survive}
+rewriting. Running the victim classifier on the stored rewrites, over 32 configurations:
+
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+& AG News & IMDb & MR / SST-2 & CoLA \\
+\midrule
+attacks surviving the rewrite & 0.907 & 0.764 & 0.268 / 0.217 & 0.069 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent Mean over the 20 single-sentence configurations: \textbf{44.5\%}. The spread is a factor
+of thirteen and lines up with which datasets had a hand-written prompt, so I ran an ablation.
+
+\subsection*{New experiment 1: prompt specificity, dataset held fixed}
+
+Both prompt variants on every dataset, 30 successful TextFooler attacks per cell.
+
+\begin{center}
+\begin{tabular}{llccl}
+\toprule
+Dataset & Victim & Task-specific & Generic & $p$ (Fisher) \\
+\midrule
+AG News & BERT & 20/30 & 10/30 & 0.019 \\
+AG News & RoBERTa & 19/30 & 8/30 & 0.009 \\
+IMDb & BERT & 22/30 & 7/30 & 0.0002 \\
+IMDb & RoBERTa & 28/30 & 6/30 & $<10^{-4}$ \\
+SST-2 & BERT & 12/30 & 13/30 & 1.000 \\
+SST-2 & RoBERTa & 18/30 & 14/30 & 0.438 \\
+\midrule
+\textbf{Pooled} & & \textbf{119/180} & \textbf{58/180} & $\mathbf{1.7\times10^{-10}}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent\textbf{The finding I care about most.} On sentiment the specific prompt doubles the flip
+rate at no semantic cost (0.713 vs.\ 0.705). On AG News it doubles the flip rate while similarity
+collapses \textbf{0.691 $\rightarrow$ 0.361}, because that prompt instructs the model to change the
+topic ``from world to sports''. A text whose topic really changed is a different input with a
+different correct label, not an attack. \emph{The instruction most effective at producing label
+flips is the instruction to change the label,} and flip-rate-only evaluation rewards it.
+
+\subsection*{New experiment 2: sentence-pair tasks fail structurally}
+
+RTE/QNLI/MRPC need two segments. Most rewrites merge them and are not valid classifier inputs at all
+--- 100 of 198 in the stored corpus; for RTE under PWWS, \textbf{0 of 31}. An explicit structure
+constraint raises validity from \textbf{30.0\% to 57.5\%} ($p = 2.8\times10^{-5}$) and usable
+attacks from 12.5\% to 21.7\%, but the model still violates a stated format over 40\% of the time.
+
+\subsection*{New experiment 3: what the filter actually trades}
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Stage & Kept & Fraction & Mean sim.\ / median ppl \\
+\midrule
+all rewrites & 360 & 1.000 & 0.648 / 33.8 \\
++ flips the classifier & 177 & 0.492 & 0.596 / 28.1 \\
++ similarity $\geq 0.75$ & 64 & 0.178 & 0.840 / 27.2 \\
++ perplexity $\leq 150$ & 55 & 0.153 & 0.834 / 22.9 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent Retains 15.3\%, not the 37.7\%-discarded claimed. \textbf{Similarity does the filtering,
+not fluency}: it removes 113 of the 177 that flip; the perplexity bound removes 9 more. For
+contrast, TextFooler's own perturbations have median perplexity \textbf{522} against 22.9 here ---
+that is the trade, fluency bought with attack retention.
+
+\vspace{4pt}
+\noindent\textbf{The general check.} If a pipeline produces new text, the reported metric must be a
+function of that text. A one-line assertion --- that the evaluated column is the generated column
+--- catches all three problems.
+
+\end{document}
