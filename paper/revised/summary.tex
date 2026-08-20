@@ -24,9 +24,10 @@
 \noindent
 The 2024 study proposed a generate-and-filter pipeline: have LLaMA-2 rewrite an adversarial example
 so it reads naturally, then keep only the rewrites that flip the classifier, stay semantically close,
-and read fluently. This version implements that pipeline and measures what it costs. Because
-rewriting is applied to attacks that \emph{already succeed}, the cost is directly measurable: how
-many of those attacks survive being rewritten?
+and read fluently. This version elaborates that filter into a per-candidate test --- every rewrite
+is scored on all three conditions and kept or dropped individually --- and measures what it costs.
+Because rewriting is applied to attacks that \emph{already succeed}, the cost is directly
+measurable: how many of those attacks survive being rewritten?
 
 \subsection*{1. Rewriting keeps less than half the attacks}
 
@@ -85,7 +86,7 @@ a stated format more than 40\% of the time.
 
 \subsection*{4. What the filter actually trades}
 
-The three-stage filter, implemented and applied to all 360 single-sentence rewrites:
+The elaborated three-stage filter, applied per candidate to all 360 single-sentence rewrites:
 
 \begin{center}
 \begin{tabular}{lccc}
@@ -114,9 +115,10 @@ pays for it in attack retention. Neither side is small, and the exchange rate is
 \rule{\textwidth}{0.4pt}
 \vspace{1pt}
 
-\noindent{\small \textbf{Relation to the 2024 version.} The evaluation was rebuilt so that the
-victim classifier is run on the rewritten text itself, and the sample is 30 per cell across 32
-configurations rather than 20 per configuration. Section 7 of the paper documents the differences
-and their causes. All code, stored rewrites, and result tables are in the repository above.}
+\noindent{\small \textbf{Relation to the 2024 version.} The filter is now applied per candidate
+rather than as an aggregate quality analysis, the victim classifier is run on the rewritten text
+itself, and the sample is 30 per cell across 32 configurations rather than 20 per configuration.
+Section 7 of the paper describes the differences. All code, stored rewrites, and result tables are
+in the repository above.}
 
 \end{document}

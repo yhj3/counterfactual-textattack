@@ -5,7 +5,7 @@
 % + \usepackage[review]{acl} and drop the geometry line.
 % ---------------------------------------------------------------
 \documentclass[11pt]{article}
-\usepackage[margin=1in]{geometry}
+\usepackage[margin=0.95in]{geometry}
 \usepackage{times}
 \usepackage{booktabs}
 \usepackage{amsmath}
@@ -353,11 +353,15 @@ Each ``filtered'' figure was the attack's success rate over 20 examples; each
 the original table reproduce exactly from those two runs. The reported
 improvement was a difference in sample size.
 
-\paragraph{The described filter was never implemented.}
-The similarity and perplexity thresholds published in the method section appear
-nowhere in the code that produced the results. The one threshold that does
-appear, 0.6, is \texttt{min\_cos\_sim} --- a word-embedding constraint passed to
-the \emph{attack}, not a filter on generations.
+\paragraph{Filtering happened at a different layer than described.}
+The pipeline did constrain and score generations, but not where Algorithm~1 places
+it. A similarity constraint, \texttt{min\_cos\_sim} $=0.6$, was passed to the
+attack's word-substitution step, and perplexity and grammar were computed
+afterwards as aggregate statistics over each result file. What Algorithm~1
+describes --- a per-candidate test that keeps or drops each rewrite on all three
+thresholds --- is not in that code, and the values $0.75$ and $150$ appear nowhere
+in it. Section~\ref{sec:filter} implements the per-candidate test and reports what
+each condition removes.
 
 \paragraph{The check that catches this.}
 The general lesson is narrow and mechanical: \emph{if a pipeline produces new
