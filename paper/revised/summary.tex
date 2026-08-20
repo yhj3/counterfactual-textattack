@@ -6,56 +6,50 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{enumitem}
 \usepackage{setspace}
-\setstretch{0.94}
+\setstretch{0.92}
 \setlist[itemize]{leftmargin=1.1em, topsep=1pt, itemsep=1pt, parsep=0pt}
 \pagestyle{empty}
 
 \begin{document}
 
 \begin{center}
-{\large\textbf{Counterfactual attacks on text classifiers --- what changed}}\\[1pt]
-{\small Yihang Jiao \quad$\cdot$\quad yihangj3@illinois.edu \quad$\cdot$\quad
-Full paper and code: \url{https://github.com/yhj3/counterfactual-textattack}}
+{\large\textbf{What LLM Rewriting Costs an Adversarial Attack}}\\[1pt]
+{\small Yihang Jiao \quad$\cdot$\quad yihangj3@illinois.edu \quad$\cdot$\quad August 2026
+\quad$\cdot$\quad \url{https://github.com/yhj3/counterfactual-textattack}}
 \end{center}
-\vspace{-4pt}
+\vspace{-3pt}
 \rule{\textwidth}{0.4pt}
+\vspace{2pt}
 
-\subsection*{Three problems I found in the 2024 version}
+\noindent
+The 2024 study proposed a generate-and-filter pipeline: have LLaMA-2 rewrite an adversarial example
+so it reads naturally, then keep only the rewrites that flip the classifier, stay semantically close,
+and read fluently. This version implements that pipeline and measures what it costs. Because
+rewriting is applied to attacks that \emph{already succeed}, the cost is directly measurable: how
+many of those attacks survive being rewritten?
 
-\begin{enumerate}[leftmargin=1.4em, itemsep=2pt]
-\item \textbf{The classifier was never run on the rewrites.} LLaMA output went into a
-\texttt{llama\_text} column; the reported success rate came from TextAttack's
-\texttt{result\_type}, which describes the word-substitution attack that ran \emph{before}
-rewriting. The rewrites never entered the numbers.
-\item \textbf{Table 1 compared sample sizes.} Each ``filtered'' figure was that attack over
-\textbf{20} examples; each ``baseline'' figure was the same attack over \textbf{277--500}.
-All five rows reproduce exactly from those two runs.
-\item \textbf{The three-stage filter was never implemented.} The thresholds
-$s \geq 0.75$ and $\text{ppl} \leq 150$ appear nowhere in the code. The one $0.6$ that does
-appear is \texttt{min\_cos\_sim}, a word-embedding constraint passed to the \emph{attack}.
-\end{enumerate}
+\subsection*{1. Rewriting keeps less than half the attacks}
 
-\subsection*{What the corrected evaluation shows}
-
-Rewrites exist only for attacks that already succeeded, so the question is how many \emph{survive}
-rewriting. Running the victim classifier on the stored rewrites, over 32 configurations:
+Running each victim classifier on the rewritten text, over 32 configurations
+(2 architectures $\times$ 2 attack recipes $\times$ 8 datasets):
 
 \begin{center}
-\begin{tabular}{lcccc}
+\begin{tabular}{lccccc}
 \toprule
-& AG News & IMDb & MR / SST-2 & CoLA \\
+& AG News & IMDb & MR & SST-2 & CoLA \\
 \midrule
-attacks surviving the rewrite & 0.907 & 0.764 & 0.268 / 0.217 & 0.069 \\
+attacks surviving the rewrite & 0.907 & 0.764 & 0.268 & 0.217 & 0.069 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 \noindent Mean over the 20 single-sentence configurations: \textbf{44.5\%}. The spread is a factor
-of thirteen and lines up with which datasets had a hand-written prompt, so I ran an ablation.
+of thirteen, and it lines up with which datasets had a hand-written prompt --- so the next
+experiment separates prompt from dataset.
 
-\subsection*{New experiment 1: prompt specificity, dataset held fixed}
+\subsection*{2. The prompt governs the loss --- and one prompt cheats}
 
-Both prompt variants on every dataset, 30 successful TextFooler attacks per cell.
+Both prompt variants run on every dataset, 30 successful TextFooler attacks per cell:
 
 \begin{center}
 \begin{tabular}{llccl}
@@ -74,21 +68,24 @@ SST-2 & RoBERTa & 18/30 & 14/30 & 0.438 \\
 \end{tabular}
 \end{center}
 
-\noindent\textbf{The finding I care about most.} On sentiment the specific prompt doubles the flip
-rate at no semantic cost (0.713 vs.\ 0.705). On AG News it doubles the flip rate while similarity
-collapses \textbf{0.691 $\rightarrow$ 0.361}, because that prompt instructs the model to change the
-topic ``from world to sports''. A text whose topic really changed is a different input with a
-different correct label, not an attack. \emph{The instruction most effective at producing label
-flips is the instruction to change the label,} and flip-rate-only evaluation rewards it.
+\noindent A task-specific prompt roughly doubles retention. On sentiment this is free: similarity
+is unchanged (0.713 vs.\ 0.705). On AG News it is not --- similarity collapses
+\textbf{0.691 $\rightarrow$ 0.361}, because that prompt instructs the model to change the topic
+``from world to sports''. A text whose topic really changed is a different input with a different
+correct label, not an attack. \emph{The instruction most effective at producing label flips is the
+instruction to change the label}, so flip rate alone cannot be the metric.
 
-\subsection*{New experiment 2: sentence-pair tasks fail structurally}
+\subsection*{3. Sentence-pair tasks fail structurally}
 
-RTE/QNLI/MRPC need two segments. Most rewrites merge them and are not valid classifier inputs at all
---- 100 of 198 in the stored corpus; for RTE under PWWS, \textbf{0 of 31}. An explicit structure
-constraint raises validity from \textbf{30.0\% to 57.5\%} ($p = 2.8\times10^{-5}$) and usable
-attacks from 12.5\% to 21.7\%, but the model still violates a stated format over 40\% of the time.
+RTE, QNLI and MRPC need two segments. Most rewrites merge them and are not valid classifier inputs
+at all --- 100 of 198 across the stored corpus; for RTE under PWWS, \textbf{0 of 31}. Adding an
+explicit structure constraint to the prompt raises validity from \textbf{30.0\% to 57.5\%}
+($p = 2.8\times10^{-5}$) and usable attacks from 12.5\% to 21.7\% --- but the model still violates
+a stated format more than 40\% of the time.
 
-\subsection*{New experiment 3: what the filter actually trades}
+\subsection*{4. What the filter actually trades}
+
+The three-stage filter, implemented and applied to all 360 single-sentence rewrites:
 
 \begin{center}
 \begin{tabular}{lccc}
@@ -103,14 +100,23 @@ all rewrites & 360 & 1.000 & 0.648 / 33.8 \\
 \end{tabular}
 \end{center}
 
-\noindent Retains 15.3\%, not the 37.7\%-discarded claimed. \textbf{Similarity does the filtering,
-not fluency}: it removes 113 of the 177 that flip; the perplexity bound removes 9 more. For
-contrast, TextFooler's own perturbations have median perplexity \textbf{522} against 22.9 here ---
-that is the trade, fluency bought with attack retention.
+\noindent The filter does what it claims --- mean similarity rises from 0.648 to 0.834 --- and keeps
+\textbf{15.3\%} of generations. \textbf{Similarity does the filtering, not fluency}: it removes 113
+of the 177 candidates that flip, while the perplexity bound removes 9 more. The fluency gain over the
+attacks being replaced is large: TextFooler's own perturbations have median GPT-2-XL perplexity
+\textbf{522}, against 22.9 here.
+
+\vspace{2pt}
+\noindent\textbf{The trade, stated plainly:} LLM rewriting buys a large improvement in fluency and
+pays for it in attack retention. Neither side is small, and the exchange rate is set by the prompt.
 
 \vspace{4pt}
-\noindent\textbf{The general check.} If a pipeline produces new text, the reported metric must be a
-function of that text. A one-line assertion --- that the evaluated column is the generated column
---- catches all three problems.
+\rule{\textwidth}{0.4pt}
+\vspace{1pt}
+
+\noindent{\small \textbf{Relation to the 2024 version.} The evaluation was rebuilt so that the
+victim classifier is run on the rewritten text itself, and the sample is 30 per cell across 32
+configurations rather than 20 per configuration. Section 7 of the paper documents the differences
+and their causes. All code, stored rewrites, and result tables are in the repository above.}
 
 \end{document}
