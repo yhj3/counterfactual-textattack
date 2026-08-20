@@ -16,19 +16,52 @@ reasoning across sentences (RTE, QNLI) rather than on sentiment, where swapping
 one word is already enough; and susceptibility grows with model size, with
 RoBERTa-Large more vulnerable than BERT-Base.
 
-## ⚠️ On the reference implementation
+## ⚠️ On the reference implementation and what re-checking found
 
-The original script implementing the three-stage semantic filter was lost.
-[`src/semantic_filter.py`](src/semantic_filter.py) is a **reference
-implementation written from Algorithm 1 of the paper**, not the script that was
-actually run. **The numbers reported in the paper and in `results/` come from
-the original experimental run, not from this file.**
+`src/semantic_filter.py` is a **reference implementation written from Algorithm 1
+of the paper**. It is not the script that produced the paper's numbers.
 
-The reconstruction follows the paper's thresholds exactly. Two places where the
-paper's notation is ambiguous or self-inconsistent are marked with `NOTE` in the
-source, together with the reading we adopted and why. Everything else in this
-repository — the attack driver, the LLaMA-2 refinement, the comparison tooling,
-and all result CSVs — is the original code and the original output.
+While reconstructing it, the original pipeline was located (in the lab's
+benchmark directory, not in this repository) and audited. Three things came out
+of that audit, and they matter more than the reconstruction:
+
+1. **The filter described in Algorithm 1 was never implemented.** The thresholds
+   `s(g) >= 0.75` and `p(g) <= 150` appear nowhere in the pipeline. The `0.6`
+   that Algorithm 1 attaches to the flip rate is, in the code, `min_cos_sim=0.6`
+   — a word-embedding constraint passed to the *attack*, not a filter on
+   generations.
+2. **The classifier was never run on the rewrites.** LLaMA output was written
+   into a `llama_text` column, and the reported attack success rate was computed
+   from TextAttack's `result_type`, which describes the word-substitution attack
+   that came *before* the rewrite. The rewrites did not enter the numbers.
+3. **The paper's Table 1 compares different sample sizes.** Each "Flipped (%)"
+   value is the attack's success rate over 20 examples; each "Normal (%)" value
+   is the same attack over 277–500 examples. All five rows reproduce exactly
+   from those two runs.
+
+`scripts/reevaluate_llama_rewrites.py` supplies the missing evaluation: it runs
+the victim classifier on the stored rewrites. Results are in
+`results/corrected_table1.csv` and summarized below.
+
+## Corrected evaluation
+
+Rewrites exist only for examples the word-substitution attack had already
+broken, so the question is how many of those attacks *survive* being rewritten.
+
+| Task type | Configs | Result |
+|---|---|---|
+| Single-sentence (imdb, sst2, mr, ag_news, cola) | 20 | rewrites still flip the classifier **44.5%** of the time on average |
+| Sentence-pair (rte, qnli, mrpc) | 12 | only **100 of 198** rewrites kept the two-segment structure and were valid classifier inputs at all |
+
+Rewriting therefore loses more than half of the attacks it is applied to. The
+spread across datasets is large and lines up with the prompts: `imdb` and
+`ag_news`, the two datasets with hand-written prompt templates, retain 67–100%,
+while `cola`, `mr`, and `sst2`, which fell through to the generic template,
+retain 0–46%.
+
+For RTE — the paper's headline result — **zero** of the 31 rewrites under
+`bert_pwws_rte` and `roberta_pwws_rte` preserved the premise/hypothesis
+structure, so none of them could be fed to an RTE classifier.
 
 ## The filter
 
@@ -40,8 +73,9 @@ A generated candidate is kept only if all three conditions hold:
 | similarity `s(g)` | ≥ 0.75 | rewrites that drifted away from the original meaning |
 | perplexity `p(g)` | ≤ 150 | rewrites that are not fluent English |
 
-In the original run this discarded 37.7% of generated candidates while keeping
-91% of the effective adversarial examples.
+The paper reports that this discarded 37.7% of candidates while keeping 91% of
+the effective adversarial examples. Those figures could not be traced to any
+code in the original pipeline; see the audit above.
 
 ## Layout
 
@@ -50,6 +84,9 @@ src/semantic_filter.py   three-stage filter — REFERENCE IMPLEMENTATION (see ab
 src/refiner.py           LLaMA-2 rewriting of an adversarial example
 src/run_attack.py        end-to-end: TextFooler → LLaMA-2 rewrite → log
 src/custom_attack.py     TextFooler with its semantic constraints removed
+scripts/reevaluate_llama_rewrites.py  runs the victim classifier on the stored rewrites
+scripts/run_filter_pilot.py  applies the reconstructed filter to recorded attack results
+scripts/run_llm_filter_experiment.py  generate rewrites with LLaMA-2, then filter
 scripts/compare_results.py   builds the comparison CSVs in results/
 scripts/check_env.py     CUDA / transformers sanity check
 results/                 evaluation output from the original run
