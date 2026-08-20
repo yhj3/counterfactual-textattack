@@ -31,7 +31,7 @@
 Rewriting an adversarial example with a large language model is an appealing
 way to make attacks on text classifiers read naturally. This paper measures
 what that rewriting costs. Starting from word-substitution attacks that already
-succeed, we find that LLaMA-2 rewrites keep the attack working only 44.5\% of
+succeed, I find that LLaMA-2 rewrites keep the attack working only 44.5\% of
 the time across 32 model--attack--dataset configurations: more than half of the
 attacks are lost. The loss is not uniform, and it is governed by the prompt. In
 a controlled ablation that runs a task-specific and a generic prompt on the same
@@ -43,9 +43,9 @@ model to change the topic, and similarity collapses from 0.691 to 0.361. On
 sentence-pair tasks a further failure appears: most rewrites collapse the
 premise/hypothesis structure and are not valid classifier inputs at all, though
 an explicit structure constraint nearly doubles validity (57.5\% vs.\ 30.0\%,
-$p=2.8\times10^{-5}$). Finally, we measure the generate-and-filter pipeline that
+$p=2.8\times10^{-5}$). Finally, I measure the generate-and-filter pipeline that
 this literature proposes and find it retains 15.3\% of generations, with the
-semantic-similarity constraint, not fluency, doing most of the filtering. We
+semantic-similarity constraint, not fluency, doing most of the filtering. I
 also document an evaluation error in an earlier version of this study, in which
 reported success rates were computed from the attack that preceded rewriting
 rather than from the rewrites themselves.
@@ -67,12 +67,12 @@ that it stays adversarial but reads naturally. The appeal is that an LLM can
 restructure a whole sentence rather than swap tokens, and can therefore produce
 attacks that are fluent by construction.
 
-We take the idea seriously enough to measure it. Our question is not whether LLM
+I take the idea seriously enough to measure it. My question is not whether LLM
 rewriting produces fluent text --- it plainly does --- but what the rewriting
 costs. Because rewriting is applied to attacks that already succeed, the cost is
 directly measurable: how many of those attacks survive being rewritten?
 
-Our contributions are:
+My contributions are:
 
 \begin{itemize}
 \item \textbf{Rewriting loses most of the attacks it is applied to.} Across 32
@@ -87,12 +87,12 @@ Our contributions are:
 \item \textbf{Sentence-pair tasks fail structurally.} Most rewrites merge the
       two segments and are not valid classifier inputs; an explicit structure
       constraint helps but does not solve it (Section~\ref{sec:pair}).
-\item \textbf{We measure the generate-and-filter pipeline this literature
+\item \textbf{I measure the generate-and-filter pipeline this literature
       proposes} and report what each constraint removes
       (Section~\ref{sec:filter}).
-\item \textbf{We document an evaluation error} in an earlier version of this
+\item \textbf{I document an evaluation error} in an earlier version of this
       study, in which the classifier was never run on the rewrites
-      (Section~\ref{sec:threats}). The failure mode is general, and we describe
+      (Section~\ref{sec:threats}). The failure mode is general, and I describe
       the check that catches it.
 \end{itemize}
 
@@ -100,7 +100,7 @@ Our contributions are:
 \label{sec:setup}
 
 \paragraph{Attacks and victims.}
-We use TextFooler~\citep{jin2020bert} and PWWS~\citep{ren2019pwws} as
+I use TextFooler~\citep{jin2020bert} and PWWS~\citep{ren2019pwws} as
 implemented in TextAttack~\citep{morris2020textattack}, against
 \texttt{bert-base-uncased} and \texttt{roberta-base} classifiers fine-tuned on
 each dataset. Attacks were run over 500 test examples per configuration
@@ -115,17 +115,17 @@ segments joined by a \texttt{<SPLIT>} marker, following TextAttack's convention.
 \paragraph{Rewriting.}
 Rewrites are produced by \texttt{Llama-2-7b-chat-hf}~\citep{touvron2023llama} in
 half precision, with nucleus sampling ($p=0.9$, $T=0.8$, 160 new tokens),
-applied through the model's chat template. We strip the scaffolding that chat
+applied through the model's chat template. I strip the scaffolding that chat
 models place at both ends of an answer (``Here is the revised text:'' and
 trailing explanations) before scoring; leaving it in place would inflate
 perplexity and depress similarity for whichever prompt elicits more chattiness,
 which is the quantity under study.
 
 \paragraph{Measurements.}
-For each rewrite we record: whether the victim classifier's prediction differs
+For each rewrite I record: whether the victim classifier's prediction differs
 from its prediction on the original text (\emph{flip}); cosine similarity
 between sentence embeddings of the original and the rewrite, using
-\texttt{all-MiniLM-L6-v2}; and perplexity under GPT-2-XL. For pair tasks we
+\texttt{all-MiniLM-L6-v2}; and perplexity under GPT-2-XL. For pair tasks I
 additionally record whether the rewrite preserved the two-segment structure and
 is therefore a valid classifier input at all.
 
@@ -139,7 +139,7 @@ make (Section~\ref{sec:threats}).
 \section{Rewriting Loses Most Attacks}
 \label{sec:cost}
 
-We first re-evaluate a stored corpus of rewrites spanning 32 configurations
+I first re-evaluate a stored corpus of rewrites spanning 32 configurations
 (2 victim architectures $\times$ 2 attack recipes $\times$ 8 datasets), running
 each victim classifier on the rewritten text.
 
@@ -171,13 +171,13 @@ next section separates them.
 \section{Prompt Specificity, With the Dataset Held Fixed}
 \label{sec:prompt}
 
-To break the confound we run \emph{both} prompt variants on \emph{every}
+To break the confound I run \emph{both} prompt variants on \emph{every}
 dataset. The generic prompt is the original fallback template
 (``Improve the text fluency while altering the classification\ldots'').
 The task-specific prompts follow the shape of the original hand-written ones:
-for IMDb and AG News these are the originals; for SST-2 we write one in the same
+for IMDb and AG News these are the originals; for SST-2 I write one in the same
 shape, so that ``has a task-specific prompt'' becomes a manipulable variable
-rather than a property of the dataset. We sample 30 successful TextFooler
+rather than a property of the dataset. I sample 30 successful TextFooler
 attacks per cell.
 
 \begin{table}[t]
@@ -250,7 +250,7 @@ often appending a commentary sentence. In the stored 32-configuration corpus,
 only 100 of 198 pair-task rewrites preserved the structure; for the two RTE
 configurations under PWWS, \emph{zero} of 31 rewrites did.
 
-We test whether an explicit constraint fixes this, comparing the generic prompt
+I test whether an explicit constraint fixes this, comparing the generic prompt
 against one that states the input is a pair, that the two sentences are
 separated by \texttt{<SPLIT>}, and that the answer must return exactly two
 sentences in the same order.
@@ -294,7 +294,7 @@ rewrites are silently scored as failures, or worse, scored at all.
 \label{sec:filter}
 
 Proposals in this area pair generation with a filter that keeps only candidates
-that flip the label, stay semantically close, and read fluently. We apply such a
+that flip the label, stay semantically close, and read fluently. I apply such a
 filter to all 360 single-sentence rewrites and report what each stage removes.
 
 \begin{table}[t]
@@ -331,7 +331,7 @@ and fluency constraints. \textbf{LLM rewriting buys a large improvement in
 fluency and pays for it in attack retention.} That is the trade, stated
 plainly, and neither side of it is small.
 
-\section{Threats to Validity, Including One We Made}
+\section{Threats to Validity, Including One I Made}
 \label{sec:threats}
 
 An earlier version of this study reported that filtered LLaMA-2 generations
@@ -363,17 +363,17 @@ the \emph{attack}, not a filter on generations.
 The general lesson is narrow and mechanical: \emph{if a pipeline produces new
 text, the reported metric must be a function of that text.} A one-line
 assertion --- that the evaluated column is the generated column --- would have
-caught all three problems. We suggest reporting, alongside any generate-and-fix
+caught all three problems. I suggest reporting, alongside any generate-and-fix
 result, the number of generations actually scored by the victim model, which
 makes the omission visible.
 
 \paragraph{Remaining limitations.}
 Rewrites come from a single 7B model; larger or instruction-tuned-for-format
-models may preserve structure better. We sample 30 examples per cell, adequate
+models may preserve structure better. I sample 30 examples per cell, adequate
 for the effect sizes reported but not for small ones, which is why the SST-2
 cells are inconclusive rather than negative. Similarity is measured with one
 sentence encoder, and encoder choice will shift the similarity threshold's
-severity. Finally, the task-specific prompts for SST-2 were written by us in the
+severity. Finally, the task-specific prompts for SST-2 were written by me in the
 shape of the originals; a different phrasing might move the effect.
 
 \section{Conclusion}
