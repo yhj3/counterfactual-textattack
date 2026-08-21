@@ -38,8 +38,13 @@ a red-teaming result without being a valid test, and I quantify each on 32
 model--attack--dataset configurations and 600 fresh generations. \textbf{Label
 validity}: the rewriting prompt that produces the most label flips is the one
 that instructs the model to change the label, so the probe is a different input
-rather than an attack. Reporting flip rate alone overstates measured attack
-success by $3.05\times$ overall and by $19.5\times$ on topic classification.
+rather than an attack. An independently trained referee model flips on 86--87\% of
+those successes, and requiring the flip to be target-specific \emph{reverses} the
+ranking of the two prompts --- 29/180 genuine vulnerabilities for the generic
+prompt against 16/180 for the task-specific one, where flip rate alone had said
+119/180 against 58/180. The cosine-similarity constraint usually offered as a
+defence catches this on topic classification and misses it on sentiment, where an
+embedding barely moves when a review is rewritten from 3/10 to 8/10.
 \textbf{Input validity}: on sentence-pair tasks most rewrites collapse the two
 segments and are not well-formed classifier inputs; because malformed probes are
 scored as failures, leaving them in \emph{understates} attack success, 12.5\%
@@ -51,8 +56,7 @@ against 0.6\%), and a fifth of those refusals are scored as successful attacks.
 generated text, a condition an earlier version of this study did not meet.
 Underneath these, LLM rewriting is a trade: it keeps only 44.5\% of the attacks
 it is applied to while making them far more fluent (median perplexity 22.9
-against 522). I close with three numbers any automated red-teaming report should
-carry.
+against 522). I close with five numbers any automated red-teaming report should carry.
 \end{abstract}
 
 \section{Introduction}
@@ -259,11 +263,11 @@ with a different correct label, and a prediction change on it is the classifier
 behaving correctly.
 
 \paragraph{How much this distorts a report.}
-Table~\ref{tab:overstate} puts a number on it. If a red-teaming pipeline reports
-flip rate alone, and we then ask how many of those flips came from probes that
-still mean what the original meant, the reported figure overstates measured
-attack success by $3.05\times$ pooled --- and by $19.5\times$ on the task where
-the prompt instructs a semantic change.
+Table~\ref{tab:overstate} puts a first number on it. If a pipeline reports flip
+rate alone, and we then ask how many of those flips came from probes that still
+mean what the original meant, the reported figure overstates measured attack
+success by $3.05\times$ pooled --- and by $19.5\times$ on the task where the
+prompt instructs a semantic change.
 
 \begin{table}[t]
 \centering
@@ -284,10 +288,80 @@ would state it, against the same probes required to keep similarity $\geq 0.75$.
 \label{tab:overstate}
 \end{table}
 
-This is a trap for the whole approach, and it is structural rather than
-accidental: \textbf{the instruction most effective at producing label flips is
-the instruction to change the label.} Any search over prompts that optimizes
-reported attack success will find it.
+\paragraph{The similarity constraint is not enough, and fails unevenly.}
+A cosine similarity threshold is the standard defence against this, and on AG News
+it works. It does not work on sentiment, because sentence embeddings track topic
+far more than valence. This rewrite of an IMDb review has cosine similarity
+$0.964$:
+
+\begin{quote}\small
+\textbf{Original.} Sloppy film noir thriller which doesn't make much of its
+tension promising set-up. (3/10)\\
+\textbf{Rewrite.} Engaging film noir thriller that successfully builds on its
+intriguing premise. (8/10)
+\end{quote}
+
+\noindent The review's verdict has been reversed --- 3/10 to 8/10 --- and the
+embedding barely moves, because both sentences are about the same film noir
+thriller. A similarity filter admits it.
+
+\paragraph{A referee model separates attacks from label changes.}
+An adversarial example is supposed to fool \emph{one} model, not to persuade every
+model. So I re-score each probe with an independently trained classifier of the
+other architecture: RoBERTa referees BERT's probes and BERT referees RoBERTa's. If
+the referee changes its prediction in the same direction, the probe most likely
+changed the true label; if only the target changes, the probe found something
+specific to the target --- an actual vulnerability.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lccc}
+\toprule
+Dataset & Prompt & Referee also flips & Mean sim. \\
+\midrule
+AG News & specific & 87.2\% & 0.268 \\
+AG News & generic  & 44.4\% & 0.612 \\
+IMDb    & specific & 86.0\% & 0.749 \\
+IMDb    & generic  & 23.1\% & 0.719 \\
+SST-2   & specific & 86.7\% & 0.640 \\
+SST-2   & generic  & 66.7\% & 0.667 \\
+\bottomrule
+\end{tabular}
+\caption{Among probes the target counted as successful attacks, the fraction on
+which an independently trained referee of the other architecture flips too.}
+\label{tab:referee}
+\end{table}
+
+Table~\ref{tab:referee} shows that \textbf{86--87\% of the task-specific prompt's
+successes also flip the referee}. They are not vulnerabilities; they are inputs
+whose label changed. Requiring the flip to be target-specific reverses the
+comparison:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Prompt & Flip rate & Target-specific flips \\
+\midrule
+task-specific & \textbf{119/180} (0.661) & 16/180 (0.089) \\
+generic       & 58/180 (0.322) & \textbf{29/180} (0.161) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent By flip rate the task-specific prompt wins two to one. By actual
+vulnerabilities found, the generic prompt wins, $29$ against $16$ ($p = 0.055$,
+Fisher exact). \textbf{The prompt that scores best on the reported metric is the
+worse red-teaming prompt.}
+
+\paragraph{Why the similarity check misses this.}
+The two checks catch different things, and only together do they catch much. Of
+the 119 flips under the task-specific prompt, 39 survive the similarity threshold,
+16 survive the referee, and \textbf{only 5 survive both}. Broken out by task, the
+similarity threshold lets through 3\% of AG News label changes but 35\% on SST-2
+and 56\% on IMDb --- the failure is task-dependent in exactly the way an embedding
+would predict, and a practitioner applying one uniform threshold has no way to see
+it.
 
 \section{Input Validity}
 \label{sec:input}
@@ -491,7 +565,7 @@ is the point: measurement-validity failure is not a sign of carelessness about
 the topic, it is a default of the tooling, which will happily join a generations
 column to a metric computed from something else.
 
-\section{Four Numbers a Red-Teaming Report Should Carry}
+\section{Five Numbers a Red-Teaming Report Should Carry}
 \label{sec:checklist}
 
 Each failure above is invisible in an attack success rate, and each is visible in
@@ -501,6 +575,10 @@ one additional number:
 \item \textbf{Semantic similarity beside every flip rate.} Without it, a prompt
       that changes the label scores best. On AG News this is the difference
       between reporting 65.0\% and 3.3\%.
+\item \textbf{The fraction of successes an independent referee model reproduces.}
+      Similarity is not sufficient on its own --- it misses 56\% of the label
+      changes on IMDb. A referee of a different architecture catches them across
+      all three tasks, and here it reverses which prompt is better.
 \item \textbf{The fraction of generations that are well-formed inputs.} Without
       it, malformed probes sit in the denominator as failures. On sentence-pair
       tasks this is the difference between 12.5\% and 41.7\%.
@@ -519,7 +597,9 @@ but not for small ones, which is why the SST-2 cells are inconclusive rather tha
 negative. Refusal detection is a surface pattern match at the start of a
 generation; it will miss a refusal phrased unusually, so 6.2\% is a lower bound.
 Similarity is measured with one sentence encoder, and encoder choice shifts how
-severe the 0.75 threshold is. The task-specific prompt for SST-2 was
+severe the 0.75 threshold is; the referee check is a partial remedy but assumes
+the two architectures fail independently, which they only approximately do, since
+both are pretrained transformers fine-tuned on the same data. The task-specific prompt for SST-2 was
 written by me in the shape of the originals; a different phrasing might move the
 effect. Finally, the three failures are demonstrated on classification; whether
 they take the same form in generative red-teaming is untested here.
@@ -529,8 +609,10 @@ they take the same form in generative red-teaming is untested here.
 An automated red-teaming result is a claim about a target model, but it is
 produced by a second model whose output may not be a valid test at all. I
 measured four ways that happens. A prompt can raise the flip rate by changing the
-input's true label, which overstates attack success by $3.05\times$ pooled and
-$19.5\times$ on topic classification. A probe can fail to be a well-formed input,
+input's true label: an independent referee reproduces 86--87\% of the
+best-scoring prompt's successes, and once the flip is required to be
+target-specific that prompt goes from winning two to one to losing, 16/180 against
+29/180. A probe can fail to be a well-formed input,
 which understates it, 12.5\% against 41.7\%. The generator can refuse, at a rate
 that tracks the very prompt under comparison, and have its refusal scored as a
 probe. And a pipeline can report a number computed from something other than what
@@ -539,9 +621,9 @@ it generated, which is undetectable from the outputs alone.
 Underneath, LLM rewriting is a trade rather than an improvement: it makes attacks
 dramatically more fluent, median perplexity 22.9 against 522, and destroys more
 than half of them. None of this makes the approach unusable. It makes it
-measurable, which requires reporting similarity beside flip rate, well-formedness
-beside both, the generator's refusal rate per condition, and how many generations
-the target model actually saw.
+measurable, which requires reporting similarity beside flip rate, a referee model's
+agreement beside similarity, well-formedness beside both, the generator's refusal
+rate per condition, and how many generations the target model actually saw.
 
 \section*{Reproducibility}
 

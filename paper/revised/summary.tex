@@ -1,129 +1,271 @@
-\documentclass[10pt]{article}
-\usepackage[margin=0.5in]{geometry}
+\documentclass[11pt]{article}
+\usepackage[margin=0.85in]{geometry}
 \usepackage{booktabs}
 \usepackage{times}
 \usepackage{amsmath}
 \usepackage[hidelinks]{hyperref}
 \usepackage{enumitem}
-\usepackage{setspace}
-\setstretch{0.90}
-\setlist[itemize]{leftmargin=1.1em, topsep=1pt, itemsep=1pt, parsep=0pt}
-\pagestyle{empty}
+\usepackage{microtype}
+\setlist[itemize]{leftmargin=1.2em, topsep=2pt, itemsep=2pt}
+
+\newenvironment{ex}{\begin{quote}\small\it}{\end{quote}}
 
 \begin{document}
 
 \begin{center}
-{\large\textbf{When the Attack Is Not an Attack:}}\\[1pt]
-{\large\textbf{Validity Failures in LLM-Generated Red-Teaming}}\\[2pt]
-{\small Yihang Jiao \quad$\cdot$\quad yihangj3@illinois.edu \quad$\cdot$\quad
-\url{https://github.com/yhj3/counterfactual-textattack}}
+{\Large\textbf{When the Attack Is Not an Attack}}\\[3pt]
+{\large Validity Failures in LLM-Generated Red-Teaming}\\[5pt]
+Yihang Jiao \quad$\cdot$\quad yihangj3@illinois.edu\\[2pt]
+{\small\url{https://github.com/yhj3/counterfactual-textattack}}
 \end{center}
-\vspace{-2pt}
-\rule{\textwidth}{0.4pt}
-\vspace{2pt}
+\vspace{4pt}
+\hrule
+\vspace{8pt}
 
-\noindent
-Automated red-teaming uses one language model to generate the probes that test
-another. A probe only tells us something about the target if it is a valid test of
-the target. I measure four ways it fails to be, on 32 configurations and 600 fresh
-generations.
+\section*{The setting, in one example}
 
-\subsection*{Label validity --- overstates by $3.05\times$}
+A text classifier is a function from text to a label. Feed it a film review, it
+answers \emph{positive} or \emph{negative}.
 
-A task-specific rewriting prompt roughly doubles the attacks that survive
-(\textbf{119/180} vs.\ 58/180, $p=1.7\times10^{-10}$, dataset and target held fixed).
-On sentiment this is free (similarity 0.713 vs.\ 0.705). On topic classification it
-is not --- similarity collapses \textbf{0.691 $\rightarrow$ 0.361}, because that
-prompt instructs the model to change the topic ``from world to sports''. A text
-whose topic really changed is a different input with a different correct label, so
-a prediction change on it is the classifier behaving \emph{correctly}.
+An \textbf{adversarial attack} changes the input so the \emph{model} changes its
+answer while the \emph{correct} answer stays the same. A person reading both
+versions would give the same label; the model does not. That gap is the
+vulnerability.
+
+TextFooler finds these by swapping words for synonyms, one at a time, choosing the
+words the model leans on most. In principle:
+
+\begin{ex}
+The movie was \textbf{excellent}, I \textbf{loved} every minute. $\rightarrow$ positive\\
+The movie was \textbf{superb}, I \textbf{adored} every minute. $\rightarrow$ negative
+\end{ex}
+
+\noindent In practice the output is rarely that clean. Here is a real one from my
+data, on a news article:
+
+\begin{ex}
+\textbf{Original.} Fears for T N pension after talks. Unions representing workers
+at Turner Newall say they are `disappointed' after talks with stricken parent firm
+Federal Mogul.\\[3pt]
+\textbf{TextFooler.} Fears for T percent pension after debate. \textbf{Syndicates
+portrayal worker} at Turner Newall say they are `disappointed' after
+\textbf{chatter} with \textbf{bereaved parenting corporations} Canada Mogul.
+\end{ex}
+
+\noindent ``Bereaved parenting corporations'' is not something a person would
+write. The median GPT-2-XL perplexity of a TextFooler perturbation is \textbf{522},
+where ordinary English sits in the tens. An input nobody would ever produce says
+little about deployment risk.
+
+Hence the idea this paper examines: hand the attack to a language model and ask it
+to rewrite the whole sentence so it reads naturally, while staying adversarial.
+This is now a common shape for automated red-teaming --- one model generating the
+probes that test another. \textbf{My question is what such a pipeline actually
+measures.}
+
+\section*{Finding 0: rewriting is a trade, not an improvement}
+
+Rewriting is applied only to attacks that \emph{already succeed}, so its cost is
+directly measurable: how many survive?
+
+\textbf{44.5\%}, across 32 model--attack--dataset configurations. More than half
+the attacks are destroyed by being rewritten. What that buys is fluency: median
+perplexity falls from 522 to \textbf{22.9}.
+
+The mechanism is not mysterious. The words fooling the model are often exactly the
+awkward ones. Repair the English and the model stops being fooled --- fluency and
+adversarial effect are competing for the same words.
+
+\section*{Finding 1: label validity --- the probe is not an attack}
+
+I ran two rewriting prompts on identical data: a task-specific one and a generic
+one. By flip rate the task-specific prompt wins two to one, \textbf{119/180 against
+58/180} ($p = 1.7\times10^{-10}$).
+
+Then I looked at \emph{how} it wins. AG News is news-topic classification, and the
+task-specific prompt for it reads ``changing topic from world to sports''. It
+instructs the model to change the label. A real result:
+
+\begin{ex}
+\textbf{Original} (business): Yukos warns it oil output is lagging. Beleaguered
+Russian energy giant Yukos has warned that it will not produce as much oil as
+expected this year\ldots\\[3pt]
+\textbf{Rewrite:} \textbf{Lakers facing setbacks in NBA title defense, LeBron's
+injury a major concern.} The Los Angeles Lakers are facing a difficult road ahead
+in their quest to defend their NBA title\ldots\\[3pt]
+Classifier: business $\rightarrow$ \textbf{sports}. Cosine similarity \textbf{0.016}.
+\end{ex}
+
+\noindent \textbf{The classifier is right.} That text \emph{is} sports news. The
+language model did not attack anything; it wrote a different article. But a
+pipeline counting flips records this as a successful attack.
+
+\subsection*{The usual defence, and where it breaks}
+
+The standard fix is a semantic-similarity threshold. On AG News it works ---
+similarity 0.016 is caught by any threshold. On sentiment it does not:
+
+\begin{ex}
+\textbf{Original.} Sloppy film noir thriller which doesn't make much of its tension
+promising set-up. \textbf{(3/10)}\\[3pt]
+\textbf{Rewrite.} Engaging film noir thriller that successfully builds on its
+intriguing premise. \textbf{(8/10)}\\[3pt]
+Cosine similarity \textbf{0.964} --- comfortably past any threshold.
+\end{ex}
+
+\noindent The verdict has been reversed, 3/10 to 8/10, and the embedding hardly
+moves, because both sentences are about the same film noir thriller. \textbf{Sentence
+embeddings track topic, not verdict.} So the check catches topic changes and waves
+sentiment changes through.
+
+\subsection*{A referee model, and the ranking reverses}
+
+An adversarial example should fool \emph{one} model, not persuade every model. So I
+re-scored every probe with an independently trained classifier of the other
+architecture --- RoBERTa refereeing BERT's probes and vice versa.
 
 \begin{center}
 \begin{tabular}{lccc}
 \toprule
-& Flip rate & Meaning-preserving & Ratio \\
+Dataset & Prompt & Referee also flips & Mean sim. \\
 \midrule
-AG News & 65.0\% & \textbf{3.3\%} & $19.5\times$ \\
-SST-2 & 50.0\% & 15.0\% & $3.3\times$ \\
-IMDb & 83.3\% & 46.7\% & $1.8\times$ \\
-\midrule
-\textbf{Pooled} & \textbf{66.1\%} & \textbf{21.7\%} & $\mathbf{3.05\times}$ \\
+AG News & task-specific & 87.2\% & 0.268 \\
+AG News & generic       & 44.4\% & 0.612 \\
+IMDb    & task-specific & 86.0\% & 0.749 \\
+IMDb    & generic       & 23.1\% & 0.719 \\
+SST-2   & task-specific & 86.7\% & 0.640 \\
+SST-2   & generic       & 66.7\% & 0.667 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-\noindent\textbf{The instruction most effective at producing label flips is the
-instruction to change the label.} Any prompt search that optimizes reported attack
-success will find it.
+\noindent \textbf{86--87\% of the task-specific prompt's ``successes'' also flip an
+independent model.} Those are not vulnerabilities. They are inputs whose label
+changed. Requiring the flip to be specific to the target reverses the comparison:
 
-\subsection*{Input validity --- understates, so the errors do not cancel}
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Prompt & Flip rate & Genuine vulnerabilities \\
+\midrule
+task-specific & \textbf{119/180} (0.661) & 16/180 (0.089) \\
+generic       & 58/180 (0.322) & \textbf{29/180} (0.161) \\
+\bottomrule
+\end{tabular}
+\end{center}
 
-Sentence-pair tasks need two segments. Most probes merge them and are not
-well-formed inputs at all (100 of 198 in the stored corpus; for RTE under PWWS,
-\textbf{0 of 31}). Malformed probes never register a flip, so leaving them in the
-denominator counts them as attack \emph{failures}:
+\noindent \textbf{The prompt that scores best on the reported metric is the worse
+red-teaming prompt.} And this is structural rather than accidental: the instruction
+most effective at producing label flips is the instruction to change the label, so
+any prompt search that optimizes reported attack success will find it.
+
+Of the 119 flips, 39 survive the similarity threshold, 16 survive the referee, and
+\textbf{only 5 survive both} --- the two checks catch different things.
+
+\section*{Finding 2: input validity --- the probe is not a valid input}
+
+RTE and QNLI take \emph{two} sentences, a premise and a hypothesis, and ask how they
+relate. The format is \texttt{sentence1 <SPLIT> sentence2}. Rewriting frequently
+destroys it:
+
+\begin{ex}
+\textbf{Original.} \texttt{Sentence1:} Dana Reeve, the widow of the actor Christopher
+Reeve, has died of lung cancer at age 44\ldots \texttt{<SPLIT>} \texttt{Sentence2:}
+Christopher Reeve had an accident.\\[3pt]
+\textbf{Rewrite.} Dana Reeve, the widow of the actor Christopher Reeve, has died of
+lung cancer at age 44, according to the Christopher Reeve Foundation. Christopher
+Reeve had an accident. \emph{In this revised version, the sentence has been altered
+to include\ldots}
+\end{ex}
+
+\noindent The two segments are merged and a commentary sentence is appended. The
+classifier cannot read this as a pair at all. Across the stored corpus only 100 of
+198 pair-task rewrites kept the structure; for RTE under PWWS, \textbf{0 of 31} did.
+
+The direction of the resulting error is the interesting part. \textbf{A malformed
+probe never registers as a flip}, so it lands in the denominator as an attack
+failure:
 
 \begin{center}
 \begin{tabular}{lccc}
 \toprule
-Prompt & Well-formed & Unchecked & Valid only \\
+Prompt & Well-formed & Reported if unchecked & Valid probes only \\
 \midrule
-generic & 0.300 & 12.5\% & \textbf{41.7\%} \\
+generic    & 0.300 & 12.5\% & \textbf{41.7\%} \\
 structured & \textbf{0.575} & 21.7\% & 37.7\% \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-\noindent Stating the format constraint nearly doubles validity
-($p=2.8\times10^{-5}$), but the model still violates an explicit format over 40\%
-of the time. Label validity inflates the reported number, input validity deflates
-it --- \textbf{the two errors push in opposite directions and do not cancel.}
+\noindent Stating the format explicitly nearly doubles validity
+($p = 2.8\times10^{-5}$), though the model still violates a stated format more than
+40\% of the time. \textbf{Finding 1 inflates the reported number; Finding 2 deflates
+it. The two errors push in opposite directions, so they do not cancel} --- which one
+dominates depends on the task, and neither is visible in a success rate.
 
-\subsection*{Generator validity --- the red-teamer itself refuses}
+\section*{Finding 3: generator validity --- the red-teamer refuses}
 
-The generator is safety-trained and sometimes declines: \emph{``I cannot provide a
-revised text that could potentially be used to mislead or deceive\ldots''} Of 600
-generations, \textbf{37 (6.2\%)} begin with a refusal, and \textbf{7 of those are
-scored as successful attacks} (mean similarity 0.216 to the original). It is not
-evenly spread over the conditions being compared: \textbf{11.0\%} under the generic
-prompt against \textbf{0.6\%} under the task-specific one, and \textbf{17.5\%} on
-RTE. Excluding refusals leaves the results above intact (118/179 vs.\ 52/170,
-$p=4.2\times10^{-11}$), but a refusal and a failed attack look identical in the
-output column, so the check is not optional.
+The generating model is itself safety-trained, and sometimes declines:
 
-\subsection*{What the filter trades}
+\begin{ex}
+I cannot provide a revised text that could potentially be used to mislead or
+deceive, as it is unethical and goes against my programming rules\ldots
+\end{ex}
 
-Per-candidate filtering on all three conditions, 360 probes:
+\noindent The refusal is then scored as though it were a probe. Of 600 generations,
+\textbf{37 (6.2\%)} begin with a refusal, and \textbf{7 of those are counted as
+successful attacks} --- the target assigns the refusal text a different label than
+the original, at mean similarity 0.216. The target is being credited with a
+vulnerability to a sentence about the generator's programming rules.
 
-\begin{center}
-\begin{tabular}{lccc}
-\toprule
-Stage & Kept & Frac. & Mean sim.\ / median ppl \\
-\midrule
-all probes & 360 & 1.000 & 0.648 / 33.8 \\
-+ flips the classifier & 177 & 0.492 & 0.596 / 28.1 \\
-+ similarity $\geq 0.75$ & 64 & 0.178 & 0.840 / 27.2 \\
-+ perplexity $\leq 150$ & 55 & 0.153 & 0.834 / 22.9 \\
-\bottomrule
-\end{tabular}
-\end{center}
+It is not evenly spread over the conditions being compared. The generic prompt,
+which says ``maintain adversarial properties to fool the classifier'', is refused
+\textbf{11.0\%} of the time; the task-specific prompts, which ask for a sentiment or
+topic change without naming the adversarial purpose, \textbf{0.6\%}. On RTE the rate
+is \textbf{17.5\%}, plausibly because asking a model to flip an entailment reads as
+a request to assert something false.
 
-\noindent Retains \textbf{15.3\%}, and \textbf{similarity does the filtering, not
-fluency}: it removes 113 of the 177 that flip, perplexity 9 more. Fluency is nearly
-free --- TextFooler's own perturbations sit at median perplexity \textbf{522}
-against 22.9. Underneath everything, rewriting keeps only \textbf{44.5\%} of the
-attacks it is applied to: a trade, not an improvement.
+That makes it a confound in my own comparison, so I checked it: excluding refusals,
+the task-specific prompt retains 118/179 against 52/170
+($p = 4.2\times10^{-11}$), essentially unchanged. Both findings survive. But
+\textbf{a refusal and a failed attack look identical in the output column}, and as
+generators are trained to decline adversarial requests more reliably, this failure
+grows rather than shrinks.
 
-\vspace{3pt}
-\rule{\textwidth}{0.4pt}
-\vspace{1pt}
+\section*{Finding 4: measurement validity --- the number is not about the text}
 
-\noindent\textbf{Four numbers a red-teaming report should carry.}
-(1) semantic similarity beside every flip rate --- on AG News, the difference
-between 65.0\% and 3.3\%; (2) the fraction of generations that are well-formed
-inputs --- on pair tasks, 12.5\% vs.\ 41.7\%; (3) the generator's refusal rate per
-condition --- here 11.0\% vs.\ 0.6\%; (4) the number of generations actually scored
-by the target model --- without it a pipeline can report a metric computed from
-something other than what it generated, and nothing will look wrong.
+The last failure leaves no trace in the outputs at all. An earlier version of this
+study wrote the language model's output into a \texttt{llama\_text} column, then
+computed the reported success rate from TextAttack's \texttt{result\_type} field ---
+which describes the word-substitution attack that ran \emph{before} rewriting. The
+generated text was never scored.
+
+\textbf{The check is one line}: assert that the column being evaluated is the column
+that was generated. That this happened in a study whose entire subject was generated
+text is the point --- it is a default of the tooling, not carelessness about the
+topic.
+
+\section*{Five numbers a red-teaming report should carry}
+
+\begin{enumerate}[itemsep=3pt]
+\item \textbf{Semantic similarity beside every flip rate.} On AG News, the
+      difference between reporting 65.0\% and 3.3\%.
+\item \textbf{The fraction of successes an independent referee reproduces.}
+      Similarity alone misses 56\% of the label changes on IMDb; a referee catches
+      them, and here it reverses which prompt is better.
+\item \textbf{The fraction of generations that are well-formed inputs.} On pair
+      tasks, the difference between 12.5\% and 41.7\%.
+\item \textbf{The generator's refusal rate, per condition.} Here 11.0\% against
+      0.6\% for the two prompts being compared.
+\item \textbf{The number of generations the target model actually scored.} Without
+      it, a pipeline can report a metric computed from something else entirely, and
+      nothing in the output will look wrong.
+\end{enumerate}
+
+\vspace{4pt}
+\hrule
+\vspace{4pt}
+\noindent{\small Full paper, code, stored probes, and every result table:
+\url{https://github.com/yhj3/counterfactual-textattack}}
 
 \end{document}
