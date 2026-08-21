@@ -6,7 +6,7 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{enumitem}
 \usepackage{setspace}
-\setstretch{0.93}
+\setstretch{0.90}
 \setlist[itemize]{leftmargin=1.1em, topsep=1pt, itemsep=1pt, parsep=0pt}
 \pagestyle{empty}
 
@@ -25,14 +25,14 @@
 \noindent
 Automated red-teaming uses one language model to generate the probes that test
 another. A probe only tells us something about the target if it is a valid test of
-the target. I measure three ways it fails to be, on 32 configurations and 600 fresh
+the target. I measure four ways it fails to be, on 32 configurations and 600 fresh
 generations.
 
 \subsection*{Label validity --- overstates by $3.05\times$}
 
 A task-specific rewriting prompt roughly doubles the attacks that survive
 (\textbf{119/180} vs.\ 58/180, $p=1.7\times10^{-10}$, dataset and target held fixed).
-On sentiment this is free: similarity 0.713 vs.\ 0.705. On topic classification it
+On sentiment this is free (similarity 0.713 vs.\ 0.705). On topic classification it
 is not --- similarity collapses \textbf{0.691 $\rightarrow$ 0.361}, because that
 prompt instructs the model to change the topic ``from world to sports''. A text
 whose topic really changed is a different input with a different correct label, so
@@ -79,6 +79,18 @@ structured & \textbf{0.575} & 21.7\% & 37.7\% \\
 of the time. Label validity inflates the reported number, input validity deflates
 it --- \textbf{the two errors push in opposite directions and do not cancel.}
 
+\subsection*{Generator validity --- the red-teamer itself refuses}
+
+The generator is safety-trained and sometimes declines: \emph{``I cannot provide a
+revised text that could potentially be used to mislead or deceive\ldots''} Of 600
+generations, \textbf{37 (6.2\%)} begin with a refusal, and \textbf{7 of those are
+scored as successful attacks} (mean similarity 0.216 to the original). It is not
+evenly spread over the conditions being compared: \textbf{11.0\%} under the generic
+prompt against \textbf{0.6\%} under the task-specific one, and \textbf{17.5\%} on
+RTE. Excluding refusals leaves the results above intact (118/179 vs.\ 52/170,
+$p=4.2\times10^{-11}$), but a refusal and a failed attack look identical in the
+output column, so the check is not optional.
+
 \subsection*{What the filter trades}
 
 Per-candidate filtering on all three conditions, 360 probes:
@@ -96,22 +108,22 @@ all probes & 360 & 1.000 & 0.648 / 33.8 \\
 \end{tabular}
 \end{center}
 
-\noindent Retains \textbf{15.3\%}. \textbf{Similarity does the filtering, not
-fluency}: it removes 113 of the 177 that flip; perplexity removes 9 more. Fluency
-is nearly free here --- TextFooler's own perturbations have median perplexity
-\textbf{522} against 22.9. Underneath everything, rewriting keeps only
-\textbf{44.5\%} of the attacks it is applied to: a trade, not an improvement.
+\noindent Retains \textbf{15.3\%}, and \textbf{similarity does the filtering, not
+fluency}: it removes 113 of the 177 that flip, perplexity 9 more. Fluency is nearly
+free --- TextFooler's own perturbations sit at median perplexity \textbf{522}
+against 22.9. Underneath everything, rewriting keeps only \textbf{44.5\%} of the
+attacks it is applied to: a trade, not an improvement.
 
 \vspace{3pt}
 \rule{\textwidth}{0.4pt}
 \vspace{1pt}
 
-\noindent\textbf{Three numbers a red-teaming report should carry.}
+\noindent\textbf{Four numbers a red-teaming report should carry.}
 (1) semantic similarity beside every flip rate --- on AG News, the difference
 between 65.0\% and 3.3\%; (2) the fraction of generations that are well-formed
-inputs --- on pair tasks, 12.5\% vs.\ 41.7\%; (3) the number of generations
-actually scored by the target model --- without it a pipeline can report a metric
-computed from something other than what it generated, and nothing in the output
-will look wrong. Section~7 of the paper works through an instance of the third.
+inputs --- on pair tasks, 12.5\% vs.\ 41.7\%; (3) the generator's refusal rate per
+condition --- here 11.0\% vs.\ 0.6\%; (4) the number of generations actually scored
+by the target model --- without it a pipeline can report a metric computed from
+something other than what it generated, and nothing will look wrong.
 
 \end{document}

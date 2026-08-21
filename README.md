@@ -9,19 +9,20 @@ word-substitution attack into text a person might actually write.
 
 But a generated probe only tells you something about the target model if it is a
 valid test of that model. This repository measures how often it is, and what the
-answer does to the numbers such pipelines report. Three failures, each invisible
+answer does to the numbers such pipelines report. Four failures, each invisible
 in the attack success rate that red-teaming reports usually carry:
 
 | Failure | What goes wrong | Effect on the reported number |
 |---|---|---|
 | **Label validity** | the rewrite changed the input's true label, so a prediction change is correct behaviour | overstates by **3.05×** overall, **19.5×** on topic classification |
 | **Input validity** | the rewrite is not a well-formed input for the task | **understates** — 12.5% against 41.7% on sentence-pair tasks |
+| **Generator validity** | the generator refused, and its refusal is scored as a probe | **6.2%** of generations, at 11.0% vs. 0.6% depending on the prompt under study |
 | **Measurement validity** | the reported metric is not a function of the generated text | undetectable from the outputs alone |
 
 The first two push in opposite directions, so they do not cancel; which one
 dominates depends on the task.
 
-## The three results
+## The results
 
 **Label validity.** A task-specific rewriting prompt roughly doubles the attacks
 that survive rewriting — 119/180 against 58/180, dataset and target held fixed,
@@ -47,7 +48,17 @@ them as attack failures. An explicit format constraint nearly doubles validity
 (30.0% → 57.5%, *p* = 2.8×10⁻⁵) but the model still violates a stated format more
 than 40% of the time.
 
-**Measurement validity.** Section 7 of the paper works through an instance: an
+**Generator validity.** The generator is itself safety-trained and sometimes
+declines: *"I cannot provide a revised text that could potentially be used to
+mislead or deceive..."* Of 600 generations, **37 (6.2%)** begin with a refusal and
+**7 of those are scored as successful attacks** (mean similarity 0.216). It is not
+evenly spread over the conditions being compared — 11.0% under the generic prompt
+against 0.6% under the task-specific one, and 17.5% on RTE — so it is a confound in
+the comparison above, not just noise. Excluding refusals leaves both results intact
+(118/179 vs. 52/170, *p* = 4.2×10⁻¹¹), but a refusal and a failed attack look
+identical in the output column.
+
+**Measurement validity.** Section 8 of the paper works through an instance: an
 earlier version of this study wrote LLaMA output into a `llama_text` column while
 computing the reported success rate from TextAttack's `result_type` field, which
 describes the word-substitution attack that ran *before* rewriting. The check that
@@ -71,13 +82,15 @@ it removes 113 of the 177 probes that flip, while the fluency bound removes 9 mo
 | + similarity ≥ 0.75 | 64 | 0.178 | 0.840 / 27.2 |
 | + perplexity ≤ 150 | 55 | 0.153 | 0.834 / 22.9 |
 
-## Three numbers a red-teaming report should carry
+## Four numbers a red-teaming report should carry
 
 1. **Semantic similarity beside every flip rate.** Without it, a prompt that
    changes the label scores best.
 2. **The fraction of generations that are well-formed inputs.** Without it,
    malformed probes sit in the denominator as failures.
-3. **The number of generations actually scored by the target model.** Without it,
+3. **The generator's refusal rate, per condition.** Without it, a generator that
+   declines more often under one prompt than another moves the comparison.
+4. **The number of generations actually scored by the target model.** Without it,
    a pipeline can report a metric computed from something else, and nothing in the
    output will look wrong.
 
