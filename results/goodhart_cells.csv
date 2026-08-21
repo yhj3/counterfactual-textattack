@@ -1,0 +1,13 @@
+dataset,model_type,variant,n,naive,valid,cell
+ag_news,bert,generic,30,0.3333333333333333,0.03333333333333333,ag_news/bert
+ag_news,bert,specific,30,0.6666666666666666,0.03333333333333333,ag_news/bert
+ag_news,roberta,generic,30,0.26666666666666666,0.1,ag_news/roberta
+ag_news,roberta,specific,30,0.6333333333333333,0.0,ag_news/roberta
+imdb,bert,generic,30,0.23333333333333334,0.13333333333333333,imdb/bert
+imdb,bert,specific,30,0.7333333333333333,0.03333333333333333,imdb/bert
+imdb,roberta,generic,30,0.2,0.06666666666666667,imdb/roberta
+imdb,roberta,specific,30,0.9333333333333333,0.06666666666666667,imdb/roberta
+sst2,bert,generic,30,0.43333333333333335,0.13333333333333333,sst2/bert
+sst2,bert,specific,30,0.4,0.0,sst2/bert
+sst2,roberta,generic,30,0.4666666666666667,0.0,sst2/roberta
+sst2,roberta,specific,30,0.6,0.0,sst2/roberta
