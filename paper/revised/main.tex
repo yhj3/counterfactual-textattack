@@ -1,8 +1,10 @@
 % ---------------------------------------------------------------
-% What LLM Rewriting Costs an Adversarial Attack
-% Revised study. Compiles standalone with pdflatex; to submit to an
-% ACL venue, swap \documentclass for \documentclass[11pt]{article}
-% + \usepackage[review]{acl} and drop the geometry line.
+% When the Attack Is Not an Attack
+% Compiles standalone with pdflatex. For an ACL venue, swap
+% \documentclass for \usepackage[review]{acl} and drop geometry+natbib.
+%
+% TODO before submission: add related work on automated red-teaming
+% and LLM-as-evaluator reliability. Only cite papers you have read.
 % ---------------------------------------------------------------
 \documentclass[11pt]{article}
 \usepackage[margin=0.95in]{geometry}
@@ -10,13 +12,13 @@
 \usepackage{booktabs}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{graphicx}
 \usepackage{url}
 \usepackage[hidelinks]{hyperref}
 \usepackage{microtype}
 \usepackage{natbib}   % ACL templates load this already; drop when switching
 
-\title{What LLM Rewriting Costs an Adversarial Attack}
+\title{When the Attack Is Not an Attack:\\
+Validity Failures in LLM-Generated Red-Teaming}
 
 \author{Yihang Jiao \\
   University of Illinois Urbana-Champaign \\
@@ -28,125 +30,136 @@
 \maketitle
 
 \begin{abstract}
-Rewriting an adversarial example with a large language model is an appealing
-way to make attacks on text classifiers read naturally. This paper measures
-what that rewriting costs. Starting from word-substitution attacks that already
-succeed, I find that LLaMA-2 rewrites keep the attack working only 44.5\% of
-the time across 32 model--attack--dataset configurations: more than half of the
-attacks are lost. The loss is not uniform, and it is governed by the prompt. In
-a controlled ablation that runs a task-specific and a generic prompt on the same
-data, the task-specific prompt roughly doubles retention (119/180 vs.\ 58/180
-rewrites, $p = 1.7\times10^{-10}$). For sentiment tasks this gain is free, with
-semantic similarity unchanged (0.713 vs.\ 0.705); for topic classification it is
-not, because the prompt that raises the flip rate does so by instructing the
-model to change the topic, and similarity collapses from 0.691 to 0.361. On
-sentence-pair tasks a further failure appears: most rewrites collapse the
-premise/hypothesis structure and are not valid classifier inputs at all, though
-an explicit structure constraint nearly doubles validity (57.5\% vs.\ 30.0\%,
-$p=2.8\times10^{-5}$). Finally, I measure the generate-and-filter pipeline that
-this literature proposes and find it retains 15.3\% of generations, with the
-semantic-similarity constraint, not fluency, doing most of the filtering. I
-also document an evaluation error in an earlier version of this study, in which
-reported success rates were computed from the attack that preceded rewriting
-rather than from the rewrites themselves.
+Language models are increasingly used to generate the probes that test other
+models. The appeal is scale and fluency: an LLM can rewrite an adversarial
+example into text a person might actually write. This paper asks what such a
+pipeline is measuring. I identify three ways a generated probe can be counted in
+a red-teaming result without being a valid test, and I quantify each on 32
+model--attack--dataset configurations and 600 fresh generations. \textbf{Label
+validity}: the rewriting prompt that produces the most label flips is the one
+that instructs the model to change the label, so the probe is a different input
+rather than an attack. Reporting flip rate alone overstates measured attack
+success by $3.05\times$ overall and by $19.5\times$ on topic classification.
+\textbf{Input validity}: on sentence-pair tasks most rewrites collapse the two
+segments and are not well-formed classifier inputs; because malformed probes are
+scored as failures, leaving them in \emph{understates} attack success, 12.5\%
+against 41.7\%. The two errors therefore push in opposite directions and do not
+cancel. \textbf{Measurement validity}: the reported metric must be a function of
+the generated text, a condition an earlier version of this study did not meet.
+Underneath these, LLM rewriting is a trade: it keeps only 44.5\% of the attacks
+it is applied to while making them far more fluent (median perplexity 22.9
+against 522). I close with three numbers any automated red-teaming report should
+carry.
 \end{abstract}
 
 \section{Introduction}
 
-Adversarial attacks on text classifiers expose inputs on which a model's
-decision is unstable. Word-substitution attacks such as
-TextFooler~\citep{jin2020bert} and PWWS~\citep{ren2019pwws} search for synonym
-replacements that flip a prediction while nominally preserving meaning. Their
-outputs are effective but often stilted, and the stiltedness matters: a
-perturbation that no fluent speaker would produce says less about deployment
-risk than one that reads normally.
+Automated red-teaming increasingly uses one language model to probe another. The
+attraction is obvious. Word-substitution attacks such as
+TextFooler~\citep{jin2020bert} and PWWS~\citep{ren2019pwws} produce inputs that
+are effective but stilted, and a perturbation no fluent speaker would write says
+less about deployment risk than one that reads normally. An LLM can rewrite the
+whole sentence rather than swap tokens, and can therefore generate probes that
+are fluent by construction.
 
-This motivates an obvious idea, pursued in a growing body of work: hand the
-adversarial example to a large language model and ask it to rewrite the text so
-that it stays adversarial but reads naturally. The appeal is that an LLM can
-restructure a whole sentence rather than swap tokens, and can therefore produce
-attacks that are fluent by construction.
+The generated probe, however, only tells us something about the target model if
+it is a valid test of that model. This paper asks how often it is, and what the
+answer does to the numbers such pipelines report.
 
-I take the idea seriously enough to measure it. My question is not whether LLM
-rewriting produces fluent text --- it plainly does --- but what the rewriting
-costs. Because rewriting is applied to attacks that already succeed, the cost is
-directly measurable: how many of those attacks survive being rewritten?
+A probe can fail to be a valid test in three distinct ways, and each one is
+invisible in the summary statistic that red-teaming reports usually carry:
+
+\begin{itemize}
+\item \textbf{Label validity.} The rewrite may have changed the input's true
+      label. Then a prediction change is correct behaviour, not a vulnerability.
+\item \textbf{Input validity.} The rewrite may not be a well-formed input for
+      the task at all --- for a sentence-pair task, not a pair.
+\item \textbf{Measurement validity.} The reported number may not be a function
+      of the generated text, if the pipeline scores something else.
+\end{itemize}
+
+I measure all three. The first two are quantified on 600 generations produced for
+this paper under controlled prompt conditions; the third is demonstrated on a
+worked instance, an earlier version of this study, where it silently determined
+the published result.
+
+Underneath the three failures is a simpler question that the same experiments
+answer. Rewriting is applied to attacks that \emph{already succeed}, so its cost
+is directly measurable: how many survive being rewritten?
 
 My contributions are:
 
 \begin{itemize}
-\item \textbf{Rewriting loses most of the attacks it is applied to.} Across 32
+\item \textbf{Rewriting keeps under half the attacks it is applied to.} Across 32
       configurations, LLaMA-2 rewrites of successful word-substitution attacks
-      still flip the classifier only 44.5\% of the time
+      still flip the classifier 44.5\% of the time, while being far more fluent
       (Section~\ref{sec:cost}).
-\item \textbf{The prompt, not the dataset, governs the loss.} Running both a
-      task-specific and a generic prompt on the same data doubles retention with
-      the dataset held fixed (Section~\ref{sec:prompt}). But for topic
-      classification the gain is bought with genuine semantic change, which
-      disqualifies the resulting texts as adversarial examples.
-\item \textbf{Sentence-pair tasks fail structurally.} Most rewrites merge the
-      two segments and are not valid classifier inputs; an explicit structure
-      constraint helps but does not solve it (Section~\ref{sec:pair}).
-\item \textbf{I measure the generate-and-filter pipeline this literature
-      proposes} and report what each constraint removes
-      (Section~\ref{sec:filter}).
-\item \textbf{I document an evaluation error} in an earlier version of this
-      study, in which the classifier was never run on the rewrites
-      (Section~\ref{sec:threats}). The failure mode is general, and I describe
-      the check that catches it.
+\item \textbf{Label validity fails in the direction that flatters the attacker.}
+      A task-specific prompt roughly doubles retention, but on topic
+      classification it does so by instructing a topic change. Flip rate alone
+      overstates attack success by $3.05\times$ pooled and $19.5\times$ on AG
+      News (Section~\ref{sec:label}).
+\item \textbf{Input validity fails in the opposite direction.} Malformed
+      sentence-pair probes are scored as failures, so not checking them
+      understates attack success --- 12.5\% against 41.7\%. An explicit structure
+      constraint nearly doubles validity but does not fix it
+      (Section~\ref{sec:input}).
+\item \textbf{I measure the generate-and-filter pipeline} proposed for this
+      setting and report what each constraint removes; the similarity constraint,
+      not fluency, does most of the work (Section~\ref{sec:filter}).
+\item \textbf{A worked instance of measurement-validity failure}, and the
+      one-line check that catches it (Section~\ref{sec:measurement}), followed by
+      three numbers a red-teaming report should carry
+      (Section~\ref{sec:checklist}).
 \end{itemize}
 
 \section{Experimental Setup}
 \label{sec:setup}
 
-\paragraph{Attacks and victims.}
-I use TextFooler~\citep{jin2020bert} and PWWS~\citep{ren2019pwws} as
-implemented in TextAttack~\citep{morris2020textattack}, against
-\texttt{bert-base-uncased} and \texttt{roberta-base} classifiers fine-tuned on
-each dataset. Attacks were run over 500 test examples per configuration
-(277--500 after dataset exhaustion), yielding 190--479 successful attacks per
-configuration to sample from.
+\paragraph{Attacks and targets.}
+I use TextFooler~\citep{jin2020bert} and PWWS~\citep{ren2019pwws} as implemented
+in TextAttack~\citep{morris2020textattack}, against \texttt{bert-base-uncased}
+and \texttt{roberta-base} classifiers fine-tuned on each dataset. Attacks were
+run over 500 test examples per configuration (277--500 after dataset
+exhaustion), yielding 190--479 successful attacks per configuration to sample
+from.
 
 \paragraph{Datasets.}
 Single-sentence tasks: IMDb, SST-2, MR (Rotten Tomatoes), AG News, and CoLA.
-Sentence-pair tasks: RTE, QNLI, and MRPC. Pair inputs are represented as two
-segments joined by a \texttt{<SPLIT>} marker, following TextAttack's convention.
+Sentence-pair tasks: RTE, QNLI, and MRPC. Pair inputs are two segments joined by
+a \texttt{<SPLIT>} marker, following TextAttack's convention.
 
-\paragraph{Rewriting.}
-Rewrites are produced by \texttt{Llama-2-7b-chat-hf}~\citep{touvron2023llama} in
+\paragraph{Probe generation.}
+Probes are produced by \texttt{Llama-2-7b-chat-hf}~\citep{touvron2023llama} in
 half precision, with nucleus sampling ($p=0.9$, $T=0.8$, 160 new tokens),
-applied through the model's chat template. I strip the scaffolding that chat
-models place at both ends of an answer (``Here is the revised text:'' and
-trailing explanations) before scoring; leaving it in place would inflate
-perplexity and depress similarity for whichever prompt elicits more chattiness,
-which is the quantity under study.
+through the model's chat template. I strip the scaffolding chat models place at
+both ends of an answer (``Here is the revised text:'' and trailing explanations)
+before scoring; leaving it in would inflate perplexity and depress similarity for
+whichever prompt elicits more chattiness, which is the quantity under study.
 
 \paragraph{Measurements.}
-For each rewrite I record: whether the victim classifier's prediction differs
-from its prediction on the original text (\emph{flip}); cosine similarity
-between sentence embeddings of the original and the rewrite, using
-\texttt{all-MiniLM-L6-v2}; and perplexity under GPT-2-XL. For pair tasks I
-additionally record whether the rewrite preserved the two-segment structure and
-is therefore a valid classifier input at all.
+For each probe I record whether the target classifier's prediction differs from
+its prediction on the original text (\emph{flip}); cosine similarity between
+sentence embeddings of the original and the probe, using
+\texttt{all-MiniLM-L6-v2}; and perplexity under GPT-2-XL. For pair tasks I also
+record whether the probe preserved the two-segment structure and is a
+well-formed input at all.
 
 \paragraph{The comparison of interest.}
-Rewrites are generated only for examples on which the word-substitution attack
-already succeeded. The baseline is therefore fixed at 100\% by construction, and
-the quantity to report is what fraction of those attacks \emph{survives}
-rewriting. This is the comparison the earlier version of this study failed to
-make (Section~\ref{sec:threats}).
+Probes are generated only for examples on which the word-substitution attack
+already succeeded, so the baseline is fixed at 100\% by construction and the
+quantity to report is what fraction of those attacks survives rewriting.
 
-\section{Rewriting Loses Most Attacks}
+\section{Rewriting Keeps Under Half the Attacks}
 \label{sec:cost}
 
 I first re-evaluate a stored corpus of rewrites spanning 32 configurations
-(2 victim architectures $\times$ 2 attack recipes $\times$ 8 datasets), running
-each victim classifier on the rewritten text.
+(2 target architectures $\times$ 2 attack recipes $\times$ 8 datasets), running
+each target classifier on the rewritten text.
 
 On the 20 single-sentence configurations, rewrites still flip the classifier on
-average 44.5\% of the time. Since every one of these examples was a successful
-attack before rewriting, \textbf{more than half of the attacks are destroyed by
-the rewrite}. Retention varies enormously by dataset:
+average 44.5\% of the time. Every one of these was a successful attack before
+rewriting, so more than half are destroyed by it. Retention varies enormously:
 
 \begin{center}
 \begin{tabular}{lccc}
@@ -162,30 +175,29 @@ CoLA    & 0.069 & 0.000 & 0.133 \\
 \end{tabular}
 \end{center}
 
-The spread is a factor of thirteen. It also lines up exactly with an
-implementation detail: AG News and IMDb were the two datasets for which a
-hand-written prompt template existed, while MR, SST-2 and CoLA fell through to a
-generic template. Dataset and prompt are confounded in this corpus, so the
-next section separates them.
+The spread is a factor of thirteen, and it lines up with an implementation
+detail: AG News and IMDb were the two datasets for which a hand-written prompt
+template existed, while the others fell through to a generic one. Dataset and
+prompt are confounded here, so the next section separates them --- and in doing
+so uncovers the first validity failure.
 
-\section{Prompt Specificity, With the Dataset Held Fixed}
-\label{sec:prompt}
+\section{Label Validity}
+\label{sec:label}
 
-To break the confound I run \emph{both} prompt variants on \emph{every}
-dataset. The generic prompt is the original fallback template
-(``Improve the text fluency while altering the classification\ldots'').
-The task-specific prompts follow the shape of the original hand-written ones:
-for IMDb and AG News these are the originals; for SST-2 I write one in the same
-shape, so that ``has a task-specific prompt'' becomes a manipulable variable
-rather than a property of the dataset. I sample 30 successful TextFooler
-attacks per cell.
+To break the confound I run \emph{both} prompt variants on \emph{every} dataset.
+The generic prompt is the original fallback (``Improve the text fluency while
+altering the classification\ldots''). The task-specific prompts follow the shape
+of the hand-written ones: for IMDb and AG News these are the originals; for SST-2
+I write one in the same shape, so that ``has a task-specific prompt'' becomes a
+manipulable variable rather than a property of the dataset. I sample 30
+successful TextFooler attacks per cell.
 
 \begin{table}[t]
 \centering
 \small
-\begin{tabular}{llccc}
+\begin{tabular}{llccl}
 \toprule
-Dataset & Victim & Specific & Generic & $p$ \\
+Dataset & Target & Specific & Generic & $p$ \\
 \midrule
 AG News & BERT    & 20/30 & 10/30 & 0.019 \\
 AG News & RoBERTa & 19/30 &  8/30 & 0.009 \\
@@ -197,19 +209,20 @@ SST-2   & RoBERTa & 18/30 & 14/30 & 0.438 \\
 \textbf{Pooled} & & \textbf{119/180} & \textbf{58/180} & $1.7\times10^{-10}$ \\
 \bottomrule
 \end{tabular}
-\caption{Rewrites that still flip the classifier, by prompt variant, with the
-dataset and victim held fixed. Two-sided Fisher exact test per cell.}
+\caption{Probes that still flip the classifier, by prompt variant, with dataset
+and target held fixed. Two-sided Fisher exact test per cell.}
 \label{tab:prompt}
 \end{table}
 
-Pooled over 360 rewrites, the task-specific prompt roughly doubles the fraction
-of attacks that survive: 119/180 versus 58/180
-($p = 1.7\times10^{-10}$). The effect holds in 5 of 6 cells and is significant
-in 4; the two SST-2 cells show no reliable difference.
+Pooled over 360 probes, the task-specific prompt roughly doubles the fraction of
+attacks that survive: 119/180 against 58/180 ($p = 1.7\times10^{-10}$). The
+effect holds in 5 of 6 cells and is significant in 4; the two SST-2 cells show no
+reliable difference.
 
-\paragraph{The gain is not always free.}
-Retention is only half the story, because an adversarial example must also
-preserve meaning. Splitting by task type makes the difference stark:
+\paragraph{Why the prompt wins matters more than that it wins.}
+An adversarial example must also preserve the input's meaning, and therefore its
+true label. Splitting by task type shows two very different mechanisms behind the
+same doubling:
 
 \begin{center}
 \begin{tabular}{lcc}
@@ -227,75 +240,99 @@ preserve meaning. Splitting by task type makes the difference stark:
 \end{tabular}
 \end{center}
 
-On sentiment tasks the specific prompt doubles the flip rate at no cost in
-semantic similarity: 0.713 versus 0.705. This is a genuine improvement. On AG
-News the same doubling comes with similarity collapsing from 0.691 to 0.361 ---
-and the reason is visible in the prompt itself, which instructs the model to
-change the topic ``from world to sports''. A text whose topic has actually been
-changed is not an adversarial example; it is a different input with a different
-correct label. \textbf{The prompt that best preserves the attack does so, on
-this task, by destroying the property that makes an attack meaningful.}
+On sentiment the specific prompt doubles the flip rate at no cost in similarity,
+0.713 against 0.705. On AG News the same doubling arrives with similarity
+collapsing from 0.691 to 0.361 --- and the reason is written in the prompt, which
+instructs the model to change the topic ``from world to sports''. A text whose
+topic has actually changed is not an adversarial example. It is a different input
+with a different correct label, and a prediction change on it is the classifier
+behaving correctly.
 
-This is a trap for the whole generate-and-filter approach: the instruction most
-effective at producing label flips is the instruction to change the label.
-Reporting flip rate without a paired semantic constraint will systematically
-reward it.
-
-\section{Sentence-Pair Tasks Fail Structurally}
-\label{sec:pair}
-
-For RTE, QNLI and MRPC the classifier expects two segments. Most rewrites do not
-supply them: the model merges premise and hypothesis into a single passage,
-often appending a commentary sentence. In the stored 32-configuration corpus,
-only 100 of 198 pair-task rewrites preserved the structure; for the two RTE
-configurations under PWWS, \emph{zero} of 31 rewrites did.
-
-I test whether an explicit constraint fixes this, comparing the generic prompt
-against one that states the input is a pair, that the two sentences are
-separated by \texttt{<SPLIT>}, and that the answer must return exactly two
-sentences in the same order.
+\paragraph{How much this distorts a report.}
+Table~\ref{tab:overstate} puts a number on it. If a red-teaming pipeline reports
+flip rate alone, and we then ask how many of those flips came from probes that
+still mean what the original meant, the reported figure overstates measured
+attack success by $3.05\times$ pooled --- and by $19.5\times$ on the task where
+the prompt instructs a semantic change.
 
 \begin{table}[t]
 \centering
 \small
-\begin{tabular}{llccc}
+\begin{tabular}{lccc}
 \toprule
-Dataset & Victim & Prompt & Valid & Flip \\
+Dataset & Flip rate & Meaning-preserving & Ratio \\
 \midrule
-QNLI & BERT    & generic    & 0.433 & 0.200 \\
-QNLI & BERT    & structured & 0.733 & 0.300 \\
-QNLI & RoBERTa & generic    & 0.600 & 0.200 \\
-QNLI & RoBERTa & structured & 0.833 & 0.333 \\
-RTE  & BERT    & generic    & 0.067 & 0.033 \\
-RTE  & BERT    & structured & 0.433 & 0.133 \\
-RTE  & RoBERTa & generic    & 0.100 & 0.067 \\
-RTE  & RoBERTa & structured & 0.300 & 0.100 \\
+AG News & 65.0\% & \textbf{3.3\%}  & $19.5\times$ \\
+SST-2   & 50.0\% & 15.0\%          & $3.3\times$ \\
+IMDb    & 83.3\% & 46.7\%          & $1.8\times$ \\
 \midrule
-\multicolumn{2}{l}{\textbf{Pooled}} & generic    & \textbf{0.300} & 0.125 \\
-\multicolumn{2}{l}{}                & structured & \textbf{0.575} & 0.217 \\
+\textbf{Pooled} & \textbf{66.1\%} & \textbf{21.7\%} & $\mathbf{3.05\times}$ \\
 \bottomrule
 \end{tabular}
-\caption{Sentence-pair tasks. \emph{Valid}: fraction of rewrites that preserved
-the two-segment structure and could be fed to the classifier. \emph{Flip}:
-fraction of all rewrites that both were valid and flipped the prediction.
-Structure preservation: $p = 2.8\times10^{-5}$ (Fisher exact).}
+\caption{Attack success under the task-specific prompt as a flip-rate-only report
+would state it, against the same probes required to keep similarity $\geq 0.75$.}
+\label{tab:overstate}
+\end{table}
+
+This is a trap for the whole approach, and it is structural rather than
+accidental: \textbf{the instruction most effective at producing label flips is
+the instruction to change the label.} Any search over prompts that optimizes
+reported attack success will find it.
+
+\section{Input Validity}
+\label{sec:input}
+
+For RTE, QNLI and MRPC the classifier expects two segments. Most probes do not
+supply them: the model merges premise and hypothesis into a single passage, often
+appending a commentary sentence. In the stored 32-configuration corpus, only 100
+of 198 pair-task rewrites preserved the structure; for the two RTE configurations
+under PWWS, \emph{zero} of 31 did.
+
+I test whether an explicit constraint fixes this, comparing the generic prompt
+against one stating that the input is a pair, that the segments are separated by
+\texttt{<SPLIT>}, and that the answer must return exactly two sentences in the
+same order.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lccc}
+\toprule
+Prompt & Well-formed & Unchecked & Valid only \\
+\midrule
+generic    & 0.300 & 12.5\% & \textbf{41.7\%} \\
+structured & \textbf{0.575} & 21.7\% & 37.7\% \\
+\bottomrule
+\end{tabular}
+\caption{Sentence-pair tasks, 240 probes. \emph{Well-formed}: fraction preserving
+the two-segment structure ($p=2.8\times10^{-5}$ between prompts, Fisher exact).
+\emph{Unchecked}: attack success if malformed probes are left in the denominator.
+\emph{Valid only}: attack success among well-formed probes.}
 \label{tab:pair}
 \end{table}
 
-Stating the constraint nearly doubles structural validity, from 30.0\% to
-57.5\% ($p = 2.8\times10^{-5}$), and raises the overall yield of usable attacks
-from 12.5\% to 21.7\%. It does not come close to solving the problem: even when
-told exactly what format to produce, the model violates it more than 40\% of the
-time. Any pipeline that applies LLM rewriting to structured inputs must check
-structural validity explicitly, and must report it --- otherwise the invalid
-rewrites are silently scored as failures, or worse, scored at all.
+Two things follow. First, stating the constraint nearly doubles structural
+validity, from 30.0\% to 57.5\%, and raises the yield of usable probes from
+12.5\% to 21.7\% --- but the model still violates an explicitly stated format
+more than 40\% of the time, so the constraint is a mitigation and not a fix.
 
-\section{What the Filter Actually Trades}
+Second, and more consequential for anyone reading a red-teaming number:
+malformed probes are counted as attack failures, never as successes --- none of
+the malformed probes registered a flip. Leaving them in the denominator therefore
+\textbf{understates} attack success, 12.5\% against 41.7\% for the generic
+prompt. Label-validity failure inflates the reported number and input-validity
+failure deflates it. \textbf{The two errors push in opposite directions, so they
+do not cancel}; which one dominates depends on the task, and neither is visible
+in the summary statistic.
+
+\section{What the Filter Trades}
 \label{sec:filter}
 
-Proposals in this area pair generation with a filter that keeps only candidates
-that flip the label, stay semantically close, and read fluently. I apply such a
-filter to all 360 single-sentence rewrites and report what each stage removes.
+The standard response to unreliable generations is to filter them: keep only
+probes that flip the label, stay semantically close, and read fluently. I
+elaborate that filter into a per-candidate test --- each probe scored on all
+three conditions and kept or dropped individually --- and apply it to all 360
+single-sentence probes.
 
 \begin{table}[t]
 \centering
@@ -304,106 +341,123 @@ filter to all 360 single-sentence rewrites and report what each stage removes.
 \toprule
 Stage & Kept & Frac. & Sim. / PPL \\
 \midrule
-All rewrites            & 360 & 1.000 & 0.648 / 33.8 \\
+All probes               & 360 & 1.000 & 0.648 / 33.8 \\
 \;+ flips the classifier & 177 & 0.492 & 0.596 / 28.1 \\
 \;+ similarity $\geq$ 0.75 & 64 & 0.178 & 0.840 / 27.2 \\
 \;+ perplexity $\leq$ 150  & 55 & 0.153 & 0.834 / 22.9 \\
 \bottomrule
 \end{tabular}
-\caption{Cumulative effect of the three constraints. Sim.\ is mean cosine
+\caption{Cumulative effect of the three conditions. Sim.\ is mean cosine
 similarity, PPL median GPT-2-XL perplexity, of the surviving set.}
 \label{tab:filter}
 \end{table}
 
-The pipeline retains 15.3\% of generations. Two observations matter. First, the
-\emph{similarity} constraint does most of the filtering: it removes 113 of the
-177 candidates that flip, while the fluency constraint removes only 9 more.
-This inverts the usual framing, in which fluency is presented as the reason to
-filter. Second, the surviving set is meaningfully better on the axis that was
-filtered --- mean similarity rises from 0.648 to 0.834 --- so the filter does
-what it claims; it is simply far more expensive than reported.
+The filter retains 15.3\% of generations and does what it claims: mean similarity
+rises from 0.648 to 0.834. Two observations matter for practice. First, the
+\emph{similarity} constraint does nearly all the filtering --- it removes 113 of
+the 177 probes that flip, while the fluency bound removes 9 more. This inverts
+the usual framing, in which fluency is the reason to filter; here fluency is
+nearly free and meaning preservation is what costs.
 
-For context, the word-substitution attacks these rewrites replace are much less
-fluent: over 428 attacked examples, the median GPT-2-XL perplexity of a
-TextFooler perturbation is 522, against 22.9 for filtered rewrites. Of 403
-successful word-substitution attacks, only 15.4\% satisfy the same similarity
-and fluency constraints. \textbf{LLM rewriting buys a large improvement in
-fluency and pays for it in attack retention.} That is the trade, stated
-plainly, and neither side of it is small.
+Second, the fluency gain over the attacks being replaced is real and large. Over
+428 attacked examples, the median GPT-2-XL perplexity of a TextFooler
+perturbation is 522, against 22.9 for filtered rewrites, and only 15.4\% of 403
+successful word-substitution attacks satisfy the same similarity and fluency
+constraints. \textbf{LLM rewriting buys a large improvement in fluency and pays
+for it in attack retention.} Neither side of the trade is small, and the exchange
+rate is set by the prompt.
 
-\section{Threats to Validity, Including One I Made}
-\label{sec:threats}
+\section{Measurement Validity: A Worked Instance}
+\label{sec:measurement}
 
-An earlier version of this study reported that filtered LLaMA-2 generations
-outperformed word-substitution attacks, with improvements up to 19.31\%
-relative. Those numbers do not survive scrutiny, and the reasons are worth
-recording because the failure mode is easy to reproduce.
+The third failure is the one that most easily escapes notice, because it leaves no
+trace in the outputs. An earlier version of this study reported that filtered
+LLaMA-2 generations outperformed word-substitution attacks, with improvements up
+to 19.31\% relative. Those numbers do not survive scrutiny, and the reasons are
+worth recording because the failure mode is easy to reproduce.
 
-\paragraph{The classifier was never run on the rewrites.}
-The pipeline wrote LLaMA output into a \texttt{llama\_text} column of the
-results file, and the reported attack success rate was computed from
-TextAttack's \texttt{result\_type} field. That field describes the
-\emph{word-substitution} attack, which happened before rewriting. The rewrites
-therefore never entered the reported numbers at all. Section~\ref{sec:cost}
-supplies the missing evaluation.
+\paragraph{The classifier was never run on the probes.}
+The pipeline wrote LLaMA output into a \texttt{llama\_text} column, and the
+reported attack success rate was computed from TextAttack's
+\texttt{result\_type} field. That field describes the word-substitution attack,
+which ran \emph{before} rewriting. The probes therefore never entered the reported
+numbers. Section~\ref{sec:cost} supplies the missing evaluation.
 
 \paragraph{The headline table compared sample sizes.}
 Each ``filtered'' figure was the attack's success rate over 20 examples; each
-``baseline'' figure was the same attack over 277--500 examples. All five rows of
-the original table reproduce exactly from those two runs. The reported
-improvement was a difference in sample size.
+``baseline'' figure was the same attack over 277--500. All five rows reproduce
+exactly from those two runs, so the reported improvement was a difference in
+sample size.
 
 \paragraph{Filtering happened at a different layer than described.}
-The pipeline did constrain and score generations, but not where Algorithm~1 places
-it. A similarity constraint, \texttt{min\_cos\_sim} $=0.6$, was passed to the
-attack's word-substitution step, and perplexity and grammar were computed
-afterwards as aggregate statistics over each result file. What Algorithm~1
-describes --- a per-candidate test that keeps or drops each rewrite on all three
-thresholds --- is not in that code, and the values $0.75$ and $150$ appear nowhere
-in it. Section~\ref{sec:filter} implements the per-candidate test and reports what
-each condition removes.
+The pipeline did constrain and score generations, but not where the published
+algorithm places it. A similarity constraint, \texttt{min\_cos\_sim} $=0.6$, was
+passed to the attack's word-substitution step, and perplexity and grammar were
+computed afterwards as aggregate statistics over each result file. A
+per-candidate test on all three thresholds is not in that code, and the values
+$0.75$ and $150$ appear nowhere in it. Section~\ref{sec:filter} implements the
+per-candidate test.
 
-\paragraph{The check that catches this.}
-The general lesson is narrow and mechanical: \emph{if a pipeline produces new
-text, the reported metric must be a function of that text.} A one-line
-assertion --- that the evaluated column is the generated column --- would have
-caught all three problems. I suggest reporting, alongside any generate-and-fix
-result, the number of generations actually scored by the victim model, which
-makes the omission visible.
+\paragraph{The check that catches it.}
+The lesson is narrow and mechanical: \emph{if a pipeline produces new text, the
+reported metric must be a function of that text.} A one-line assertion --- that
+the evaluated column is the generated column --- would have caught all three
+problems. That this happened in a study whose entire subject was generated text
+is the point: measurement-validity failure is not a sign of carelessness about
+the topic, it is a default of the tooling, which will happily join a generations
+column to a metric computed from something else.
 
-\paragraph{Remaining limitations.}
-Rewrites come from a single 7B model; larger or instruction-tuned-for-format
-models may preserve structure better. I sample 30 examples per cell, adequate
-for the effect sizes reported but not for small ones, which is why the SST-2
-cells are inconclusive rather than negative. Similarity is measured with one
-sentence encoder, and encoder choice will shift the similarity threshold's
-severity. Finally, the task-specific prompts for SST-2 were written by me in the
-shape of the originals; a different phrasing might move the effect.
+\section{Three Numbers a Red-Teaming Report Should Carry}
+\label{sec:checklist}
+
+Each failure above is invisible in an attack success rate, and each is visible in
+one additional number:
+
+\begin{enumerate}
+\item \textbf{Semantic similarity beside every flip rate.} Without it, a prompt
+      that changes the label scores best. On AG News this is the difference
+      between reporting 65.0\% and 3.3\%.
+\item \textbf{The fraction of generations that are well-formed inputs.} Without
+      it, malformed probes sit in the denominator as failures. On sentence-pair
+      tasks this is the difference between 12.5\% and 41.7\%.
+\item \textbf{The number of generations actually scored by the target model.}
+      Without it, a pipeline can report a metric computed from something other
+      than what it generated, and nothing in the output will look wrong.
+\end{enumerate}
+
+\paragraph{Limitations.}
+Probes come from a single 7B model; larger or format-tuned models may preserve
+structure better. I sample 30 per cell, adequate for the effect sizes reported
+but not for small ones, which is why the SST-2 cells are inconclusive rather than
+negative. Similarity is measured with one sentence encoder, and encoder choice
+shifts how severe the 0.75 threshold is. The task-specific prompt for SST-2 was
+written by me in the shape of the originals; a different phrasing might move the
+effect. Finally, the three failures are demonstrated on classification; whether
+they take the same form in generative red-teaming is untested here.
 
 \section{Conclusion}
 
-LLM rewriting of adversarial examples is a trade, not an improvement. It
-produces text that is dramatically more fluent than word-substitution output
-(median perplexity 22.9 against 522), and it destroys more than half of the
-attacks it is applied to. How much it destroys is governed by the prompt: a
-task-specific prompt roughly doubles retention, and on sentiment tasks it does
-so at no semantic cost. On topic classification the same prompt succeeds by
-instructing the model to change the topic, which is not an attack but a
-different input --- a trap that flip-rate-only evaluation will reward. On
-sentence-pair tasks, most rewrites are not valid classifier inputs at all.
+An automated red-teaming result is a claim about a target model, but it is
+produced by a second model whose output may not be a valid test at all. I
+measured three ways that happens. A prompt can raise the flip rate by changing
+the input's true label, which overstates attack success by $3.05\times$ pooled
+and $19.5\times$ on topic classification. A probe can fail to be a well-formed
+input, which understates it, 12.5\% against 41.7\%. And a pipeline can report a
+number computed from something other than what it generated, which is
+undetectable from the outputs alone.
 
-None of this makes the approach unusable. It makes it measurable, which the
-earlier version of this work was not. The measurements that matter are the ones
-that were missing: run the classifier on the text you generated, check that
-structured inputs are still structured, and report semantic similarity next to
-every flip rate.
+Underneath, LLM rewriting is a trade rather than an improvement: it makes attacks
+dramatically more fluent, median perplexity 22.9 against 522, and destroys more
+than half of them. None of this makes the approach unusable. It makes it
+measurable, which requires reporting similarity beside flip rate, well-formedness
+beside both, and how many generations the target model actually saw.
 
 \section*{Reproducibility}
 
-Code, the stored rewrites, and every result table in this paper are available at
-\url{https://github.com/yhj3/counterfactual-textattack}. The repository
-documents which components are original and which were reconstructed, and
-includes the audit described in Section~\ref{sec:threats}.
+Code, the stored probes, and every result table in this paper are available at
+\url{https://github.com/yhj3/counterfactual-textattack}. The repository documents
+which components are original and which were reconstructed, and includes the
+audit described in Section~\ref{sec:measurement}.
 
 \begin{thebibliography}{}
 
