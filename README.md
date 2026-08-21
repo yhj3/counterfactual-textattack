@@ -14,7 +14,7 @@ in the attack success rate that red-teaming reports usually carry:
 
 | Failure | What goes wrong | Effect on the reported number |
 |---|---|---|
-| **Label validity** | the rewrite changed the input's true label, so a prediction change is correct behaviour | overstates by **3.05×** overall, **19.5×** on topic classification |
+| **Label validity** | the rewrite changed the input's true label, so a prediction change is correct behaviour | a referee model reproduces **86–87%** of the best-scoring prompt's successes; requiring target-specific flips **reverses** which prompt is better |
 | **Input validity** | the rewrite is not a well-formed input for the task | **understates** — 12.5% against 41.7% on sentence-pair tasks |
 | **Generator validity** | the generator refused, and its refusal is scored as a probe | **6.2%** of generations, at 11.0% vs. 0.6% depending on the prompt under study |
 | **Measurement validity** | the reported metric is not a function of the generated text | undetectable from the outputs alone |
@@ -33,6 +33,28 @@ really changed is a different input with a different correct label.
 
 > The instruction most effective at producing label flips is the instruction to
 > change the label. Any prompt search optimizing reported attack success finds it.
+
+**The similarity check is not enough.** It catches the AG News case and misses
+sentiment, because sentence embeddings track topic rather than verdict. This IMDb
+rewrite has cosine similarity **0.964**:
+
+> *Sloppy film noir thriller which doesn't make much of its tension promising
+> set-up.* **(3/10)** → *Engaging film noir thriller that successfully builds on
+> its intriguing premise.* **(8/10)**
+
+**A referee model separates attacks from label changes.** An adversarial example
+should fool *one* model, not persuade every model, so each probe is re-scored with
+an independently trained classifier of the other architecture. 86–87% of the
+task-specific prompt's successes flip the referee too — and requiring the flip to
+be target-specific reverses the ranking:
+
+| Prompt | Flip rate | Genuine vulnerabilities |
+|---|---|---|
+| task-specific | **119/180** (0.661) | 16/180 (0.089) |
+| generic | 58/180 (0.322) | **29/180** (0.161) |
+
+Of the 119 flips, 39 survive the similarity threshold, 16 survive the referee, and
+**only 5 survive both**.
 
 | Dataset | Flip rate | Meaning-preserving | Ratio |
 |---|---|---|---|
@@ -82,15 +104,17 @@ it removes 113 of the 177 probes that flip, while the fluency bound removes 9 mo
 | + similarity ≥ 0.75 | 64 | 0.178 | 0.840 / 27.2 |
 | + perplexity ≤ 150 | 55 | 0.153 | 0.834 / 22.9 |
 
-## Four numbers a red-teaming report should carry
+## Five numbers a red-teaming report should carry
 
 1. **Semantic similarity beside every flip rate.** Without it, a prompt that
    changes the label scores best.
 2. **The fraction of generations that are well-formed inputs.** Without it,
    malformed probes sit in the denominator as failures.
-3. **The generator's refusal rate, per condition.** Without it, a generator that
+3. **The fraction of successes an independent referee reproduces.** Similarity
+   alone misses 56% of the label changes on IMDb.
+4. **The generator's refusal rate, per condition.** Without it, a generator that
    declines more often under one prompt than another moves the comparison.
-4. **The number of generations actually scored by the target model.** Without it,
+5. **The number of generations actually scored by the target model.** Without it,
    a pipeline can report a metric computed from something else, and nothing in the
    output will look wrong.
 
@@ -104,6 +128,7 @@ src/custom_attack.py                 TextFooler with constraints removed
 scripts/prompt_study.py              the prompt and structure ablations
 scripts/reevaluate_llama_rewrites.py runs the target classifier on stored probes
 scripts/run_filter_pilot.py          filter applied to recorded attack results
+scripts/referee_check.py             re-scores probes with the other architecture
 scripts/make_tables.py               builds the result tables
 results/                             every table in the paper, plus raw generations
 paper/revised/                       paper and one-page summary (LaTeX + PDF)
