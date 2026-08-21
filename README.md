@@ -1,96 +1,100 @@
-# Counterfactual Attacks on Text Classifiers
+# When the Attack Is Not an Attack
 
-Code and results for *"Using Counterfactuals to Achieve TextAttack: Experiments
-with TextFooler and LLaMA-2"* ([paper](paper/counterfactual-textattack.pdf)).
+Validity failures in LLM-generated red-teaming.
+[Paper](paper/revised/main.pdf) · [One-page summary](paper/revised/summary.pdf)
 
-Standard attacks on text classifiers, such as TextFooler, swap individual words
-for synonyms. This project asks what happens if a language model rewrites the
-whole sentence instead — and adds a filter that keeps only rewrites that still
-mean what the original meant. That filter is the point: an LLM rewrite is
-evidence of a model weakness only if it stays faithful to the input. A rewrite
-that quietly changes the meaning and then "fools" the classifier has not found
-a vulnerability, it has just asked a different question.
+Automated red-teaming increasingly uses one language model to generate the probes
+that test another. The appeal is scale and fluency: an LLM can rewrite a stilted
+word-substitution attack into text a person might actually write.
 
-Two findings came out of it: rewriting helps most on tasks that require
-reasoning across sentences (RTE, QNLI) rather than on sentiment, where swapping
-one word is already enough; and susceptibility grows with model size, with
-RoBERTa-Large more vulnerable than BERT-Base.
+But a generated probe only tells you something about the target model if it is a
+valid test of that model. This repository measures how often it is, and what the
+answer does to the numbers such pipelines report. Three failures, each invisible
+in the attack success rate that red-teaming reports usually carry:
 
-## ⚠️ On the reference implementation and what re-checking found
-
-`src/semantic_filter.py` is a **reference implementation written from Algorithm 1
-of the paper**. It is not the script that produced the paper's numbers.
-
-While reconstructing it, the original pipeline was located (in the lab's
-benchmark directory, not in this repository) and audited. Three things came out
-of that audit, and they matter more than the reconstruction:
-
-1. **The filter described in Algorithm 1 was never implemented.** The thresholds
-   `s(g) >= 0.75` and `p(g) <= 150` appear nowhere in the pipeline. The `0.6`
-   that Algorithm 1 attaches to the flip rate is, in the code, `min_cos_sim=0.6`
-   — a word-embedding constraint passed to the *attack*, not a filter on
-   generations.
-2. **The classifier was never run on the rewrites.** LLaMA output was written
-   into a `llama_text` column, and the reported attack success rate was computed
-   from TextAttack's `result_type`, which describes the word-substitution attack
-   that came *before* the rewrite. The rewrites did not enter the numbers.
-3. **The paper's Table 1 compares different sample sizes.** Each "Flipped (%)"
-   value is the attack's success rate over 20 examples; each "Normal (%)" value
-   is the same attack over 277–500 examples. All five rows reproduce exactly
-   from those two runs.
-
-`scripts/reevaluate_llama_rewrites.py` supplies the missing evaluation: it runs
-the victim classifier on the stored rewrites. Results are in
-`results/corrected_table1.csv` and summarized below.
-
-## Corrected evaluation
-
-Rewrites exist only for examples the word-substitution attack had already
-broken, so the question is how many of those attacks *survive* being rewritten.
-
-| Task type | Configs | Result |
+| Failure | What goes wrong | Effect on the reported number |
 |---|---|---|
-| Single-sentence (imdb, sst2, mr, ag_news, cola) | 20 | rewrites still flip the classifier **44.5%** of the time on average |
-| Sentence-pair (rte, qnli, mrpc) | 12 | only **100 of 198** rewrites kept the two-segment structure and were valid classifier inputs at all |
+| **Label validity** | the rewrite changed the input's true label, so a prediction change is correct behaviour | overstates by **3.05×** overall, **19.5×** on topic classification |
+| **Input validity** | the rewrite is not a well-formed input for the task | **understates** — 12.5% against 41.7% on sentence-pair tasks |
+| **Measurement validity** | the reported metric is not a function of the generated text | undetectable from the outputs alone |
 
-Rewriting therefore loses more than half of the attacks it is applied to. The
-spread across datasets is large and lines up with the prompts: `imdb` and
-`ag_news`, the two datasets with hand-written prompt templates, retain 67–100%,
-while `cola`, `mr`, and `sst2`, which fell through to the generic template,
-retain 0–46%.
+The first two push in opposite directions, so they do not cancel; which one
+dominates depends on the task.
 
-For RTE — the paper's headline result — **zero** of the 31 rewrites under
-`bert_pwws_rte` and `roberta_pwws_rte` preserved the premise/hypothesis
-structure, so none of them could be fed to an RTE classifier.
+## The three results
 
-## The filter
+**Label validity.** A task-specific rewriting prompt roughly doubles the attacks
+that survive rewriting — 119/180 against 58/180, dataset and target held fixed,
+*p* = 1.7×10⁻¹⁰. On sentiment this is free (similarity 0.713 vs. 0.705). On topic
+classification similarity collapses from 0.691 to **0.361**, because that prompt
+instructs the model to change the topic "from world to sports". A text whose topic
+really changed is a different input with a different correct label.
 
-A generated candidate is kept only if all three conditions hold:
+> The instruction most effective at producing label flips is the instruction to
+> change the label. Any prompt search optimizing reported attack success finds it.
 
-| Condition | Threshold | What it rules out |
-|---|---|---|
-| flip rate `φ(g)` | ≥ 0.6 | rewrites that do not actually change the decision |
-| similarity `s(g)` | ≥ 0.75 | rewrites that drifted away from the original meaning |
-| perplexity `p(g)` | ≤ 150 | rewrites that are not fluent English |
+| Dataset | Flip rate | Meaning-preserving | Ratio |
+|---|---|---|---|
+| AG News | 65.0% | **3.3%** | 19.5× |
+| SST-2 | 50.0% | 15.0% | 3.3× |
+| IMDb | 83.3% | 46.7% | 1.8× |
+| **Pooled** | **66.1%** | **21.7%** | **3.05×** |
 
-The paper reports that this discarded 37.7% of candidates while keeping 91% of
-the effective adversarial examples. Those figures could not be traced to any
-code in the original pipeline; see the audit above.
+**Input validity.** Sentence-pair tasks need two segments; most probes merge them
+(100 of 198 well-formed across the stored corpus, and 0 of 31 for RTE under PWWS).
+Malformed probes never register a flip, so leaving them in the denominator counts
+them as attack failures. An explicit format constraint nearly doubles validity
+(30.0% → 57.5%, *p* = 2.8×10⁻⁵) but the model still violates a stated format more
+than 40% of the time.
+
+**Measurement validity.** Section 7 of the paper works through an instance: an
+earlier version of this study wrote LLaMA output into a `llama_text` column while
+computing the reported success rate from TextAttack's `result_type` field, which
+describes the word-substitution attack that ran *before* rewriting. The check that
+catches it is one line — assert that the evaluated column is the generated column.
+
+## Underneath: rewriting is a trade
+
+Rewriting is applied to attacks that already succeed, so its cost is directly
+measurable. Across 32 configurations, only **44.5%** of those attacks survive.
+What it buys is fluency: median GPT-2-XL perplexity **22.9** against **522** for
+the TextFooler perturbations being replaced.
+
+The generate-and-filter pipeline proposed for this setting retains 15.3% of
+generations, and the **similarity** constraint does nearly all of the filtering —
+it removes 113 of the 177 probes that flip, while the fluency bound removes 9 more.
+
+| Stage | Kept | Fraction | Mean sim. / median ppl |
+|---|---|---|---|
+| all probes | 360 | 1.000 | 0.648 / 33.8 |
+| + flips the classifier | 177 | 0.492 | 0.596 / 28.1 |
+| + similarity ≥ 0.75 | 64 | 0.178 | 0.840 / 27.2 |
+| + perplexity ≤ 150 | 55 | 0.153 | 0.834 / 22.9 |
+
+## Three numbers a red-teaming report should carry
+
+1. **Semantic similarity beside every flip rate.** Without it, a prompt that
+   changes the label scores best.
+2. **The fraction of generations that are well-formed inputs.** Without it,
+   malformed probes sit in the denominator as failures.
+3. **The number of generations actually scored by the target model.** Without it,
+   a pipeline can report a metric computed from something else, and nothing in the
+   output will look wrong.
 
 ## Layout
 
 ```
-src/semantic_filter.py   three-stage filter — REFERENCE IMPLEMENTATION (see above)
-src/refiner.py           LLaMA-2 rewriting of an adversarial example
-src/run_attack.py        end-to-end: TextFooler → LLaMA-2 rewrite → log
-src/custom_attack.py     TextFooler with its semantic constraints removed
-scripts/reevaluate_llama_rewrites.py  runs the victim classifier on the stored rewrites
-scripts/run_filter_pilot.py  applies the reconstructed filter to recorded attack results
-scripts/run_llm_filter_experiment.py  generate rewrites with LLaMA-2, then filter
-scripts/compare_results.py   builds the comparison CSVs in results/
-scripts/check_env.py     CUDA / transformers sanity check
-results/                 evaluation output from the original run
-paper/                   the write-up
+src/semantic_filter.py               per-candidate three-stage filter
+src/refiner.py                       LLaMA-2 rewriting
+src/run_attack.py                    TextFooler → rewrite → log
+src/custom_attack.py                 TextFooler with constraints removed
+scripts/prompt_study.py              the prompt and structure ablations
+scripts/reevaluate_llama_rewrites.py runs the target classifier on stored probes
+scripts/run_filter_pilot.py          filter applied to recorded attack results
+scripts/make_tables.py               builds the result tables
+results/                             every table in the paper, plus raw generations
+paper/revised/                       paper and one-page summary (LaTeX + PDF)
+paper/                               the 2024 version, for reference
 ```
 
 ## Setup
@@ -102,41 +106,41 @@ export HF_TOKEN=...          # Llama-2 is gated on the Hugging Face Hub
 export NLTK_DATA=...         # only if WordNet is not in the default location
 ```
 
-A single 24 GB GPU is enough: Llama-2-7b-chat is loaded in 8-bit alongside the
-victim classifier.
+A single 24 GB GPU is enough. The scripts load the generator, free it, and only
+then load the scorers, so peak memory stays near the size of Llama-2 alone
+(13.5 GiB observed).
 
 ## Running
 
 ```bash
-python scripts/check_env.py
-CUDA_VISIBLE_DEVICES=0 ./scripts/run_attack_with_refinement.sh
+# re-evaluate stored probes against their target classifiers
+python scripts/reevaluate_llama_rewrites.py "PATH/TO/*_llama.csv" --device cuda:0
 
-# rebuild the comparison table from two result CSVs
-python scripts/compare_results.py SUMMARY.csv REPORT.csv -o results/comparison_results.csv
+# the prompt and structure ablations (600 generations)
+python scripts/prompt_study.py --configs "$(cat configs.json)" --n 30 --device cuda:0 \
+    --out results/prompt_study.csv
+
+# rebuild every table in the paper
+python scripts/make_tables.py results/prompt_study.csv --outdir results
 ```
 
-## Results
+## Provenance
 
-`results/` holds the output of the original run:
-
-| File | Contents |
-|---|---|
-| `comparison_results.csv` | attack success / perturbation / grammar, benchmark vs. recomputed |
-| `comparison_improtved_results.csv` | the same comparison after the improved pipeline (filename typo is preserved from the original run) |
-| `test.csv` (514 rows), `test_roberta_pwws_wnli.csv` (71 rows) | per-example attack records, including skipped and failed cases |
-| `textfooler_results.csv`, `textfooler_results22.csv` | raw TextFooler output before rewriting |
+`src/semantic_filter.py` is a reference implementation written from the algorithm
+in the 2024 paper; the earlier pipeline applied its similarity constraint at the
+attack layer and computed quality statistics per file rather than per candidate.
+Everything under `scripts/` and every table in `results/` is from runs made for
+the revised study. The stored 2024 probes are re-evaluated, not regenerated.
 
 ## Attribution
 
-This work builds on [TextAttack](https://github.com/QData/TextAttack) (QData,
-MIT licensed), which provides the attack recipes, model wrappers, and dataset
-loaders used here. TextAttack is a dependency rather than a copy: install it
-from PyPI with the rest of `requirements.txt`. The attack recipe TextFooler is
-due to Jin et al. (2020); LLaMA-2 is due to Touvron et al. (2023).
+Built on [TextAttack](https://github.com/QData/TextAttack) (QData, MIT licensed),
+which provides the attack recipes, model wrappers, and dataset loaders. TextAttack
+is a dependency, not a copy. TextFooler is due to Jin et al. (2020), PWWS to Ren
+et al. (2019), and LLaMA-2 to Touvron et al. (2023).
 
-Everything under `src/`, `scripts/`, and `results/` is my own work, done as a
-research assistant at FOCAL Lab, UIUC, with Prof.
-[Gagandeep Singh](https://ggndpsngh.github.io/). Released with his approval.
+Work done as a research assistant at FOCAL Lab, UIUC, with Prof.
+[Gagandeep Singh](https://ggndpsngh.github.io/), and revised independently in 2026.
 
 ## Contact
 
