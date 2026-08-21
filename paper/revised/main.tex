@@ -354,6 +354,18 @@ vulnerabilities found, the generic prompt wins, $29$ against $16$ ($p = 0.055$,
 Fisher exact). \textbf{The prompt that scores best on the reported metric is the
 worse red-teaming prompt.}
 
+\paragraph{A stricter reading of the referee.}
+Counting a probe as target-specific whenever the referee does not flip is
+generous, because the referee may fail to flip only for having disagreed with the
+target on the original text in the first place. The two models do agree on the
+original 94.4\% of the time, but the loophole is real: among the five
+task-specific probes that pass both the similarity and referee checks, one is a
+review the target read as negative and the referee already read as positive.
+Requiring the two models to agree on the original as well leaves 12/180 genuine
+vulnerabilities for the task-specific prompt against 25/180 for the generic one.
+The reversal is not an artifact of the looser criterion; under the stricter one
+the ratio widens.
+
 \paragraph{Why the similarity check misses this.}
 The two checks catch different things, and only together do they catch much. Of
 the 119 flips under the task-specific prompt, 39 survive the similarity threshold,
@@ -612,7 +624,7 @@ measured four ways that happens. A prompt can raise the flip rate by changing th
 input's true label: an independent referee reproduces 86--87\% of the
 best-scoring prompt's successes, and once the flip is required to be
 target-specific that prompt goes from winning two to one to losing, 16/180 against
-29/180. A probe can fail to be a well-formed input,
+29/180, or 12/180 against 25/180 if the two models must also agree on the original. A probe can fail to be a well-formed input,
 which understates it, 12.5\% against 41.7\%. The generator can refuse, at a rate
 that tracks the very prompt under comparison, and have its refusal scored as a
 probe. And a pipeline can report a number computed from something other than what

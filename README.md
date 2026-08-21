@@ -54,7 +54,16 @@ be target-specific reverses the ranking:
 | generic | 58/180 (0.322) | **29/180** (0.161) |
 
 Of the 119 flips, 39 survive the similarity threshold, 16 survive the referee, and
-**only 5 survive both**.
+**only 5 survive both** — if the two checks caught the same thing the overlap would
+be near 16. They fail in different places: the similarity check waves through the
+3/10-to-8/10 review, while the referee misses a world-news article rewritten into a
+rugby story that similarity caught at 0.268. Adding one check is not enough.
+
+Counting a probe as target-specific whenever the referee does not flip is also
+generous — the referee may have disagreed with the target on the original to begin
+with. The two agree on the original 94.4% of the time; requiring agreement leaves
+**12/180** genuine vulnerabilities for the task-specific prompt against **25/180**
+for the generic one, so the reversal widens rather than softens.
 
 | Dataset | Flip rate | Meaning-preserving | Ratio |
 |---|---|---|---|

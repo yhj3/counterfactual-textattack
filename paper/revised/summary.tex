@@ -159,8 +159,34 @@ red-teaming prompt.} And this is structural rather than accidental: the instruct
 most effective at producing label flips is the instruction to change the label, so
 any prompt search that optimizes reported attack success will find it.
 
-Of the 119 flips, 39 survive the similarity threshold, 16 survive the referee, and
-\textbf{only 5 survive both} --- the two checks catch different things.
+\paragraph{Two checks, and neither is sufficient.}
+Of the 119 flips under the task-specific prompt, 39 survive the similarity
+threshold, 16 survive the referee, and \textbf{only 5 survive both}. If the two
+checks caught the same thing, the overlap would be close to 16. It is 5, because
+they fail in different places:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+& referee: target-specific & referee: it flips too \\
+\midrule
+similarity $\geq 0.75$ & \textbf{5} & 34 \\
+similarity $< 0.75$    & 11 & 69 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent The 34 are cases the similarity check waves through and the referee
+catches --- the 3/10-to-8/10 review above is one. The 11 are the reverse: a
+world-news article rewritten into a rugby story, which similarity caught at 0.268
+while the referee still answered ``world''. Adding one check is not enough,
+because each one's blind spot is the other's catch.
+
+Counting a probe as target-specific whenever the referee does not flip is also
+generous: the referee may have disagreed with the target on the original text to
+begin with. The two agree on the original 94.4\% of the time, and requiring
+agreement leaves \textbf{12/180} genuine vulnerabilities for the task-specific
+prompt against \textbf{25/180} for the generic one --- the reversal widens.
 
 \section*{Finding 2: input validity --- the probe is not a valid input}
 
