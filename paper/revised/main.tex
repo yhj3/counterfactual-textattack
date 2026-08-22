@@ -69,9 +69,15 @@ less about deployment risk than one that reads normally. An LLM can rewrite the
 whole sentence rather than swap tokens, and can therefore generate probes that
 are fluent by construction.
 
-The generated probe, however, only tells us something about the target model if
-it is a valid test of that model. This paper asks how often it is, and what the
-answer does to the numbers such pipelines report.
+Throughout, I call each generated text a \emph{probe}: a candidate adversarial
+input, produced by one model, whose only purpose is to test another. The word is
+meant to keep the two roles apart --- the model being tested, and the text doing
+the testing --- because the failures in this paper are all failures of the
+second, not the first.
+
+A probe, however, only tells us something about the target model if it is a valid
+test of that model. This paper asks how often it is, and what the answer does to
+the numbers such pipelines report.
 
 A probe can fail to be a valid test in four distinct ways, and each one is
 invisible in the summary statistic that red-teaming reports usually carry:
