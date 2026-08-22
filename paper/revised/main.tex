@@ -73,7 +73,7 @@ The generated probe, however, only tells us something about the target model if
 it is a valid test of that model. This paper asks how often it is, and what the
 answer does to the numbers such pipelines report.
 
-A probe can fail to be a valid test in three distinct ways, and each one is
+A probe can fail to be a valid test in four distinct ways, and each one is
 invisible in the summary statistic that red-teaming reports usually carry:
 
 \begin{itemize}
@@ -92,7 +92,7 @@ this paper under controlled prompt conditions; the fourth is demonstrated on a
 worked instance, an earlier version of this study, where it silently determined
 the published result.
 
-Underneath the three failures is a simpler question that the same experiments
+Underneath the four failures is a simpler question that the same experiments
 answer. Rewriting is applied to attacks that \emph{already succeed}, so its cost
 is directly measurable: how many survive being rewritten?
 
@@ -123,7 +123,7 @@ My contributions are:
       not fluency, does most of the work (Section~\ref{sec:filter}).
 \item \textbf{A worked instance of measurement-validity failure}, and the
       one-line check that catches it (Section~\ref{sec:measurement}), followed by
-      three numbers a red-teaming report should carry
+      five numbers a red-teaming report should carry
       (Section~\ref{sec:checklist}).
 \end{itemize}
 
@@ -479,7 +479,7 @@ own headline result, and it has to be checked rather than assumed away.
 
 \paragraph{Robustness check.}
 Excluding refusals does not change the finding. On single-sentence tasks the
-task-specific prompt retains 118/179 against 58/170 for the generic prompt once
+task-specific prompt retains 118/179 against 52/170 for the generic prompt once
 refusals are dropped ($p = 4.2\times10^{-11}$), against 119/180 and 58/180 with
 them included --- the effect is if anything slightly stronger. On sentence-pair
 tasks, structural validity among non-refusals is 0.590 for the structured prompt
@@ -540,7 +540,7 @@ rate is set by the prompt.
 \section{Measurement Validity: A Worked Instance}
 \label{sec:measurement}
 
-The third failure is the one that most easily escapes notice, because it leaves no
+The last failure is the one that most easily escapes notice, because it leaves no
 trace in the outputs. An earlier version of this study reported that filtered
 LLaMA-2 generations outperformed word-substitution attacks, with improvements up
 to 19.31\% relative. Those numbers do not survive scrutiny, and the reasons are
@@ -613,7 +613,7 @@ severe the 0.75 threshold is; the referee check is a partial remedy but assumes
 the two architectures fail independently, which they only approximately do, since
 both are pretrained transformers fine-tuned on the same data. The task-specific prompt for SST-2 was
 written by me in the shape of the originals; a different phrasing might move the
-effect. Finally, the three failures are demonstrated on classification; whether
+effect. Finally, the four failures are demonstrated on classification; whether
 they take the same form in generative red-teaming is untested here.
 
 \section{Conclusion}
@@ -646,11 +646,22 @@ audit described in Section~\ref{sec:measurement}.
 
 \begin{thebibliography}{}
 
+\bibitem[Ebrahimi et al.(2018)]{ebrahimi2018hotflip}
+Javid Ebrahimi, Anyi Rao, Daniel Lowd, and Dejing Dou. 2018.
+\newblock HotFlip: White-box adversarial examples for text classification.
+\newblock In \emph{ACL (Short Papers)}, pages 31--36.
+
 \bibitem[Jin et al.(2020)]{jin2020bert}
 Di Jin, Zhijing Jin, Joey Tianyi Zhou, and Peter Szolovits. 2020.
 \newblock Is BERT really robust? A strong baseline for natural language attack
   on text classification and entailment.
 \newblock In \emph{AAAI}, volume 34, pages 8018--8025.
+
+\bibitem[Kaushik et al.(2020)]{kaushik2020learning}
+Divyansh Kaushik, Eduard Hovy, and Zachary C. Lipton. 2020.
+\newblock Learning the difference that makes a difference with
+  counterfactually-augmented data.
+\newblock In \emph{ICLR}.
 
 \bibitem[Morris et al.(2020)]{morris2020textattack}
 John X. Morris, Eli Lifland, Jin Yong Yoo, Jake Grigsby, Di Jin, and Yanjun Qi.
@@ -669,17 +680,6 @@ Shuhuai Ren, Yihe Deng, Kun He, and Wanxiang Che. 2019.
 Hugo Touvron, Louis Martin, Kevin Stone, et al. 2023.
 \newblock Llama 2: Open foundation and fine-tuned chat models.
 \newblock \emph{arXiv preprint arXiv:2307.09288}.
-
-\bibitem[Ebrahimi et al.(2018)]{ebrahimi2018hotflip}
-Javid Ebrahimi, Anyi Rao, Daniel Lowd, and Dejing Dou. 2018.
-\newblock HotFlip: White-box adversarial examples for text classification.
-\newblock In \emph{ACL (Short Papers)}, pages 31--36.
-
-\bibitem[Kaushik et al.(2020)]{kaushik2020learning}
-Divyansh Kaushik, Eduard Hovy, and Zachary C. Lipton. 2020.
-\newblock Learning the difference that makes a difference with
-  counterfactually-augmented data.
-\newblock In \emph{ICLR}.
 
 \end{thebibliography}
 
