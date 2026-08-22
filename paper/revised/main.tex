@@ -119,6 +119,11 @@ My contributions are:
       understates attack success --- 12.5\% against 41.7\%. An explicit structure
       constraint nearly doubles validity but does not fix it
       (Section~\ref{sec:input}).
+\item \textbf{The standard defence does not change the decision.} Adding a
+      cosine-similarity constraint removes two thirds of the flips and still
+      leaves the worse prompt on top; only checks independent of the embedding
+      space reverse it, and an NLI entailment criterion disagrees with cosine on
+      78\% of the probes cosine accepts (Section~\ref{sec:label}).
 \item \textbf{Generator refusals contaminate the comparison.} The generator
       declines 6.2\% of requests, at 11.0\% under the generic prompt against 0.6\%
       under the task-specific one, and a fifth of those refusals are scored as
@@ -161,9 +166,10 @@ whichever prompt elicits more chattiness, which is the quantity under study.
 For each probe I record whether the target classifier's prediction differs from
 its prediction on the original text (\emph{flip}); cosine similarity between
 sentence embeddings of the original and the probe, using
-\texttt{all-MiniLM-L6-v2}; and perplexity under GPT-2-XL. For pair tasks I also
-record whether the probe preserved the two-segment structure and is a
-well-formed input at all.
+\texttt{all-MiniLM-L6-v2}; bidirectional entailment between the original and the
+probe under a DeBERTa-v3 model fine-tuned for natural language inference; and
+perplexity under GPT-2-XL. For pair tasks I also record whether the probe
+preserved the two-segment structure and is a well-formed input at all.
 
 \paragraph{The comparison of interest.}
 Probes are generated only for examples on which the word-substitution attack
@@ -371,6 +377,50 @@ Requiring the two models to agree on the original as well leaves 12/180 genuine
 vulnerabilities for the task-specific prompt against 25/180 for the generic one.
 The reversal is not an artifact of the looser criterion; under the stricter one
 the ratio widens.
+
+\paragraph{A third signal that is not a classifier at all.}
+The referee has a known weakness: genuine adversarial examples transfer between
+models, so a referee that flips too is suggestive of a label change but not proof
+of one. I therefore add a signal that cannot share a vulnerability with either
+classifier, because it is not a classifier of the task. A DeBERTa model
+fine-tuned for natural language inference scores each pair in both directions;
+the probe counts as meaning-preserving only under mutual entailment. It knows
+nothing about sentiment or topic labels, so agreement between it and the referee
+cannot be explained by shared task-specific features.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lccl}
+\toprule
+Validity criterion & task-specific & generic & $p$ \\
+\midrule
+flip only (reported metric) & \textbf{119/180} & 58/180 & $<10^{-4}$ \\
+\; + cosine $\geq 0.75$     & \textbf{39/180}  & 25/180 & 0.073 \\
+\; + referee, target-specific & 16/180 & \textbf{29/180} & 0.055 \\
+\; + NLI mutual entailment    &  6/180 & \textbf{16/180} & \textbf{0.046} \\
+\; all three                  &  1/180 &  \textbf{7/180} & 0.067 \\
+\bottomrule
+\end{tabular}
+\caption{Which prompt wins, under each definition of a valid attack. Bold marks
+the winner. The cosine constraint --- the defence this literature relies on ---
+is the only added check that leaves the ranking unchanged.}
+\label{tab:criteria}
+\end{table}
+
+Table~\ref{tab:criteria} is the sharpest statement of the problem. Adding the
+cosine constraint removes two thirds of the flips and still leaves the
+task-specific prompt on top: \textbf{it does not change the decision a
+practitioner would make}. Both signals that are independent of the embedding
+space do change it, and the NLI criterion gives the only reversal significant at
+the conventional level.
+
+The two meaning-preservation signals also disagree sharply with each other. Of
+the 64 flips that clear the cosine threshold, \textbf{50 (78\%) fail mutual
+entailment} --- and the disagreement is concentrated exactly where an embedding
+would be expected to fail: 29 on IMDb and 15 on SST-2 against 6 on AG News. This
+is independent confirmation of the sentiment failure diagnosed above, from a
+model that has never been told what sentiment is.
 
 \paragraph{Why the similarity check misses this.}
 The two checks catch different things, and only together do they catch much. Of

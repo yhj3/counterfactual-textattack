@@ -1,12 +1,14 @@
 \documentclass[11pt]{article}
-\usepackage[margin=0.85in]{geometry}
+\usepackage[margin=0.8in]{geometry}
 \usepackage{booktabs}
 \usepackage{times}
 \usepackage{amsmath}
 \usepackage[hidelinks]{hyperref}
 \usepackage{enumitem}
 \usepackage{microtype}
-\setlist[itemize]{leftmargin=1.2em, topsep=2pt, itemsep=2pt}
+\setlist[itemize]{leftmargin=1.2em, topsep=1pt, itemsep=1pt}
+\usepackage{setspace}
+\setstretch{0.97}
 
 \newenvironment{ex}{\begin{quote}\small\it}{\end{quote}}
 
@@ -60,8 +62,11 @@ little about deployment risk.
 Hence the idea this paper examines: hand the attack to a language model and ask it
 to rewrite the whole sentence so it reads naturally, while staying adversarial.
 This is now a common shape for automated red-teaming --- one model generating the
-probes that test another. \textbf{My question is what such a pipeline actually
-measures.}
+texts that test another. I call each such text a \emph{probe}: a candidate
+adversarial input, produced by one model, whose only job is to test another. The
+word keeps the two roles apart, because every failure below is a failure of the
+probe, not of the model being tested. \textbf{My question is what such a pipeline
+actually measures.}
 
 \section*{Finding 0: rewriting is a trade, not an improvement}
 
@@ -158,6 +163,39 @@ generic       & 58/180 (0.322) & \textbf{29/180} (0.161) \\
 red-teaming prompt.} And this is structural rather than accidental: the instruction
 most effective at producing label flips is the instruction to change the label, so
 any prompt search that optimizes reported attack success will find it.
+
+\paragraph{A third signal, and the sharpest version of the result.}
+The referee can be objected to: real adversarial examples do transfer between
+models. So I added a signal that is not a classifier of the task at all --- a
+DeBERTa NLI model, scoring entailment in both directions, which has never been
+told what sentiment or topic means. Under each definition of a valid attack, this
+is which prompt wins:
+
+\begin{center}
+\begin{tabular}{lccl}
+\toprule
+Validity criterion & task-specific & generic & $p$ \\
+\midrule
+flip only (the reported metric) & \textbf{119/180} & 58/180 & $<10^{-4}$ \\
+\; + cosine $\geq 0.75$         & \textbf{39/180}  & 25/180 & 0.073 \\
+\; + referee, target-specific   & 16/180 & \textbf{29/180} & 0.055 \\
+\; + NLI mutual entailment      &  6/180 & \textbf{16/180} & \textbf{0.046} \\
+\; all three                    &  1/180 &  \textbf{7/180} & 0.067 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent \textbf{The cosine constraint is the only added check that leaves the
+ranking unchanged.} It removes two thirds of the flips and still picks the worse
+prompt --- so the defence this literature relies on does not change the decision
+a practitioner would make. Both signals independent of the embedding space do
+change it, and NLI gives the only reversal significant at the conventional level.
+
+The two meaning-preservation checks also disagree with each other: of the 64
+flips that clear the cosine threshold, \textbf{50 (78\%) fail mutual
+entailment}, and the disagreement sits where an embedding would be expected to
+fail --- 29 on IMDb and 15 on SST-2 against 6 on AG News. A model that was never
+told what sentiment is confirms the sentiment failure independently.
 
 \paragraph{Two checks, and neither is sufficient.}
 Of the 119 flips under the task-specific prompt, 39 survive the similarity
@@ -276,9 +314,10 @@ topic.
 \begin{enumerate}[itemsep=3pt]
 \item \textbf{Semantic similarity beside every flip rate.} On AG News, the
       difference between reporting 65.0\% and 3.3\%.
-\item \textbf{The fraction of successes an independent referee reproduces.}
-      Similarity alone misses 56\% of the label changes on IMDb; a referee catches
-      them, and here it reverses which prompt is better.
+\item \textbf{The fraction of successes an independent check reproduces.}
+      Similarity alone does not change the ranking; a referee model or an NLI
+      entailment test does, and disagrees with cosine on 78\% of what cosine
+      accepts.
 \item \textbf{The fraction of generations that are well-formed inputs.} On pair
       tasks, the difference between 12.5\% and 41.7\%.
 \item \textbf{The generator's refusal rate, per condition.} Here 11.0\% against
